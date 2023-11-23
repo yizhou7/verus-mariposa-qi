@@ -10,170 +10,27 @@ pub proof fn calc_algebra_inst_hint(a: int,b: int,c: int)
 {
 	calc !{
 		(==)
-		(((b+b)*(a*8))*((c*a)*(a*a)));
-			{lemma_mul_is_associative((b+b), a, 8); assert(((b+b)*(a*8)) == (((b+b)*a)*8));}
-		((((b+b)*a)*8)*((c*a)*(a*a)));
-			{lemma_mul_is_associative(((b+b)*a), 8, ((c*a)*(a*a))); assert(((((b+b)*a)*8)*((c*a)*(a*a))) == ((((b+b)*a)*8)*((c*a)*(a*a))));}
-		((((b+b)*a)*8)*((c*a)*(a*a)));
-			{lemma_mul_is_commutative((((b+b)*a)*8), ((c*a)*(a*a))); assert(((((b+b)*a)*8)*((c*a)*(a*a))) == (((c*a)*(a*a))*(((b+b)*a)*8)));}
-		(((c*a)*(a*a))*(((b+b)*a)*8));
-			{lemma_mul_is_associative(c, a, (a*a)); assert(((c*a)*(a*a)) == ((c*a)*(a*a)));}
-		(((c*a)*(a*a))*(((b+b)*a)*8));
-			{lemma_mul_is_commutative(a, a); assert((a*a) == (a*a));}
-		(((c*a)*(a*a))*(((b+b)*a)*8));
-			{lemma_mul_add_is_distributive(b, b, a); assert(((b+b)*a) == ((b*a)+(b*a)));}
-		(((c*a)*(a*a))*(((b*a)+(b*a))*8));
-			{lemma_mul_is_associative((c*a), a, a); assert(((c*a)*(a*a)) == (((c*a)*a)*a));}
-		((((c*a)*a)*a)*(((b*a)+(b*a))*8));
-			{lemma_mul_is_commutative((c*a), a); assert(((c*a)*a) == (a*(c*a)));}
-		(((a*(c*a))*a)*(((b*a)+(b*a))*8));
-			{lemma_mul_is_associative(a, c, a); assert((a*(c*a)) == ((a*c)*a));}
-		((((a*c)*a)*a)*(((b*a)+(b*a))*8));
-			{lemma_mul_is_commutative((a*c), a); assert(((a*c)*a) == (a*(a*c)));}
-		(((a*(a*c))*a)*(((b*a)+(b*a))*8));
-	}
-}
-
- #[verifier::spinoff_prover]
-pub proof fn calc_algebra_inst_only(a: int,b: int,c: int)
-{
-	calc !{
-		(==)
-		(((b+b)*(a*8))*((c*a)*(a*a)));
-			{lemma_mul_is_associative((b+b), a, 8);}
-		((((b+b)*a)*8)*((c*a)*(a*a)));
-			{lemma_mul_is_associative(((b+b)*a), 8, ((c*a)*(a*a)));}
-		((((b+b)*a)*8)*((c*a)*(a*a)));
-			{lemma_mul_is_commutative((((b+b)*a)*8), ((c*a)*(a*a)));}
-		(((c*a)*(a*a))*(((b+b)*a)*8));
-			{lemma_mul_is_associative(c, a, (a*a));}
-		(((c*a)*(a*a))*(((b+b)*a)*8));
-			{lemma_mul_is_commutative(a, a);}
-		(((c*a)*(a*a))*(((b+b)*a)*8));
-			{lemma_mul_add_is_distributive(b, b, a);}
-		(((c*a)*(a*a))*(((b*a)+(b*a))*8));
-			{lemma_mul_is_associative((c*a), a, a);}
-		((((c*a)*a)*a)*(((b*a)+(b*a))*8));
-			{lemma_mul_is_commutative((c*a), a);}
-		(((a*(c*a))*a)*(((b*a)+(b*a))*8));
-			{lemma_mul_is_associative(a, c, a);}
-		((((a*c)*a)*a)*(((b*a)+(b*a))*8));
-			{lemma_mul_is_commutative((a*c), a);}
-		(((a*(a*c))*a)*(((b*a)+(b*a))*8));
-	}
-}
-
- #[verifier::spinoff_prover]
-pub proof fn calc_algebra_auto_hint(a: int,b: int,c: int)
-{
-	calc !{
-		(==)
-		(((b+b)*(a*8))*((c*a)*(a*a)));
-			{lemma_mul_is_associative_auto(); assert(((b+b)*(a*8)) == (((b+b)*a)*8));}
-		((((b+b)*a)*8)*((c*a)*(a*a)));
-			{lemma_mul_is_associative_auto(); assert(((((b+b)*a)*8)*((c*a)*(a*a))) == ((((b+b)*a)*8)*((c*a)*(a*a))));}
-		((((b+b)*a)*8)*((c*a)*(a*a)));
-			{lemma_mul_is_commutative_auto(); assert(((((b+b)*a)*8)*((c*a)*(a*a))) == (((c*a)*(a*a))*(((b+b)*a)*8)));}
-		(((c*a)*(a*a))*(((b+b)*a)*8));
-			{lemma_mul_is_associative_auto(); assert(((c*a)*(a*a)) == ((c*a)*(a*a)));}
-		(((c*a)*(a*a))*(((b+b)*a)*8));
-			{lemma_mul_is_commutative_auto(); assert((a*a) == (a*a));}
-		(((c*a)*(a*a))*(((b+b)*a)*8));
-			{lemma_mul_add_is_distributive_auto(); assert(((b+b)*a) == ((b*a)+(b*a)));}
-		(((c*a)*(a*a))*(((b*a)+(b*a))*8));
-			{lemma_mul_is_associative_auto(); assert(((c*a)*(a*a)) == (((c*a)*a)*a));}
-		((((c*a)*a)*a)*(((b*a)+(b*a))*8));
-			{lemma_mul_is_commutative_auto(); assert(((c*a)*a) == (a*(c*a)));}
-		(((a*(c*a))*a)*(((b*a)+(b*a))*8));
-			{lemma_mul_is_associative_auto(); assert((a*(c*a)) == ((a*c)*a));}
-		((((a*c)*a)*a)*(((b*a)+(b*a))*8));
-			{lemma_mul_is_commutative_auto(); assert(((a*c)*a) == (a*(a*c)));}
-		(((a*(a*c))*a)*(((b*a)+(b*a))*8));
-	}
-}
-
- #[verifier::spinoff_prover]
-pub proof fn calc_algebra_auto_only(a: int,b: int,c: int)
-{
-	calc !{
-		(==)
-		(((b+b)*(a*8))*((c*a)*(a*a)));
-			{lemma_mul_is_associative_auto();}
-		((((b+b)*a)*8)*((c*a)*(a*a)));
-			{lemma_mul_is_associative_auto();}
-		((((b+b)*a)*8)*((c*a)*(a*a)));
-			{lemma_mul_is_commutative_auto();}
-		(((c*a)*(a*a))*(((b+b)*a)*8));
-			{lemma_mul_is_associative_auto();}
-		(((c*a)*(a*a))*(((b+b)*a)*8));
-			{lemma_mul_is_commutative_auto();}
-		(((c*a)*(a*a))*(((b+b)*a)*8));
-			{lemma_mul_add_is_distributive_auto();}
-		(((c*a)*(a*a))*(((b*a)+(b*a))*8));
-			{lemma_mul_is_associative_auto();}
-		((((c*a)*a)*a)*(((b*a)+(b*a))*8));
-			{lemma_mul_is_commutative_auto();}
-		(((a*(c*a))*a)*(((b*a)+(b*a))*8));
-			{lemma_mul_is_associative_auto();}
-		((((a*c)*a)*a)*(((b*a)+(b*a))*8));
-			{lemma_mul_is_commutative_auto();}
-		(((a*(a*c))*a)*(((b*a)+(b*a))*8));
-	}
-}
-
-pub proof fn calc_algebra_nl_arith_hint(a: int,b: int,c: int) by (nonlinear_arith)
-{
-	calc !{
-		(==)
-		(((b+b)*(a*8))*((c*a)*(a*a)));
-			{assert(((b+b)*(a*8)) == (((b+b)*a)*8));}
-		((((b+b)*a)*8)*((c*a)*(a*a)));
-			{assert(((((b+b)*a)*8)*((c*a)*(a*a))) == ((((b+b)*a)*8)*((c*a)*(a*a))));}
-		((((b+b)*a)*8)*((c*a)*(a*a)));
-			{assert(((((b+b)*a)*8)*((c*a)*(a*a))) == (((c*a)*(a*a))*(((b+b)*a)*8)));}
-		(((c*a)*(a*a))*(((b+b)*a)*8));
-			{assert(((c*a)*(a*a)) == ((c*a)*(a*a)));}
-		(((c*a)*(a*a))*(((b+b)*a)*8));
-			{assert((a*a) == (a*a));}
-		(((c*a)*(a*a))*(((b+b)*a)*8));
-			{assert(((b+b)*a) == ((b*a)+(b*a)));}
-		(((c*a)*(a*a))*(((b*a)+(b*a))*8));
-			{assert(((c*a)*(a*a)) == (((c*a)*a)*a));}
-		((((c*a)*a)*a)*(((b*a)+(b*a))*8));
-			{assert(((c*a)*a) == (a*(c*a)));}
-		(((a*(c*a))*a)*(((b*a)+(b*a))*8));
-			{assert((a*(c*a)) == ((a*c)*a));}
-		((((a*c)*a)*a)*(((b*a)+(b*a))*8));
-			{assert(((a*c)*a) == (a*(a*c)));}
-		(((a*(a*c))*a)*(((b*a)+(b*a))*8));
-	}
-}
-
-pub proof fn calc_algebra_nl_arith_only(a: int,b: int,c: int) by (nonlinear_arith)
-{
-	calc !{
-		(==)
-		(((b+b)*(a*8))*((c*a)*(a*a)));
-			{}
-		((((b+b)*a)*8)*((c*a)*(a*a)));
-			{}
-		((((b+b)*a)*8)*((c*a)*(a*a)));
-			{}
-		(((c*a)*(a*a))*(((b+b)*a)*8));
-			{}
-		(((c*a)*(a*a))*(((b+b)*a)*8));
-			{}
-		(((c*a)*(a*a))*(((b+b)*a)*8));
-			{}
-		(((c*a)*(a*a))*(((b*a)+(b*a))*8));
-			{}
-		((((c*a)*a)*a)*(((b*a)+(b*a))*8));
-			{}
-		(((a*(c*a))*a)*(((b*a)+(b*a))*8));
-			{}
-		((((a*c)*a)*a)*(((b*a)+(b*a))*8));
-			{}
-		(((a*(a*c))*a)*(((b*a)+(b*a))*8));
+		(((((b-b)-(c+a))-((a*c)*(b*a)))+(((c*a)*(b*c))+((a+a)*(b*b))))*((((c+b)*(a*c))*((c*a)-(a+c)))*(((c*a)*(c*c))*((36+c)*(a-c)))));
+			{lemma_mul_is_commutative((c*a), (c*c)); assert(((c*a)*(c*c)) == ((c*c)*(c*a)));}
+		(((((b-b)-(c+a))-((a*c)*(b*a)))+(((c*a)*(b*c))+((a+a)*(b*b))))*((((c+b)*(a*c))*((c*a)-(a+c)))*(((c*c)*(c*a))*((36+c)*(a-c)))));
+			{lemma_mul_add_is_right_distributive(36, c, (a-c)); assert(((36+c)*(a-c)) == ((36*(a-c))+(c*(a-c))));}
+		(((((b-b)-(c+a))-((a*c)*(b*a)))+(((c*a)*(b*c))+((a+a)*(b*b))))*((((c+b)*(a*c))*((c*a)-(a+c)))*(((c*c)*(c*a))*((36*(a-c))+(c*(a-c))))));
+			{lemma_mul_sub_is_left_distributive(c, a, c); assert((c*(a-c)) == ((c*a)-(c*c)));}
+		(((((b-b)-(c+a))-((a*c)*(b*a)))+(((c*a)*(b*c))+((a+a)*(b*b))))*((((c+b)*(a*c))*((c*a)-(a+c)))*(((c*c)*(c*a))*((36*(a-c))+((c*a)-(c*c))))));
+			{lemma_mul_is_commutative(c, a); assert((c*a) == (a*c));}
+		(((((b-b)-(c+a))-((a*c)*(b*a)))+(((c*a)*(b*c))+((a+a)*(b*b))))*((((c+b)*(a*c))*((a*c)-(a+c)))*(((c*c)*(c*a))*((36*(a-c))+((c*a)-(c*c))))));
+			{lemma_mul_add_is_right_distributive((((b-b)-(c+a))-((a*c)*(b*a))), (((c*a)*(b*c))+((a+a)*(b*b))), ((((c+b)*(a*c))*((a*c)-(a+c)))*(((c*c)*(c*a))*((36*(a-c))+((c*a)-(c*c)))))); assert((((((b-b)-(c+a))-((a*c)*(b*a)))+(((c*a)*(b*c))+((a+a)*(b*b))))*((((c+b)*(a*c))*((a*c)-(a+c)))*(((c*c)*(c*a))*((36*(a-c))+((c*a)-(c*c)))))) == (((((b-b)-(c+a))-((a*c)*(b*a)))*((((c+b)*(a*c))*((a*c)-(a+c)))*(((c*c)*(c*a))*((36*(a-c))+((c*a)-(c*c))))))+((((c*a)*(b*c))+((a+a)*(b*b)))*((((c+b)*(a*c))*((a*c)-(a+c)))*(((c*c)*(c*a))*((36*(a-c))+((c*a)-(c*c))))))));}
+		(((((b-b)-(c+a))-((a*c)*(b*a)))*((((c+b)*(a*c))*((a*c)-(a+c)))*(((c*c)*(c*a))*((36*(a-c))+((c*a)-(c*c))))))+((((c*a)*(b*c))+((a+a)*(b*b)))*((((c+b)*(a*c))*((a*c)-(a+c)))*(((c*c)*(c*a))*((36*(a-c))+((c*a)-(c*c)))))));
+			{lemma_mul_is_commutative((((c*a)*(b*c))+((a+a)*(b*b))), ((((c+b)*(a*c))*((a*c)-(a+c)))*(((c*c)*(c*a))*((36*(a-c))+((c*a)-(c*c)))))); assert(((((c*a)*(b*c))+((a+a)*(b*b)))*((((c+b)*(a*c))*((a*c)-(a+c)))*(((c*c)*(c*a))*((36*(a-c))+((c*a)-(c*c)))))) == (((((c+b)*(a*c))*((a*c)-(a+c)))*(((c*c)*(c*a))*((36*(a-c))+((c*a)-(c*c)))))*(((c*a)*(b*c))+((a+a)*(b*b)))));}
+		(((((b-b)-(c+a))-((a*c)*(b*a)))*((((c+b)*(a*c))*((a*c)-(a+c)))*(((c*c)*(c*a))*((36*(a-c))+((c*a)-(c*c))))))+(((((c+b)*(a*c))*((a*c)-(a+c)))*(((c*c)*(c*a))*((36*(a-c))+((c*a)-(c*c)))))*(((c*a)*(b*c))+((a+a)*(b*b)))));
+			{lemma_mul_is_associative((c+b), a, c); assert(((c+b)*(a*c)) == (((c+b)*a)*c));}
+		(((((b-b)-(c+a))-((a*c)*(b*a)))*(((((c+b)*a)*c)*((a*c)-(a+c)))*(((c*c)*(c*a))*((36*(a-c))+((c*a)-(c*c))))))+((((((c+b)*a)*c)*((a*c)-(a+c)))*(((c*c)*(c*a))*((36*(a-c))+((c*a)-(c*c)))))*(((c*a)*(b*c))+((a+a)*(b*b)))));
+			{lemma_mul_is_associative(((((c+b)*a)*c)*((a*c)-(a+c))), (((c*c)*(c*a))*((36*(a-c))+((c*a)-(c*c)))), (((c*a)*(b*c))+((a+a)*(b*b)))); assert(((((((c+b)*a)*c)*((a*c)-(a+c)))*(((c*c)*(c*a))*((36*(a-c))+((c*a)-(c*c)))))*(((c*a)*(b*c))+((a+a)*(b*b)))) == (((((c+b)*a)*c)*((a*c)-(a+c)))*((((c*c)*(c*a))*((36*(a-c))+((c*a)-(c*c))))*(((c*a)*(b*c))+((a+a)*(b*b))))));}
+		(((((b-b)-(c+a))-((a*c)*(b*a)))*(((((c+b)*a)*c)*((a*c)-(a+c)))*(((c*c)*(c*a))*((36*(a-c))+((c*a)-(c*c))))))+(((((c+b)*a)*c)*((a*c)-(a+c)))*((((c*c)*(c*a))*((36*(a-c))+((c*a)-(c*c))))*(((c*a)*(b*c))+((a+a)*(b*b))))));
+			{lemma_mul_sub_is_left_distributive(36, a, c); assert((36*(a-c)) == ((36*a)-(36*c)));}
+		(((((b-b)-(c+a))-((a*c)*(b*a)))*(((((c+b)*a)*c)*((a*c)-(a+c)))*(((c*c)*(c*a))*(((36*a)-(36*c))+((c*a)-(c*c))))))+(((((c+b)*a)*c)*((a*c)-(a+c)))*((((c*c)*(c*a))*(((36*a)-(36*c))+((c*a)-(c*c))))*(((c*a)*(b*c))+((a+a)*(b*b))))));
+			{lemma_mul_is_associative((c*c), c, a); assert(((c*c)*(c*a)) == (((c*c)*c)*a));}
+		(((((b-b)-(c+a))-((a*c)*(b*a)))*(((((c+b)*a)*c)*((a*c)-(a+c)))*((((c*c)*c)*a)*(((36*a)-(36*c))+((c*a)-(c*c))))))+(((((c+b)*a)*c)*((a*c)-(a+c)))*(((((c*c)*c)*a)*(((36*a)-(36*c))+((c*a)-(c*c))))*(((c*a)*(b*c))+((a+a)*(b*b))))));
 	}
 }
 

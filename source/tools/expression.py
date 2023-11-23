@@ -1,7 +1,8 @@
 import random
 import enum
+from copy import deepcopy
 
-random.seed(989312391)
+random.seed(21989312391)
 
 VAR_PROB = 0.95
 TERM_PROB = 0.1
@@ -117,21 +118,23 @@ class Expression:
             # if both left and right can be rewritten, randomly choose one
             if random.random() < 0.5:
                 left_enable = False
+            else:
+                right_enable = False
 
         orig = str(self)
 
         if left_enable:
             call = LemmaCall("mul_is_associative", [self.left.left, self.left.right, self.right])
-            tmp_left = self.left
-            self.left = tmp_left.left
-            self.right = Expression(self.op, tmp_left.right, self.right)
+            t_left = self.left
+            self.left = t_left.left
+            self.right = Expression(self.op, t_left.right, self.right)
             call.set_hint(orig, str(self))
 
         if right_enable:
             call = LemmaCall("mul_is_associative", [self.left, self.right.left, self.right.right])
-            tmp_right = self.right
-            self.right = tmp_right.right
-            self.left = Expression(self.op, self.left, tmp_right.left)
+            t_right = self.right
+            self.right = t_right.right
+            self.left = Expression(self.op, self.left, t_right.left)
             call.set_hint(orig, str(self))
 
         return call
@@ -141,7 +144,8 @@ class Expression:
             return None
         orig = str(self)
         call = LemmaCall("mul_is_commutative", [self.left, self.right])
-        self.left, self.right = self.right, self.left
+        t_right, t_left = self.right, self.left
+        self.left, self.right = t_right, t_left
         call.set_hint(orig, str(self))
         return call
     
@@ -158,22 +162,24 @@ class Expression:
             # if both left and right can be rewritten, randomly choose one
             if random.random() < 0.5:
                 left_enable = False
+            else:
+                right_enable = False
 
         orig = str(self)
 
+        t_right, t_left = self.right, self.left
+
         if left_enable:
-            call =  LemmaCall("mul_add_is_distributive", [self.left.left, self.left.right, self.right])
-            tmp_left = self.left
-            self.left = Expression(Operator.MUL, tmp_left.left, self.right)
-            self.right = Expression(Operator.MUL, tmp_left.right, self.right)
+            call =  LemmaCall("mul_add_is_right_distributive", [self.left.left, self.left.right, self.right])
+            self.left = Expression(Operator.MUL, t_left.left, t_right)
+            self.right = Expression(Operator.MUL, t_left.right, t_right)
             self.op = Operator.ADD
             call.set_hint(orig, str(self))
 
         if right_enable:
-            call =  LemmaCall("mul_add_is_distributive", [self.left, self.right.left, self.right.right])
-            tmp_right = self.right
-            self.right = Expression(Operator.MUL, tmp_right.left, self.left)
-            self.left = Expression(Operator.MUL, tmp_right.right, self.left)
+            call =  LemmaCall("mul_add_is_left_distributive", [self.left, self.right.left, self.right.right])
+            self.right = Expression(Operator.MUL, t_left, t_right.left)
+            self.left = Expression(Operator.MUL, t_left, t_right.right)
             self.op = Operator.ADD
             call.set_hint(orig, str(self))
 
@@ -192,22 +198,23 @@ class Expression:
             # if both left and right can be rewritten, randomly choose one
             if random.random() < 0.5:
                 left_enable = False
+            else:
+                right_enable = False
 
         orig = str(self)
+        t_right, t_left = self.right, self.left
 
         if left_enable:
-            call =  LemmaCall("mul_sub_is_distributive", [self.left.left, self.left.right, self.right])
-            tmp_left = self.left
-            self.left = Expression(Operator.MUL, tmp_left.left, self.right)
-            self.right = Expression(Operator.MUL, tmp_left.right, self.right)
+            call =  LemmaCall("mul_sub_is_right_distributive", [self.left.left, self.left.right, self.right])
+            self.left = Expression(Operator.MUL, t_left.left, t_right)
+            self.right = Expression(Operator.MUL, t_left.right, t_right)
             self.op = Operator.SUB
             call.set_hint(orig, str(self))
 
         if right_enable:
-            call =  LemmaCall("mul_sub_is_distributive", [self.left, self.right.left, self.right.right])
-            tmp_right = self.right
-            self.right = Expression(Operator.MUL, tmp_right.left, self.left)
-            self.left = Expression(Operator.MUL, tmp_right.right, self.left)
+            call =  LemmaCall("mul_sub_is_left_distributive", [self.left, self.right.left, self.right.right])
+            self.left = Expression(Operator.MUL, t_left, t_right.left)
+            self.right = Expression(Operator.MUL, t_left, t_right.right)
             self.op = Operator.SUB
             call.set_hint(orig, str(self))
 
@@ -261,7 +268,7 @@ class CalcEmitter:
         print("}")
         print("")
 
-em = CalcEmitter(5, 3)
+em = CalcEmitter(5, 5)
 
 print("""use builtin_macros::*;
 use builtin::*;
@@ -271,8 +278,9 @@ use nl_basics::*;
 
 verus! {""")
 
-for m in Mode:
-    em.emit(m)
+# for m in Mode:
+m = Mode.INST_HINT
+em.emit(m)
 
 print("""fn main() {
 }
