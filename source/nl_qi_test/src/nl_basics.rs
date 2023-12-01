@@ -1,6 +1,5 @@
 use builtin_macros::*;
 use builtin::*;
-use vstd::calc_macro::*;
 
 verus! {
 
