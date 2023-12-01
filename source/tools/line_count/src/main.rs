@@ -2,6 +2,7 @@ use std::{
     collections::{HashMap, HashSet},
     fmt::Debug,
     ops::RangeInclusive,
+    rc::Rc,
 };
 
 use serde::Serialize;
@@ -14,6 +15,7 @@ use tabled::settings::{
 struct Config {
     print_all: bool,
     json: bool,
+    no_external_by_default: bool,
 }
 
 fn main() {
@@ -23,6 +25,7 @@ fn main() {
     let mut opts = getopts::Options::new();
     opts.optflag("h", "help", "print this help menu");
     opts.optflag("p", "print-all", "print all the annotated files");
+    opts.optflag("", "no-external-by-default", "do not ignore items outside of verus! by default");
     opts.optflag("", "json", "output as machine-readable json");
 
     let matches = match opts.parse(&args[1..]) {
@@ -49,9 +52,13 @@ fn main() {
         return;
     };
 
-    let config = Config { print_all: matches.opt_present("p"), json: matches.opt_present("json") };
+    let config = Config {
+        print_all: matches.opt_present("p"),
+        json: matches.opt_present("json"),
+        no_external_by_default: matches.opt_present("no-external-by-default"),
+    };
 
-    match run(&config, &std::path::Path::new(&deps_path)) {
+    match run(config, &std::path::Path::new(&deps_path)) {
         Ok(()) => (),
         Err(err) => {
             eprintln!("error: {}", err);
@@ -70,6 +77,20 @@ enum CodeKind {
     Definitions,
     Comment,
     Layout,
+}
+
+impl CodeKind {
+    fn join_prefer_left(&self, other: CodeKind) -> CodeKind {
+        match (self, other) {
+            (CodeKind::Spec, _) => CodeKind::Spec,
+            (_, CodeKind::Spec) => CodeKind::Spec,
+            (CodeKind::Proof, _) => CodeKind::Proof,
+            (_, CodeKind::Proof) => CodeKind::Proof,
+            (CodeKind::Exec, _) => CodeKind::Exec,
+            (_, CodeKind::Exec) => CodeKind::Exec,
+            (other, _) => *other,
+        }
+    }
 }
 
 trait ToCodeKind {
@@ -98,6 +119,13 @@ impl ToCodeKind for syn_verus::FnMode {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
+enum StateMachineCode {
+    NameAndFields,
+    Transition,
+    Property,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
 enum LineContent {
     Const(CodeKind),
     Code(CodeKind),
@@ -115,6 +143,7 @@ enum LineContent {
     MacroDefinition,
     GhostTracked(CodeKind),
     Comment,
+    StateMachine(StateMachineCode),
 }
 
 struct LineInfo {
@@ -184,30 +213,79 @@ impl FileStats {
 }
 
 struct Visitor<'f> {
+    inside_verus_macro_or_verify_or_consider: u64,
     file_stats: &'f mut FileStats,
     in_body: Option<CodeKind>,
     trusted: u64,
     in_proof_directive: u64,
+    in_state_machine_macro: u64,
+    inside_line_count_ignore_or_external: u64,
+    config: Rc<Config>,
+}
+
+impl<'f> Visitor<'f> {
+    fn active(&self) -> bool {
+        self.inside_line_count_ignore_or_external == 0
+            && (self.inside_verus_macro_or_verify_or_consider > 0
+                || self.config.no_external_by_default)
+    }
+
+    #[allow(dead_code)]
+    fn mark_kind(&mut self, spanned: &impl Spanned, kind: CodeKind) {
+        if self.active() {
+            self.file_stats.mark_kind(spanned, kind);
+        }
+    }
+
+    #[allow(dead_code)]
+    fn mark_additional_kind(&mut self, spanned: &impl Spanned, kind: CodeKind) {
+        if self.active() {
+            self.file_stats.mark_additional_kind(spanned, kind)
+        }
+    }
+
+    fn mark_content(&mut self, spanned: &impl Spanned, content: LineContent) {
+        if self.active() {
+            self.file_stats.mark_content(spanned, content);
+        }
+    }
+
+    fn mark(&mut self, spanned: &(impl Spanned + Debug), kind: CodeKind, content: LineContent) {
+        if self.active() {
+            self.file_stats.mark(spanned, kind, content);
+        }
+    }
+
+    fn mark_with_additional_kind(
+        &mut self,
+        spanned: &impl Spanned,
+        kind: CodeKind,
+        content: LineContent,
+    ) {
+        if self.active() {
+            self.file_stats.mark_with_additional_kind(spanned, kind, content);
+        }
+    }
 }
 
 impl<'ast, 'f> syn_verus::visit::Visit<'ast> for Visitor<'f> {
     fn visit_assert(&mut self, i: &'ast syn_verus::Assert) {
         self.in_proof_directive += 1;
-        self.file_stats.mark(i, CodeKind::Proof, LineContent::ProofDirective);
+        self.mark(i, self.mode_or_trusted(CodeKind::Proof), LineContent::ProofDirective);
         syn_verus::visit::visit_assert(self, i);
         self.in_proof_directive -= 1;
     }
 
     fn visit_assert_forall(&mut self, i: &'ast syn_verus::AssertForall) {
         self.in_proof_directive += 1;
-        self.file_stats.mark(i, CodeKind::Proof, LineContent::ProofDirective);
+        self.mark(i, self.mode_or_trusted(CodeKind::Proof), LineContent::ProofDirective);
         syn_verus::visit::visit_assert_forall(self, i);
         self.in_proof_directive -= 1;
     }
 
     fn visit_assume(&mut self, i: &'ast syn_verus::Assume) {
         self.in_proof_directive += 1;
-        self.file_stats.mark(i, CodeKind::Proof, LineContent::ProofDirective);
+        self.mark(i, self.mode_or_trusted(CodeKind::Proof), LineContent::ProofDirective);
         syn_verus::visit::visit_assume(self, i);
         self.in_proof_directive -= 1;
     }
@@ -219,42 +297,54 @@ impl<'ast, 'f> syn_verus::visit::Visit<'ast> for Visitor<'f> {
     }
 
     fn visit_decreases(&mut self, i: &'ast syn_verus::Decreases) {
-        // self.file_stats.mark(i, self.mode_or_trusted(CodeKind::Spec), LineContent::FunctionSpec);
+        // self.mark(i, self.mode_or_trusted(CodeKind::Spec), LineContent::FunctionSpec);
         syn_verus::visit::visit_decreases(self, i);
     }
 
     fn visit_ensures(&mut self, i: &'ast syn_verus::Ensures) {
-        // self.file_stats.mark(i, self.mode_or_trusted(CodeKind::Spec), LineContent::FunctionSpec);
+        // self.mark(i, self.mode_or_trusted(CodeKind::Spec), LineContent::FunctionSpec);
         syn_verus::visit::visit_ensures(self, i);
     }
 
-    fn visit_expr(&mut self, i: &'ast syn_verus::Expr) {
-        if !matches!(i, syn_verus::Expr::Block(_)) {
-            if let Some(content_code_kind) = self.in_body {
-                if self.in_proof_directive == 0 {
-                    self.file_stats.mark(
-                        &i,
-                        self.mode_or_trusted(content_code_kind),
-                        LineContent::Code(content_code_kind),
-                    )
-                }
+    fn visit_block(&mut self, i: &'ast syn_verus::Block) {
+        if let Some(content_code_kind) = self.in_body {
+            if self.in_proof_directive == 0 {
+                self.mark(
+                    &i,
+                    self.mode_or_trusted(content_code_kind),
+                    LineContent::Code(content_code_kind),
+                )
             }
         }
-        match i {
+        syn_verus::visit::visit_block(self, i);
+    }
+
+    fn visit_expr(&mut self, i: &'ast syn_verus::Expr) {
+        if let Some(content_code_kind) = self.in_body {
+            if self.in_proof_directive == 0 {
+                self.mark(
+                    &i,
+                    self.mode_or_trusted(content_code_kind),
+                    LineContent::Code(content_code_kind),
+                )
+            }
+        }
+        let entered_proof_directive = match i {
             syn_verus::Expr::Unary(syn_verus::ExprUnary {
                 op: syn_verus::UnOp::Proof(..),
                 attrs: _,
                 expr,
             }) => {
-                self.file_stats.mark(
-                    expr,
-                    self.mode_or_trusted(CodeKind::Proof),
-                    LineContent::ProofBlock,
-                );
+                self.mark(expr, self.mode_or_trusted(CodeKind::Proof), LineContent::ProofBlock);
+                self.in_proof_directive += 1;
+                true
             }
-            _ => (),
-        }
+            _ => false,
+        };
         syn_verus::visit::visit_expr(self, i);
+        if entered_proof_directive {
+            self.in_proof_directive -= 1;
+        }
     }
 
     fn visit_expr_block(&mut self, i: &'ast syn_verus::ExprBlock) {
@@ -278,7 +368,7 @@ impl<'ast, 'f> syn_verus::visit::Visit<'ast> for Visitor<'f> {
                     _ => None,
                 })
             {
-                self.file_stats.mark_with_additional_kind(
+                self.mark_with_additional_kind(
                     i,
                     wrapper_code_kind,
                     LineContent::GhostTracked(wrapper_code_kind),
@@ -295,32 +385,28 @@ impl<'ast, 'f> syn_verus::visit::Visit<'ast> for Visitor<'f> {
 
     fn visit_expr_while(&mut self, i: &'ast syn_verus::ExprWhile) {
         if let Some(decreases) = &i.decreases {
-            self.file_stats.mark(
+            self.mark(
                 decreases,
                 self.mode_or_trusted(CodeKind::Proof),
                 LineContent::ProofDirective,
             );
         }
         if let Some(invariant) = &i.invariant {
-            self.file_stats.mark(
+            self.mark(
                 &invariant,
                 self.mode_or_trusted(CodeKind::Proof),
                 LineContent::ProofDirective,
             );
         }
         if let Some(invariant_ensures) = &i.invariant_ensures {
-            self.file_stats.mark(
+            self.mark(
                 &invariant_ensures,
                 self.mode_or_trusted(CodeKind::Proof),
                 LineContent::ProofDirective,
             );
         }
         if let Some(ensures) = &i.ensures {
-            self.file_stats.mark(
-                &ensures,
-                self.mode_or_trusted(CodeKind::Proof),
-                LineContent::ProofDirective,
-            );
+            self.mark(&ensures, self.mode_or_trusted(CodeKind::Proof), LineContent::ProofDirective);
         }
         self.visit_expr(&i.cond);
         self.visit_block(&i.body);
@@ -330,8 +416,8 @@ impl<'ast, 'f> syn_verus::visit::Visit<'ast> for Visitor<'f> {
         let content_code_kind = i.sig.mode.to_code_kind();
         let exit = self.item_attr_enter(&i.attrs);
         let code_kind = self.mode_or_trusted(content_code_kind);
-        // self.file_stats.mark(&i.block, code_kind, LineContent::Code(content_code_kind));
-        self.file_stats.mark_content(&i.block, LineContent::Body(content_code_kind));
+        // self.mark(&i.block, code_kind, LineContent::Code(content_code_kind));
+        self.mark_content(&i.block, LineContent::Body(content_code_kind));
         self.handle_signature(content_code_kind, code_kind, &i.sig);
         self.in_body = Some(content_code_kind);
         self.visit_block(&i.block);
@@ -342,7 +428,7 @@ impl<'ast, 'f> syn_verus::visit::Visit<'ast> for Visitor<'f> {
     fn visit_item(&mut self, i: &'ast syn_verus::Item) {
         match i {
             syn_verus::Item::Impl(_) => {
-                self.file_stats.mark_content(i, LineContent::Impl);
+                self.mark_content(i, LineContent::Impl);
             }
             _ => (),
         }
@@ -351,7 +437,7 @@ impl<'ast, 'f> syn_verus::visit::Visit<'ast> for Visitor<'f> {
 
     fn visit_item_const(&mut self, i: &'ast syn_verus::ItemConst) {
         let exit = self.item_attr_enter(&i.attrs);
-        self.file_stats.mark(
+        self.mark(
             i,
             self.mode_or_trusted(i.mode.to_code_kind()),
             LineContent::Const(i.mode.to_code_kind()),
@@ -362,11 +448,7 @@ impl<'ast, 'f> syn_verus::visit::Visit<'ast> for Visitor<'f> {
 
     fn visit_item_enum(&mut self, i: &'ast syn_verus::ItemEnum) {
         let exit = self.item_attr_enter(&i.attrs);
-        self.file_stats.mark(
-            &i,
-            self.mode_or_trusted(i.mode.to_code_kind()),
-            LineContent::DatatypeDecl,
-        );
+        self.mark(&i, self.mode_or_trusted(i.mode.to_code_kind()), LineContent::DatatypeDecl);
         syn_verus::visit::visit_item_enum(self, i);
         exit.exit(self);
     }
@@ -379,10 +461,10 @@ impl<'ast, 'f> syn_verus::visit::Visit<'ast> for Visitor<'f> {
 
     fn visit_item_fn(&mut self, i: &'ast syn_verus::ItemFn) {
         let exit = self.item_attr_enter(&i.attrs);
-        let content_code_kind = i.sig.mode.to_code_kind();
+        let content_code_kind = self.fn_code_kind(i.sig.mode.to_code_kind());
         let code_kind = self.mode_or_trusted(content_code_kind);
-        // self.file_stats.mark(&i.block, code_kind, LineContent::Code(content_code_kind));
-        self.file_stats.mark_content(&i.block, LineContent::Body(content_code_kind));
+        // self.mark(&i.block, code_kind, LineContent::Code(content_code_kind));
+        self.mark_content(&i.block, LineContent::Body(content_code_kind));
         self.handle_signature(content_code_kind, code_kind, &i.sig);
         self.in_body = Some(content_code_kind);
         self.visit_block(&i.block);
@@ -413,7 +495,7 @@ impl<'ast, 'f> syn_verus::visit::Visit<'ast> for Visitor<'f> {
     fn visit_item_mod(&mut self, i: &'ast syn_verus::ItemMod) {
         let exit = self.item_attr_enter(&i.attrs);
         if i.content.is_none() {
-            self.file_stats.mark(&i, CodeKind::Directives, LineContent::Directive);
+            self.mark(&i, CodeKind::Directives, LineContent::Directive);
         }
         syn_verus::visit::visit_item_mod(self, i);
         exit.exit(self);
@@ -427,20 +509,16 @@ impl<'ast, 'f> syn_verus::visit::Visit<'ast> for Visitor<'f> {
 
     fn visit_item_struct(&mut self, i: &'ast syn_verus::ItemStruct) {
         let exit = self.item_attr_enter(&i.attrs);
-        self.file_stats.mark(
-            &i,
-            self.mode_or_trusted(i.mode.to_code_kind()),
-            LineContent::DatatypeDecl,
-        );
+        self.mark(&i, self.mode_or_trusted(i.mode.to_code_kind()), LineContent::DatatypeDecl);
         syn_verus::visit::visit_item_struct(self, i);
         exit.exit(self);
     }
 
     fn visit_item_trait(&mut self, i: &'ast syn_verus::ItemTrait) {
         let exit = self.item_attr_enter(&i.attrs);
-        self.file_stats.mark_content(&i, LineContent::Trait);
+        self.mark_content(&i, LineContent::Trait);
         if self.trusted > 0 {
-            self.file_stats.mark_kind(&i, CodeKind::Trusted);
+            self.mark_kind(&i, CodeKind::Trusted);
         }
         syn_verus::visit::visit_item_trait(self, i);
         exit.exit(self);
@@ -510,20 +588,113 @@ impl<'ast, 'f> syn_verus::visit::Visit<'ast> for Visitor<'f> {
 
     fn visit_local(&mut self, i: &'ast syn_verus::Local) {
         if i.ghost.is_some() || i.tracked.is_some() {
-            self.file_stats.mark(
-                i,
-                self.mode_or_trusted(CodeKind::Proof),
-                LineContent::ProofBinding,
-            );
+            self.mark(i, self.mode_or_trusted(CodeKind::Proof), LineContent::ProofBinding);
         }
-        syn_verus::visit::visit_local(self, i);
+        // TODO we may want to still recurse: syn_verus::visit::visit_local(self, i);
     }
 
     fn visit_macro(&mut self, i: &'ast syn_verus::Macro) {
-        if i.path.segments.last().map(|s| s.ident.to_string()) == Some("macro_rules".into()) {
-            self.file_stats.mark(i, CodeKind::Definitions, LineContent::MacroDefinition);
+        let mut entered_state_machine_macro = false;
+        let outer_last_segment = i.path.segments.last().map(|s| s.ident.to_string());
+        if outer_last_segment == Some("macro_rules".into()) {
+            self.mark(i, self.mode_or_trusted(CodeKind::Definitions), LineContent::MacroDefinition);
+        } else if outer_last_segment == Some("verus".into()) {
+            let source_toks = &i.tokens;
+            let macro_content: File = syn_verus::parse2(source_toks.clone())
+                .map_err(|e| {
+                    dbg!(&e.span().start(), &e.span().end());
+                    format!("failed to parse file macro contents: {} {:?}", e, e.span())
+                })
+                .expect("unexpected verus! macro content");
+            self.inside_verus_macro_or_verify_or_consider += 1;
+            self.visit_file(&macro_content);
+            self.inside_verus_macro_or_verify_or_consider -= 1;
+        } else if outer_last_segment == Some("tokenized_state_machine".into())
+            || outer_last_segment == Some("state_machine".into())
+        {
+            // self.mark(
+            //     i,
+            //     self.mode_or_trusted(CodeKind::Spec),
+            //     LineContent::StateMachine(StateMachineCode::NameAndFields),
+            // );
+            entered_state_machine_macro = true;
+            self.inside_verus_macro_or_verify_or_consider += 1;
+            self.in_state_machine_macro += 1;
+            use proc_macro2::TokenTree;
+            for tok in i.tokens.clone() {
+                match tok {
+                    TokenTree::Group(g) => {
+                        let mut g_stream = g.stream().into_iter().peekable();
+                        if !(g.delimiter() == proc_macro2::Delimiter::Brace
+                            && g_stream.next().map(|t| t.to_string()) == Some("fields".into()))
+                        {
+                            continue;
+                        }
+                        if let Some(fields_g) = g_stream.next() {
+                            if let TokenTree::Group(g) = fields_g {
+                                self.mark(
+                                    &g,
+                                    self.mode_or_trusted(CodeKind::Spec),
+                                    LineContent::StateMachine(StateMachineCode::NameAndFields),
+                                );
+                            } else {
+                                continue;
+                            }
+                        } else {
+                            continue;
+                        }
+                        // let mut next_t = g_stream.next();
+                        let content_as_file: Option<syn_verus::File> =
+                            syn_verus::parse2(proc_macro2::TokenStream::from_iter(g_stream)).ok();
+                        if let Some(content_as_file) = content_as_file {
+                            // self.visit_file(&content_as_file);
+                            for item in content_as_file.items {
+                                match item {
+                                    syn_verus::Item::Macro(m) => {
+                                        let last_segment =
+                                            m.mac.path.segments.last().map(|s| s.ident.to_string());
+                                        if last_segment == Some("transition".into())
+                                            || last_segment == Some("init".into())
+                                        {
+                                            self.mark(
+                                                &m,
+                                                self.mode_or_trusted(CodeKind::Spec),
+                                                LineContent::StateMachine(
+                                                    StateMachineCode::Transition,
+                                                ),
+                                            );
+                                        } else if last_segment == Some("property".into()) {
+                                            self.mark(
+                                                &m,
+                                                self.mode_or_trusted(CodeKind::Spec),
+                                                LineContent::StateMachine(
+                                                    StateMachineCode::Property,
+                                                ),
+                                            );
+                                        }
+                                    }
+                                    _ => self.visit_item(&item),
+                                }
+                            }
+                        }
+                    }
+                    TokenTree::Ident(ident) => {
+                        self.mark(
+                            &ident,
+                            self.mode_or_trusted(CodeKind::Spec),
+                            LineContent::StateMachine(StateMachineCode::NameAndFields),
+                        );
+                    }
+                    TokenTree::Punct(_) => (),
+                    TokenTree::Literal(_) => (),
+                }
+            }
         }
         syn_verus::visit::visit_macro(self, i);
+        if entered_state_machine_macro {
+            self.in_state_machine_macro -= 1;
+            self.inside_verus_macro_or_verify_or_consider -= 1;
+        }
     }
 
     fn visit_macro_delimiter(&mut self, i: &'ast syn_verus::MacroDelimiter) {
@@ -702,12 +873,12 @@ impl<'ast, 'f> syn_verus::visit::Visit<'ast> for Visitor<'f> {
     }
 
     fn visit_recommends(&mut self, i: &'ast syn_verus::Recommends) {
-        // self.file_stats.mark(i, self.mode_or_trusted(CodeKind::Spec), LineContent::FunctionSpec);
+        // self.mark(i, self.mode_or_trusted(CodeKind::Spec), LineContent::FunctionSpec);
         syn_verus::visit::visit_recommends(self, i);
     }
 
     fn visit_requires(&mut self, i: &'ast syn_verus::Requires) {
-        // self.file_stats.mark(i, self.mode_or_trusted(CodeKind::Spec), LineContent::FunctionSpec);
+        // self.mark(i, self.mode_or_trusted(CodeKind::Spec), LineContent::FunctionSpec);
         syn_verus::visit::visit_requires(self, i);
     }
 
@@ -767,9 +938,9 @@ impl<'ast, 'f> syn_verus::visit::Visit<'ast> for Visitor<'f> {
         let exit = self.item_attr_enter(&i.attrs);
         let content_code_kind = i.sig.mode.to_code_kind();
         let code_kind = self.mode_or_trusted(content_code_kind);
-        self.file_stats.mark_content(&i, LineContent::Trait);
-        // self.file_stats.mark(&i.default, code_kind, LineContent::Code(content_code_kind));
-        self.file_stats.mark_content(&i.default, LineContent::Body(content_code_kind));
+        self.mark_content(&i, LineContent::Trait);
+        // self.mark(&i.default, code_kind, LineContent::Code(content_code_kind));
+        self.mark_content(&i.default, LineContent::Body(content_code_kind));
         self.handle_signature(content_code_kind, code_kind, &i.sig);
         self.in_body = Some(content_code_kind);
         if let Some(default) = &i.default {
@@ -781,17 +952,17 @@ impl<'ast, 'f> syn_verus::visit::Visit<'ast> for Visitor<'f> {
     }
 
     fn visit_trait_item_type(&mut self, i: &'ast syn_verus::TraitItemType) {
-        self.file_stats.mark(&i, CodeKind::Definitions, LineContent::TypeDefinition);
+        self.mark(&i, CodeKind::Definitions, LineContent::TypeDefinition);
         syn_verus::visit::visit_trait_item_type(self, i);
     }
 
     fn visit_type(&mut self, i: &'ast syn_verus::Type) {
-        // self.file_stats.mark(&i, CodeKind::Definitions, LineContent::TypeDefinition);
+        // self.mark(&i, CodeKind::Definitions, LineContent::TypeDefinition);
         syn_verus::visit::visit_type(self, i);
     }
 
     fn visit_use_tree(&mut self, i: &'ast syn_verus::UseTree) {
-        self.file_stats.mark(i, CodeKind::Directives, LineContent::Directive);
+        self.mark(i, CodeKind::Directives, LineContent::Directive);
         syn_verus::visit::visit_use_tree(self, i);
     }
 
@@ -809,13 +980,29 @@ impl<'ast, 'f> syn_verus::visit::Visit<'ast> for Visitor<'f> {
 }
 
 struct ItemAttrExit {
-    entered: bool,
+    entered_trusted: bool,
+    entered_ignore: bool,
+    entered_verify: bool,
+    entered_external: bool,
+    entered_consider: bool,
 }
 
 impl ItemAttrExit {
     fn exit(self, visitor: &mut Visitor) {
-        if self.entered {
+        if self.entered_trusted {
             visitor.trusted -= 1;
+        }
+        if self.entered_ignore {
+            visitor.inside_line_count_ignore_or_external -= 1;
+        }
+        if self.entered_verify {
+            visitor.inside_verus_macro_or_verify_or_consider -= 1;
+        }
+        if self.entered_external {
+            visitor.inside_line_count_ignore_or_external -= 1;
+        }
+        if self.entered_consider {
+            visitor.inside_verus_macro_or_verify_or_consider -= 1;
         }
     }
 }
@@ -825,12 +1012,70 @@ impl<'f> Visitor<'f> {
         for attr in attrs.iter() {
             if let Ok(Meta::Path(path)) = attr.parse_meta() {
                 let mut path_iter = path.segments.iter();
-                match (path_iter.next(), path_iter.next()) {
-                    (Some(first), Some(second))
+                match (path_iter.next(), path_iter.next(), path_iter.next()) {
+                    (Some(first), Some(second), None)
                         if first.ident == "verus" && second.ident == "trusted" =>
                     {
                         self.trusted += 1;
-                        return ItemAttrExit { entered: true };
+                        return ItemAttrExit {
+                            entered_trusted: true,
+                            entered_ignore: false,
+                            entered_verify: false,
+                            entered_external: false,
+                            entered_consider: false,
+                        };
+                    }
+                    (Some(first), Some(second), Some(third))
+                        if first.ident == "verus"
+                            && second.ident == "line_count"
+                            && third.ident == "ignore" =>
+                    {
+                        self.inside_line_count_ignore_or_external += 1;
+                        return ItemAttrExit {
+                            entered_trusted: false,
+                            entered_ignore: true,
+                            entered_verify: false,
+                            entered_external: false,
+                            entered_consider: false,
+                        };
+                    }
+                    (Some(first), Some(second), Some(third))
+                        if first.ident == "verus"
+                            && second.ident == "line_count"
+                            && third.ident == "consider" =>
+                    {
+                        self.inside_verus_macro_or_verify_or_consider += 1;
+                        return ItemAttrExit {
+                            entered_trusted: false,
+                            entered_ignore: false,
+                            entered_verify: false,
+                            entered_external: false,
+                            entered_consider: true,
+                        };
+                    }
+                    (Some(first), Some(second), None)
+                        if first.ident == "verifier" && second.ident == "verify" =>
+                    {
+                        self.inside_verus_macro_or_verify_or_consider += 1;
+                        return ItemAttrExit {
+                            entered_trusted: false,
+                            entered_ignore: false,
+                            entered_verify: true,
+                            entered_external: false,
+                            entered_consider: false,
+                        };
+                    }
+                    (Some(first), Some(second), None)
+                        if first.ident == "verifier" && second.ident == "external" =>
+                    {
+                        self.inside_line_count_ignore_or_external += 1;
+                        return ItemAttrExit {
+                            entered_trusted: false,
+                            entered_ignore: false,
+                            entered_verify: false,
+                            entered_external: true,
+                            entered_consider: false,
+                        };
                     }
                     _ => {}
                 }
@@ -838,14 +1083,24 @@ impl<'f> Visitor<'f> {
 
             if attr.path.segments.first().map(|x| x.ident == "doc").unwrap_or(false) {
             } else {
-                self.file_stats.mark(
+                self.mark(
                     &attr,
                     self.mode_or_trusted(CodeKind::Directives),
                     LineContent::Directive,
                 );
             }
         }
-        ItemAttrExit { entered: false }
+        ItemAttrExit {
+            entered_trusted: false,
+            entered_ignore: false,
+            entered_verify: false,
+            entered_external: false,
+            entered_consider: false,
+        }
+    }
+
+    fn fn_code_kind(&self, kind: CodeKind) -> CodeKind {
+        if self.in_state_machine_macro > 0 { kind.join_prefer_left(CodeKind::Spec) } else { kind }
     }
 
     fn mode_or_trusted(&self, kind: CodeKind) -> CodeKind {
@@ -858,24 +1113,20 @@ impl<'f> Visitor<'f> {
         code_kind: CodeKind,
         sig: &Signature,
     ) {
-        self.file_stats.mark(&sig, code_kind, LineContent::Signature(content_code_kind));
+        self.mark(&sig, code_kind, LineContent::Signature(content_code_kind));
         if code_kind != CodeKind::Spec {
             if let Some(requires) = &sig.requires {
-                self.file_stats.mark(
+                self.mark(
                     requires,
                     self.mode_or_trusted(CodeKind::Spec),
                     LineContent::FunctionSpec,
                 );
             }
             if let Some(ensures) = &sig.ensures {
-                self.file_stats.mark(
-                    ensures,
-                    self.mode_or_trusted(CodeKind::Spec),
-                    LineContent::FunctionSpec,
-                );
+                self.mark(ensures, self.mode_or_trusted(CodeKind::Spec), LineContent::FunctionSpec);
             }
             if let Some(decreases) = &sig.decreases {
-                self.file_stats.mark(
+                self.mark(
                     decreases,
                     self.mode_or_trusted(CodeKind::Spec),
                     LineContent::FunctionSpec,
@@ -977,11 +1228,13 @@ fn hash_set_to_sorted_vec<V: Clone + Ord>(h: &HashSet<V>) -> Vec<V> {
     v
 }
 
-fn process_file(_config: &Config, input_path: &std::path::Path) -> Result<FileStats, String> {
+fn process_file(config: Rc<Config>, input_path: &std::path::Path) -> Result<FileStats, String> {
     let file_content = std::fs::read_to_string(input_path)
         .map_err(|e| format!("cannot read {} ({})", input_path.display(), e))?;
-    let file = syn_verus::parse_file(&file_content)
-        .map_err(|e| format!("failed to parse file {}: {}", input_path.display(), e))?;
+    let file = syn_verus::parse_file(&file_content).map_err(|e| {
+        dbg!(&e.span().start(), &e.span().end());
+        format!("failed to parse file {}: {}", input_path.display(), e)
+    })?;
 
     let mut file_stats = FileStats {
         lines: file_content
@@ -995,8 +1248,16 @@ fn process_file(_config: &Config, input_path: &std::path::Path) -> Result<FileSt
             .collect::<Vec<_>>()
             .into_boxed_slice(),
     };
-    let mut visitor =
-        Visitor { file_stats: &mut file_stats, in_body: None, trusted: 0, in_proof_directive: 0 };
+    let mut visitor = Visitor {
+        file_stats: &mut file_stats,
+        in_body: None,
+        trusted: 0,
+        in_proof_directive: 0,
+        inside_verus_macro_or_verify_or_consider: 0,
+        in_state_machine_macro: 0,
+        inside_line_count_ignore_or_external: 0,
+        config,
+    };
     for attr in file.attrs.iter() {
         if let Ok(Meta::Path(path)) = attr.parse_meta() {
             let mut path_iter = path.segments.iter();
@@ -1012,12 +1273,31 @@ fn process_file(_config: &Config, input_path: &std::path::Path) -> Result<FileSt
     }
     for item in file.items.into_iter() {
         match item {
-            syn_verus::Item::Macro(m) => {
-                let source_toks = m.mac.tokens;
-                let macro_content: File = syn_verus::parse2(source_toks).map_err(|e| {
-                    format!("failed to parse file {}: {} {:?}", input_path.display(), e, e.span())
-                })?;
-                visitor.visit_file(&macro_content);
+            syn_verus::Item::Macro(ref m) => {
+                if m.mac
+                    .path
+                    .segments
+                    .last()
+                    .map(|s| s.ident.to_string() == "verus")
+                    .unwrap_or(false)
+                {
+                    let source_toks = &m.mac.tokens;
+                    let macro_content: File =
+                        syn_verus::parse2(source_toks.clone()).map_err(|e| {
+                            dbg!(&e.span().start(), &e.span().end());
+                            format!(
+                                "failed to parse file {}: {} {:?}",
+                                input_path.display(),
+                                e,
+                                e.span()
+                            )
+                        })?;
+                    visitor.inside_verus_macro_or_verify_or_consider += 1;
+                    visitor.visit_file(&macro_content);
+                    visitor.inside_verus_macro_or_verify_or_consider -= 1;
+                } else {
+                    visitor.visit_item(&item);
+                }
             }
             _ => {
                 visitor.visit_item(&item);
@@ -1025,23 +1305,40 @@ fn process_file(_config: &Config, input_path: &std::path::Path) -> Result<FileSt
         }
     }
     let mut multiline_comment = 0;
+    let mut kind_multiline_override = None;
+    let override_re = regex::Regex::new(r"\$line_count\$(([A-Za-z,]+)(\$\{)\$)|(\}\$)").unwrap();
     for line in file_stats.lines.iter_mut() {
         let trimmed = line.text.trim();
-        for (m, _) in trimmed.match_indices("/*") {
-            if trimmed[..m].trim().is_empty() && multiline_comment == 0 {
-                line.line_content = HashSet::from([LineContent::Comment]);
-                line.kinds = HashSet::from([CodeKind::Comment])
+        let mut start_not_comment = (multiline_comment == 0).then(|| 0);
+        let mut all_comment_indices = trimmed
+            .match_indices("/*")
+            .map(|(m, _)| (m, true))
+            .chain(trimmed.match_indices("*/").map(|(m, _)| (m + 2, false)))
+            .collect::<Vec<_>>();
+        all_comment_indices.sort_by_key(|(m, _)| *m);
+        let mut entriely_comment = true;
+        let had_comment_start_end = all_comment_indices.len() > 0;
+        for (i, s) in all_comment_indices {
+            if !s {
+                multiline_comment -= 1;
+                if multiline_comment == 0 {
+                    start_not_comment = Some(i);
+                }
+            } else {
+                multiline_comment += 1;
+                if multiline_comment == 1 {
+                    if let Some(_) = start_not_comment
+                        .take()
+                        .map(|x| line.text[x..i].trim())
+                        .filter(|x| x.is_empty())
+                    {
+                    } else {
+                        entriely_comment = false;
+                    }
+                }
             }
-            multiline_comment += 1;
         }
-        for (m, _) in trimmed.match_indices("*/") {
-            multiline_comment -= 1;
-            if trimmed[m..].trim().is_empty() && multiline_comment == 0 {
-                line.line_content = HashSet::from([LineContent::Comment]);
-                line.kinds = HashSet::from([CodeKind::Comment])
-            }
-        }
-        if multiline_comment > 0 {
+        if entriely_comment && (multiline_comment > 0 || had_comment_start_end) {
             line.line_content = HashSet::from([LineContent::Comment]);
             line.kinds = HashSet::from([CodeKind::Comment])
         }
@@ -1049,19 +1346,55 @@ fn process_file(_config: &Config, input_path: &std::path::Path) -> Result<FileSt
             line.line_content = HashSet::from([LineContent::Comment]);
             line.kinds = HashSet::from([CodeKind::Comment])
         }
-        if line.kinds.is_empty() && (trimmed == "{" || trimmed == "}" || trimmed == "") {
+        if trimmed
+            .chars()
+            .all(|c| c == '(' || c == ')' || c == '{' || c == '}' || c == '[' || c == ']')
+        {
             line.kinds = HashSet::from([CodeKind::Layout])
+        }
+        if let Some(captures) = override_re.captures(trimmed) {
+            if captures.get(1).is_some() {
+                let kinds = captures
+                    .get(2)
+                    .unwrap()
+                    .as_str()
+                    .split(',')
+                    .map(|x| match x {
+                        "Trusted" => CodeKind::Trusted,
+                        "Spec" => CodeKind::Spec,
+                        "Proof" => CodeKind::Proof,
+                        "Exec" => CodeKind::Exec,
+                        "Comment" => CodeKind::Comment,
+                        "Layout" => CodeKind::Layout,
+                        "Directives" => CodeKind::Directives,
+                        "Definitions" => CodeKind::Definitions,
+                        _ => panic!("unknown code kind {}", x),
+                    })
+                    .collect::<HashSet<_>>();
+                if captures.get(3).is_some() {
+                    kind_multiline_override = Some(kinds);
+                } else {
+                    line.kinds = kinds.clone();
+                }
+            }
+            if let Some(kinds) = &kind_multiline_override {
+                line.kinds = kinds.clone();
+            }
+            if captures.get(4).is_some() {
+                kind_multiline_override = None;
+            }
         }
     }
     Ok(file_stats)
 }
 
-fn run(config: &Config, deps_path: &std::path::Path) -> Result<(), String> {
+fn run(config: Config, deps_path: &std::path::Path) -> Result<(), String> {
+    let config = Rc::new(config);
     let (root_path, files) = get_dependencies(deps_path)?;
 
     let file_stats = files
         .iter()
-        .map(|f| process_file(config, &root_path.join(f)).map(|fs| (f, fs)))
+        .map(|f| process_file(config.clone(), &root_path.join(f)).map(|fs| (f, fs)))
         .collect::<Result<Vec<_>, String>>()?;
 
     if config.print_all {
