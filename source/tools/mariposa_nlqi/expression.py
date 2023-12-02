@@ -31,8 +31,8 @@ class LemmaCall:
         self.name = name
         self.args = args
         
-        self.inst_call = "lemma_%s(%s);" % (self.name, ", ".join([str(a) for a in self.args]))
-        self.auto_call = "lemma_mul_properties_auto(); "
+        self.inst_call = "lemma_%s(%s)" % (self.name, ", ".join([str(a) for a in self.args]))
+        self.auto_call = "lemma_mul_properties_auto()"
         self.hint_call = None
 
     def set_hint(self, left, right):
@@ -90,7 +90,7 @@ class Expression:
     @classmethod
     def random_init(cls, max_depth, prob=1):
         op = Operator.new()
-        if max_depth == 0 or random.random() > prob:
+        if max_depth == 0 or random.random() < 0.3:
             left, right, op = None, None, None
         else:
             left = Expression.random_init(max_depth-1, prob*EARLY_STOP_PROB_MULTIPLIER)
@@ -237,10 +237,10 @@ class Expression:
             return str(self.value)
         return "(%s%s%s)" % (self.left, self.op.value, self.right)
 
-TERM_VAR_PROB = 0.95
+TERM_VAR_PROB = 0.975
 TERM_CONST_PROB = 1 - TERM_VAR_PROB
 
-EARLY_STOP_PROB_MULTIPLIER = 0.95
+EARLY_STOP_PROB_MULTIPLIER = 0.975
 
 OP_PROB = {
     Operator.ADD: 0.1,
@@ -248,7 +248,7 @@ OP_PROB = {
     Operator.MUL: 0.8,
 }
 
-VARS = ["a", "b", "c", "d", "e"]
+VARS = ["a", "b", "c", "d"]
 
 if __name__ == "__main__":
     table = [["depth", "mean\nunique\nsubexps", "mean\nunique\nsubexps\nper depth"]]
