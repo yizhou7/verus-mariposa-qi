@@ -90,7 +90,7 @@ class Expression:
     @classmethod
     def random_init(cls, max_depth, prob=1):
         op = Operator.new()
-        if max_depth == 0 or random.random() < 0.3:
+        if max_depth == 0 or random.random() < 0.2:
             left, right, op = None, None, None
         else:
             left = Expression.random_init(max_depth-1, prob*EARLY_STOP_PROB_MULTIPLIER)
@@ -111,6 +111,14 @@ class Expression:
 
             left_stats[depth] = 1
             return left_stats
+        
+    def get_vars(self):
+        if self.op == None:
+            if self.value in VARS:
+                return {self.value}
+            else:
+                return set()
+        return self.left.get_vars() | self.right.get_vars()
 
     # def get_total_subexpression_count(self):
     #     if self.op == None:
