@@ -155,14 +155,14 @@ VERUS_FOOTER ="""} // verus!"""
 
 class Params:
     def __init__(self, seed):
-        self.TOTAL_STEPS = 2
+        self.TOTAL_STEPS = 1
         self.EXP_MAX_DEPTH = 10
-        self.EXP_NUM = 20
+        self.EXP_NUM = 40
 
         random.seed(seed)
         self.seed = seed
 
-        self.KEEP_EVERY = 2
+        self.KEEP_EVERY = 1
 
     def __str__(self):
         return f"""[INFO] total number of rewrite steps: {self.TOTAL_STEPS}

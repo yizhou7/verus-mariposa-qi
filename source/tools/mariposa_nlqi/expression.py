@@ -32,7 +32,7 @@ class LemmaCall:
         self.args = args
         
         self.inst_call = "lemma_%s(%s)" % (self.name, ", ".join([str(a) for a in self.args]))
-        self.auto_call = "lemma_mul_properties_auto()"
+        self.auto_call = "lemma_mul_properties_auto_1()"
         self.hint_call = None
 
     def set_hint(self, left, right):
