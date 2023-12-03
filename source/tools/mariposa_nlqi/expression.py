@@ -1,36 +1,26 @@
-import random
-import enum
 import numpy as np
 from tabulate import tabulate
+from configs import *
 
 class Operator(enum.Enum):
     ADD = "+"
     SUB = "-"
     MUL = "*"
 
-    def new():
+    @classmethod
+    def random_init(cls):
         r = random.random()
-        if r <= OP_PROB[Operator.ADD]:
+        if r <= OP_PROB[Operator.ADD.value]:
             return Operator.ADD
-        elif r <= OP_PROB[Operator.ADD] + OP_PROB[Operator.SUB]:
+        if r <= OP_PROB[Operator.ADD.value] + OP_PROB[Operator.SUB.value]:
             return Operator.SUB
-        else:
-            return Operator.MUL
-
-class StepMode(enum.Enum):
-    INST_HINT = "inst_hint"
-    INST_ONLY = "inst_only"
-    AUTO_HINT = "auto_hint"
-    AUTO_ONLY = "auto_only"
-    NL_HINT = "nl_arith_hint"
-    NL_ONLY = "nl_arith_only"
-    STEPPED_INST_AUTO = "stepped_inst_auto"
+        return Operator.MUL
 
 class LemmaCall:
     def __init__(self, name, args):
         self.name = name
         self.args = args
-        
+
         self.inst_call = "lemma_%s(%s)" % (self.name, ", ".join([str(a) for a in self.args]))
         self.auto_call = "lemma_mul_properties_auto_1()"
         self.hint_call = None
@@ -40,25 +30,14 @@ class LemmaCall:
         self.hint_call = "assert (%s == %s)" % (left, right)
 
     def emit(self, mode):
-        if mode == StepMode.AUTO_ONLY: 
+        if mode == StepMode.AUTO: 
             return self.auto_call
 
-        if mode == StepMode.NL_ONLY:
+        if mode == StepMode.NLA:
             return ""
 
-        if mode == StepMode.INST_ONLY:
+        if mode == StepMode.INST:
             return self.inst_call
-
-        if mode == StepMode.INST_HINT:
-            return self.inst_call + " " + self.hint_call
-
-        assert self.hint_call != None
-
-        if mode == StepMode.AUTO_HINT:
-            return self.hint_call + " by {" + self.auto_call + "}"
-
-        if mode == StepMode.NL_HINT:
-            return self.hint_call
 
         assert False
 
@@ -89,12 +68,12 @@ class Expression:
 
     @classmethod
     def random_init(cls, max_depth, prob=1):
-        op = Operator.new()
-        if max_depth == 0 or random.random() < 0.2:
+        op = Operator.random_init()
+        if max_depth == 0 or random.random() > prob:
             left, right, op = None, None, None
         else:
-            left = Expression.random_init(max_depth-1, prob*EARLY_STOP_PROB_MULTIPLIER)
-            right = Expression.random_init(max_depth-1, prob*EARLY_STOP_PROB_MULTIPLIER)
+            left = Expression.random_init(max_depth-1, prob*EARLY_STOP_FACTOR)
+            right = Expression.random_init(max_depth-1, prob*EARLY_STOP_FACTOR)
         return cls(op, left, right)
 
     def get_layer_stats(self, depth=0):
@@ -120,23 +99,12 @@ class Expression:
                 return set()
         return self.left.get_vars() | self.right.get_vars()
 
-    # def get_total_subexpression_count(self):
-    #     if self.op == None:
-    #         return 1
-    #     return 1 + self.left.get_total_subexpression_count() + self.right.get_total_subexpression_count()
-
     def get_unique_subexps(self):
         if self.op == None:
             return {str(self)}
         return {str(self)} | self.left.get_unique_subexps() | self.right.get_unique_subexps()
 
-    def list_op_nodes(self):
-        if self.op == None:
-            return []
-        else:
-            return [self] + self.left.list_op_nodes() + self.right.list_op_nodes()
-
-    def associative_rewrite(self):
+    def rewrite_associative(self):
         call = None
 
         if self.op != Operator.MUL:
@@ -163,7 +131,7 @@ class Expression:
 
         return call
     
-    def commutative_rewrite(self):
+    def rewrite_commutative(self):
         if self.op != Operator.MUL:
             return None
         orig = str(self)
@@ -173,7 +141,7 @@ class Expression:
         call.set_hint(orig, str(self))
         return call
 
-    def mul_distributive_rewrite(self):
+    def rewrite_mul_distributive(self):
         call = None
 
         if self.op != Operator.MUL:
@@ -204,7 +172,7 @@ class Expression:
 
         return call
 
-    def mul_add_distributive_inverse_rewrite(self):
+    def rewrite_mul_add_distributive_inverse(self):
         call = None
     
         if self.left.op != Operator.MUL or \
@@ -240,27 +208,39 @@ class Expression:
 
         return call
 
+    def list_op_nodes(self):
+        if self.op == None:
+            return []
+        else:
+            return [self] + self.left.list_op_nodes() + self.right.list_op_nodes()
+
+    def rewrite_single_step(self):
+        retry_count = 0
+
+        while retry_count < 10:
+            nodes = self.list_op_nodes()
+            random.shuffle(nodes)
+            for n in nodes:
+                fun = random.choice(FUNS)
+                call = fun(n)
+                if call != None:
+                    return call
+            retry_count += 1
+        return None
+
     def __str__(self):
         if self.op == None:
             return str(self.value)
         return "(%s%s%s)" % (self.left, self.op.value, self.right)
 
-TERM_VAR_PROB = 0.975
-TERM_CONST_PROB = 1 - TERM_VAR_PROB
-
-EARLY_STOP_PROB_MULTIPLIER = 0.975
-
-OP_PROB = {
-    Operator.ADD: 0.1,
-    Operator.SUB: 0.1,
-    Operator.MUL: 0.8,
-}
-
-VARS = ["a", "b", "c", "d"]
+FUNS = [lambda e: e.rewrite_commutative(), 
+        lambda e: e.rewrite_associative(), 
+        lambda e: e.rewrite_mul_distributive(),
+        lambda e: e.rewrite_mul_add_distributive_inverse()]
 
 if __name__ == "__main__":
     table = [["depth", "mean\nunique\nsubexps", "mean\nunique\nsubexps\nper depth"]]
-    for d in range(4, 20):
+    for d in range(5, 15):
         values = []
         for i in range(20):
             e = Expression.random_init(d)
