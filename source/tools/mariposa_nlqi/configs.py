@@ -24,13 +24,11 @@ class StepMode(enum.Enum):
 
 class EmitterParams:
     def __init__(self, seed):
-        self.LANG = Lang.VERUS
-
         self.STEPS_TOTAL = 1
         self.KEEP_EVERY = 1
 
-        self.EXPR_MAX_DEPTH = 2
-        self.EXPR_NUM = 3
+        self.EXPR_MAX_DEPTH = 8
+        self.EXPR_NUM = 25
 
         self.MUTANT_NUM = 1
         self.modes = [StepMode.AUTO, StepMode.INST]
@@ -39,8 +37,7 @@ class EmitterParams:
         random.seed(seed)
 
     def __str__(self):
-        return f"""[INFO] language: {self.LANG.value}
-[INFO] total number of rewrite steps: {self.STEPS_TOTAL}
+        return f"""[INFO] total number of rewrite steps: {self.STEPS_TOTAL}
 [INFO] max depth of expressions: {self.EXPR_MAX_DEPTH}
 [INFO] number of expressions: {self.EXPR_NUM}
 [INFO] keep every: {self.KEEP_EVERY}
@@ -63,4 +60,9 @@ verus! {
 
 fn main() { }
 
+"""
+
+DAFNY_HEADER = """include "nl_basics.dfy"
+
+import opened nl_basics
 """

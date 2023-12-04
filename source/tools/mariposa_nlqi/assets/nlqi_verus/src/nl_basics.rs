@@ -173,4 +173,3 @@ pub proof fn lemma_mul_properties_auto_2()
 {}
 
 } // verus!
-
