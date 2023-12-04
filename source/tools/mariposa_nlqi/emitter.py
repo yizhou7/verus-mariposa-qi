@@ -29,97 +29,95 @@ class Emitter(Rewriter):
             lines.append(s.emit_calls(mode) + "// " + str(s.main.id))
         return "\n".join(lines) + "\n"
 
-def emit_verus_file(proj_root, mode, rws):
-    mod_name = f"{mode.value}"
-    out_f = open(f"{proj_root}/src/{mod_name}.rs", "w+")
-    out_f.write(VERUS_HEADER)
+class ExperimentEmitter:
+    def __init__(self, exp_root, params):
+        rws = []
 
-    for mut_id in range(pa.MUTANT_NUM):
-        if mut_id != 0:
-            random.shuffle(rws)
+        for i in range(params.EXPR_NUM):
+            rws.append(Emitter(i, params))
 
-        args = ", ".join([v + ": int" for v in VARS])
-        sig = f"pub proof fn {str(mode.value)}_{mut_id}({args})"
+        self.rws = rws
+        self.params = params
 
-        if mode == StepMode.NLA:
-            sig += " by (nonlinear_arith)"
-        sig += "\n{\n"
-        out_f.write(sig)
+        if os.path.exists(exp_root):
+            os.system(f"rm -rf {exp_root}")
+        os.system(f"mkdir {exp_root}")
 
-        for rw in rws:
-            out_f.write(rw.emit_asserts(mode, lang=Lang.VERUS))
+        self.verus_proj_root = exp_root + "/nlqi_verus"
+        self.dafny_proj_root = exp_root + "/nlqi_dafny"
 
-        out_f.write("\n}\n")
+        os.system("cp -r ./tools/mariposa_nlqi/assets/nlqi_verus " + self.verus_proj_root)
+        # dafny does not need a main file
+        os.system("cp -r ./tools/mariposa_nlqi/assets/nlqi_dafny " + self.dafny_proj_root)
 
-    out_f.write(VERUS_FOOTER)
-    out_f.close()
+    def get_emitters(self, actual_expr_num=None):
+        if actual_expr_num == None:
+            actual_expr_num = self.params.EXPR_NUM
+        assert actual_expr_num <= self.params.EXPR_NUM
+        return self.rws[:actual_expr_num]
 
-def emit_verus_main(proj_root, prams):
-    out_f = open(f"{proj_root}/src/main.rs", "w+")
-    header = ""
+    def emit_verus_file(self, mode, actual_expr_num=None):
+        out_f = open(f"{self.verus_proj_root}/src/main.rs", "w+")
+        out_f.write(VERUS_HEADER)
 
-    for m in prams.modes:
-        header += f"mod {m.value};\n"
+        rws = self.get_emitters(actual_expr_num)
 
-    out_f.write(header + VERUS_MAIN_HEADER)
-    out_f.write(VERUS_FOOTER)
-    out_f.close()
+        for mut_id in range(self.params.MUTANT_NUM):
+            if mut_id != 0:
+                random.shuffle(rws)
 
-def emit_dafny_file(proj_root, mode, rws):
-    mod_name = f"{mode.value}"
-    out_f = open(f"{proj_root}/{mod_name}.dfy", "w+")
-    out_f.write(DAFNY_HEADER)
+            args = ", ".join([v + ": int" for v in VARS])
+            sig = f"pub proof fn {str(mode.value)}_{mut_id}({args})"
 
-    for mut_id in range(pa.MUTANT_NUM):
-        if mut_id != 0:
-            random.shuffle(rws)
+            if mode == StepMode.NLA:
+                sig += " by (nonlinear_arith)"
+            sig += "\n{\n"
+            out_f.write(sig)
 
-        args = ", ".join([v + ": int" for v in VARS])
-        sig = f"lemma {str(mode.value)}_{mut_id}({args})"
-        sig += "\n{\n"
-        out_f.write(sig)
+            for rw in rws:
+                out_f.write(rw.emit_asserts(mode, lang=Lang.VERUS))
 
-        for rw in rws:
-            out_f.write(rw.emit_asserts(mode, lang=Lang.DAFNY))
-        out_f.write("\n}\n")
+            out_f.write("\n}\n")
 
-    out_f.close()
+        out_f.write(VERUS_FOOTER)
+        out_f.close()
 
-def emit_verus_project(proj_root, prams, rws):
-    proj_root = proj_root + "/nlqi_verus"
-    os.system("cp -r ./tools/mariposa_nlqi/assets/nlqi_verus " + proj_root)
-    emit_verus_main(proj_root, prams)
+    def get_dafny_file_path(self, mode):
+        return f"{self.dafny_proj_root}/{mode.value}.dfy"
 
-    for m in pa.modes:
-        emit_verus_file(proj_root, m, rws)
+    def emit_dafny_file(self, mode, actual_expr_num=0):
+        out_f = open(self.get_dafny_file_path(mode), "w+")
+        out_f.write(DAFNY_HEADER)
+        rws = self.get_emitters(actual_expr_num)
 
-def emit_dafny_project(proj_root, prams, rws):
-    proj_root = proj_root + "/nlqi_dafny"
-    os.system("cp -r ./tools/mariposa_nlqi/assets/nlqi_dafny " + proj_root)
+        for mut_id in range(self.params.MUTANT_NUM):
+            if mut_id != 0:
+                random.shuffle(rws)
 
-    for m in pa.modes:
-        emit_dafny_file(proj_root, m, rws)
+            args = ", ".join([v + ": int" for v in VARS])
+            sig = f"lemma {str(mode.value)}_{mut_id}({args})"
+            sig += "\n{\n"
+            out_f.write(sig)
 
+            for rw in rws:
+                out_f.write(rw.emit_asserts(mode, lang=Lang.DAFNY))
+
+            out_f.write("\n}\n")
+        out_f.close()
+ 
 if __name__ == "__main__":
     if len(sys.argv) == 3:
         ts = int(sys.argv[2])
     else:
         ts = int.from_bytes(os.urandom(8), byteorder="big")
 
+    exp_root = sys.argv[1]
     pa = EmitterParams(ts)
     print(pa, end="")
+    ee = ExperimentEmitter(exp_root, pa)
 
-    rws = []
-    for i in range(pa.EXPR_NUM):
-        rws.append(Emitter(i, pa))
-
-    exp_root = sys.argv[1]
-    if os.path.exists(exp_root):
-        os.system(f"rm -rf {exp_root}")
-    os.system(f"mkdir {exp_root}")
-
-    emit_verus_project(exp_root, pa, rws)
-    emit_dafny_project(exp_root, pa, rws)
+    ee.emit_verus_file(StepMode.AUTO)
+    ee.emit_dafny_file(StepMode.AUTO)
 
 #     def emit_as_calc(self, mode, upto, keep_every):
 #         csteps = self.get_steps(upto, keep_every)
@@ -142,20 +140,3 @@ if __name__ == "__main__":
 #         #[trigger]({self.steps[len(self.steps) - 1].result})
 # """
 #         return lemma + "{}\n"
-
-# def emit_asserts_mixed(self, split):
-#     assert 0 <= split < len(self.steps)
-
-#     lines = [f"\t\tlet temp_0 = {self.start};"]
-
-#     for i, s in enumerate(self.steps[:split+1]):
-#         lines.append(f"\t\tlet temp_{i+1} = {s[1]};")
-
-#     for i, s in enumerate(self.steps[:split]):
-#         lines.append(f"\t\tassert(temp_{i} == temp_{i+1}) by ")
-#         lines.append("\t\t\t{" + s[0].emit(StepMode.INST_ONLY) + "}\t// " + str(i))
-
-#     i = split
-#     lines.append(f"\t\tassert(temp_{i} == temp_{i+1}) by ")
-#     lines.append("\t\t\t{" + s[0].emit(StepMode.AUTO_ONLY) + "}\t// " + str(i))
-#     return "\n".join(lines)
