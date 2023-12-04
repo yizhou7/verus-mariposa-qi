@@ -1,8 +1,6 @@
 import sys, os
 from rewriter import *
 
-
-
 class Emitter(Rewriter):
     def __init__(self, eid, params):
         super().__init__(eid, params)
@@ -26,9 +24,9 @@ class Emitter(Rewriter):
             lines.append(s.emit_calls(mode) + "// " + str(s.main.id))
         return "\n".join(lines) + "\n"
 
-def emit_verus(mode, rws):
-    mod_name = f"calc_{mode.value}"
-    out_f = open(f"nl_qi_test/src/{mod_name}.rs", "w")
+def emit_verus_file(proj_root, mode, rws):
+    mod_name = f"{mode.value}"
+    out_f = open(f"{proj_root}/src/{mod_name}.rs", "w+")
     out_f.write(VERUS_HEADER)
 
     for mut_id in range(pa.MUTANT_NUM):
@@ -50,9 +48,29 @@ def emit_verus(mode, rws):
     out_f.write(VERUS_FOOTER)
     out_f.close()
 
+def emit_verus_main(proj_root, prams):
+    out_f = open(f"{proj_root}/src/main.rs", "w+")
+    header = ""
+
+    for m in prams.modes:
+        header += f"mod {m.value};\n"
+
+    out_f.write(header + VERUS_MAIN_HEADER)
+    out_f.write(VERUS_FOOTER)
+    out_f.close()
+
+def emit_verus_project(proj_root, prams, rws):
+    if os.path.exists(proj_root):
+        os.system(f"rm -rf {proj_root}")
+    os.system("cp -r ./tools/mariposa_nlqi/assets/nlqi_verus " + proj_root)
+    emit_verus_main(proj_root, prams)
+
+    for m in pa.modes:
+        emit_verus_file(proj_root, m, rws)
+
 if __name__ == "__main__":
-    if len(sys.argv) == 2:
-        ts = int(sys.argv[1])
+    if len(sys.argv) == 3:
+        ts = int(sys.argv[2])
     else:
         ts = int.from_bytes(os.urandom(8), byteorder="big")
 
@@ -63,8 +81,7 @@ if __name__ == "__main__":
     for i in range(pa.EXPR_NUM):
         rws.append(Emitter(i, pa))
 
-    for m in pa.modes:
-        emit_verus(m, rws)
+    emit_verus_project(sys.argv[1], pa, rws)
 
 #     def emit_as_calc(self, mode, upto, keep_every):
 #         csteps = self.get_steps(upto, keep_every)

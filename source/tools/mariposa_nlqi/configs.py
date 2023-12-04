@@ -55,3 +55,12 @@ verus! {
 """
 VERUS_FOOTER ="""} // verus!"""
 
+VERUS_MAIN_HEADER = """
+use builtin_macros::*;
+mod nl_basics;
+
+verus! {
+
+fn main() { }
+
+"""

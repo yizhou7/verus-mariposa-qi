@@ -1,5 +1,5 @@
 from expression import *
-from emitter import *
+from tools.mariposa_nlqi.rewriter import *
 import sys, os
 
 # def run_verus(mode, max_step, exp_depth, i):
