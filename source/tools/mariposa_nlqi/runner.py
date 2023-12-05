@@ -23,9 +23,17 @@ def run_command(cmd, timeout):
     stderr = sp.communicate()[1].decode("utf-8")
     return stdout, stderr, round(elapsed, 2)
 
+def list_smt_files(sub_root):
+    file_paths = []
+    for root, _, files in os.walk(sub_root):
+        for file in files:
+            if file.endswith(".smt2"):
+                file_paths.append(os.path.join(root, file))
+    return file_paths
+
 class ExperimentRunner(ExperimentEmitter):
-    def __init__(self, proj_root, prams):
-        super().__init__(proj_root, prams)
+    def __init__(self, proj_root, prams, overwrite=False):
+        super().__init__(proj_root, prams, overwrite)
         # the tmp dir is clear by verus when called
         self.verus_tmp_dir = f"{self.verus_proj_root}/tmp"
         # this dir is for persistent 
@@ -46,21 +54,37 @@ class ExperimentRunner(ExperimentEmitter):
 
     def get_verus_tmp_file(self):
         return f"{self.verus_tmp_dir}/root.smt2"
+    
+    def post_process_smt(self, src, dst):
+        cmd = [
+            MARIPOSA_ROOT,
+            f"-i {src}",
+            f"-o {dst}",
+            "--chop",
+            "--remove-debug"
+        ]
+        # should not take long to split
+        stdout, stderr, elapsed = run_command(cmd, 5)
+        # we don't expect two split queries
+        assert "is split into 1 file(s), ignored 0 check-sat" in stdout
+        mp_query = dst.replace(".smt2", ".1.smt2")
+        assert os.path.exists(mp_query)
 
     def run_single_verus(self, mode, actual_expr_num):
+        smt_log_file = self.get_verus_smt_file(mode, actual_expr_num)
         cmd = [
-            "~/verus/source/target-verus/release/verus",
+            VREUS_BIN_PATH,
             f"{self.verus_proj_root}/src/main.rs",
             f"--verify-root",
             f"--crate-type lib",
+            f"--no-auto-recommends-check",
             f"--log smt",
             f"--log-dir {self.verus_tmp_dir}",
             f"--smt-option timeout={self.params.get_lang_to_millis()}"
         ]
         stdout, stderr, elapsed = run_command(cmd, self.params.get_lang_to_seconds() * 2)
         assert os.path.exists(self.get_verus_tmp_file())
-        smt_log_file = self.get_verus_smt_file(mode, actual_expr_num)
-        os.system(f"mv {self.get_verus_tmp_file()} {smt_log_file}")
+        self.post_process_smt(self.get_verus_tmp_file(), smt_log_file)
     
         verified = False
         if "verification results:: 1 verified, 0 errors" in stdout:
@@ -74,9 +98,8 @@ class ExperimentRunner(ExperimentEmitter):
 
     def run_single_dafny(self, mode, actual_expr_num):
         smt_log_file = self.get_dafny_smt_file(mode, actual_expr_num)
-
         cmd = [
-            "~/dafny/Binaries/Dafny",
+            DAFNY_BIN_PATH,
             f"{self.dafny_proj_root}/{mode.value}.dfy",
             f"/compile:0",
             f"/noNLarith",
@@ -97,6 +120,24 @@ class ExperimentRunner(ExperimentEmitter):
         for i in range(1, self.params.EXPR_NUM):
             self.emit_dafny_file(mode, actual_expr_num=i)
             self.run_single_dafny(mode, i)
+
+    def rerun_smt(self, smt_dir):
+        mapped = {}
+        for query in sorted(list_smt_files(smt_dir)):
+            qid = int(query.split("/")[-1].split(".")[0].split("_")[1])
+            mapped[qid] = query
+        
+        for qid in sorted(mapped.keys()):
+            query = mapped[qid]
+            cmd = [
+                Z3_BIN_PATH,
+                f"{query}",
+                f"-T:{self.params.get_smt_to_seconds() * 4}",
+            ]
+            # if qid <= 24:
+            #     continue
+            stdout, stderr, elapsed = run_command(cmd, self.params.get_smt_to_seconds() * 4)
+            print(qid, elapsed, stdout.strip())
 
 # def mixed_mode_linear_check(em, log_file):
 #     log_lines = []
@@ -121,6 +162,7 @@ if __name__ == "__main__":
     pa = EmitterParams(ts)
     print(pa, end="")
 
-    er = ExperimentRunner(exp_root, pa)
+    er = ExperimentRunner(exp_root, pa, True)
     er.run_verus(StepMode.AUTO)
+    # er.rerun_smt(er.verus_smt_dir)
     # er.run_dafny(StepMode.AUTO)

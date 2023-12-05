@@ -11,6 +11,12 @@ OP_PROB = {
     "*": 0.8,
 }
 
+DAFNY_BIN_PATH = "~/dafny/Binaries/Dafny"
+VREUS_BIN_PATH = "~/verus/source/target-verus/release/verus"
+
+MARIPOSA_ROOT = "~/mariposa/target/release/mariposa"
+Z3_BIN_PATH = "~/mariposa/solvers/z3-4.12.2"
+
 VARS = ["a", "b", "c", "d"]
 
 class Lang(enum.Enum):
@@ -27,7 +33,7 @@ class EmitterParams:
         self.STEPS_TOTAL = 1
         self.KEEP_EVERY = 1
 
-        self.EXPR_MAX_DEPTH = 10
+        self.EXPR_MAX_DEPTH = 8
         self.EXPR_NUM = 30
 
         self.MUTANT_NUM = 1

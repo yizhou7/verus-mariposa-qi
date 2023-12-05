@@ -30,7 +30,7 @@ class Emitter(Rewriter):
         return "\n".join(lines) + "\n"
 
 class ExperimentEmitter:
-    def __init__(self, exp_root, params):
+    def __init__(self, exp_root, params, overwrite=False):
         rws = []
 
         for i in range(params.EXPR_NUM):
@@ -39,13 +39,16 @@ class ExperimentEmitter:
         self.rws = rws
         self.params = params
 
-        if os.path.exists(exp_root):
-            os.system(f"rm -rf {exp_root}")
-        os.system(f"mkdir {exp_root}")
-
         self.verus_proj_root = exp_root + "/nlqi_verus"
         self.dafny_proj_root = exp_root + "/nlqi_dafny"
+        
+        if os.path.exists(exp_root):
+            if not overwrite:
+                print(f"[INFO] {exp_root} already exists, not overwriting.")
+                return
+            os.system(f"rm -rf {exp_root}")
 
+        os.system(f"mkdir {exp_root}")
         os.system("cp -r ./tools/mariposa_nlqi/assets/nlqi_verus " + self.verus_proj_root)
         # dafny does not need a main file
         os.system("cp -r ./tools/mariposa_nlqi/assets/nlqi_dafny " + self.dafny_proj_root)
@@ -118,25 +121,3 @@ if __name__ == "__main__":
 
     ee.emit_verus_file(StepMode.AUTO)
     ee.emit_dafny_file(StepMode.AUTO)
-
-#     def emit_as_calc(self, mode, upto, keep_every):
-#         csteps = self.get_steps(upto, keep_every)
-#         lines = self.emit_temp_variables(csteps)
-#         lines.append("\tcalc !{\n\t\t(==)")
-#         lines.append("\t\t" + self.emit_temp(0) + ";")
-#         for s in csteps:
-#             lines.append("\t\t" + s.emit_calls(mode) + "// " + str(s.main.id))
-#             lines.append("\t\t" + self.emit_temp(s.main.id) + ";")
-#         lines.append("\t}")
-#         return "\n".join(lines) + "\n"
-
-#     def emit_as_lemma(self):
-#         args = ", ".join([v + ": int" for v in self.vars])
-#         lemma = f"""#[verifier::external_body]
-# pub proof fn lemma_test_{self.name}()
-#     ensures forall |{args}|
-#         #[trigger]({self.start})
-#         ==
-#         #[trigger]({self.steps[len(self.steps) - 1].result})
-# """
-#         return lemma + "{}\n"
