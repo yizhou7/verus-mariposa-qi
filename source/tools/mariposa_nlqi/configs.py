@@ -27,7 +27,7 @@ class EmitterParams:
         self.STEPS_TOTAL = 1
         self.KEEP_EVERY = 1
 
-        self.EXPR_MAX_DEPTH = 8
+        self.EXPR_MAX_DEPTH = 10
         self.EXPR_NUM = 30
 
         self.MUTANT_NUM = 1
@@ -36,14 +36,22 @@ class EmitterParams:
         self.seed = seed
         random.seed(seed)
 
-        self._TIMEOUT = 5000 # ms
+        self._LANG_TIMEOUT = 2000 # ms
+        self._SMT_TIMEOUT = 30000 # ms
 
-    def get_timeout_seconds(self):
-        assert self._TIMEOUT > 1000
-        return self._TIMEOUT / 1000
+    def get_lang_to_seconds(self):
+        assert self._LANG_TIMEOUT > 1000
+        return int(self._LANG_TIMEOUT / 1000)
 
-    def get_timeout_millis(self):
-        return self._TIMEOUT
+    def get_lang_to_millis(self):
+        return self._LANG_TIMEOUT
+    
+    def get_smt_to_seconds(self):
+        assert self._SMT_TIMEOUT > 1000
+        return int(self._SMT_TIMEOUT / 1000)
+    
+    def get_smt_to_millis(self):
+        return self._SMT_TIMEOUT
 
     def __str__(self):
         return f"""[INFO] total number of rewrite steps: {self.STEPS_TOTAL}

@@ -85,7 +85,7 @@ class ExperimentEmitter:
     def get_dafny_file_path(self, mode):
         return f"{self.dafny_proj_root}/{mode.value}.dfy"
 
-    def emit_dafny_file(self, mode, actual_expr_num=0):
+    def emit_dafny_file(self, mode, actual_expr_num=None):
         out_f = open(self.get_dafny_file_path(mode), "w+")
         out_f.write(DAFNY_HEADER)
         rws = self.get_emitters(actual_expr_num)
