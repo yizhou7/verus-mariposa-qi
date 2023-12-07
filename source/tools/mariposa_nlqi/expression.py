@@ -51,13 +51,13 @@ def pick_side(left, right):
     return left, right
 
 class Expression:
-    def __init__(self, op, left, right):
+    def __init__(self, op, left, right, suffix=""):
         self.op = op
 
         if op == None:
             assert left == None and right == None
             if random.random() <= TERM_VAR_PROB:
-                self.value = random.choice(VARS)
+                self.value = random.choice(VARS) + str(suffix)
             else:
                 self.value = f"({int(random.random()*100)} as int)"
             return
@@ -67,14 +67,14 @@ class Expression:
         self.right = right
 
     @classmethod
-    def random_init(cls, max_depth, prob=1):
+    def random_init(cls, suffix, max_depth, prob=1):
         op = Operator.random_init()
         if max_depth == 0 or random.random() > prob:
             left, right, op = None, None, None
         else:
-            left = Expression.random_init(max_depth-1, prob*EARLY_STOP_FACTOR)
-            right = Expression.random_init(max_depth-1, prob*EARLY_STOP_FACTOR)
-        return cls(op, left, right)
+            left = Expression.random_init(suffix, max_depth-1, prob*EARLY_STOP_FACTOR)
+            right = Expression.random_init(suffix, max_depth-1, prob*EARLY_STOP_FACTOR)
+        return cls(op, left, right, suffix)
 
     def get_layer_stats(self, depth=0):
         if self.op == None:
@@ -243,7 +243,7 @@ if __name__ == "__main__":
     for d in range(5, 15):
         values = []
         for i in range(20):
-            e = Expression.random_init(d)
+            e = Expression.random_init("0", d)
             # layers = e.get_layer_stats()
             # for i in sorted(layers):
             #     print(i, layers[i], round(layers[i] * 100 / 2 ** i, 2))

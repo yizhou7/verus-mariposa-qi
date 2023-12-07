@@ -24,9 +24,13 @@ class Emitter(Rewriter):
         lines = self.emit_temp_decls(lang)
         prev = self.get_temp(0)
         for s in self.csteps:
-            lines.append("\tassert(" + prev + " == " + self.get_temp(s.main.id) + ") by ")
-            prev = self.get_temp(s.main.id)
-            lines.append(s.emit_calls(mode) + "// " + str(s.main.id))
+            stmt = "\tassert(" + prev + " == " + self.get_temp(s.main.id) + ")" 
+            if mode == StepMode.NLA:
+                lines.append(stmt + ";")
+            else:
+                lines.append(stmt + " by ")
+                prev = self.get_temp(s.main.id)
+                lines.append(s.emit_calls(mode) + "// " + str(s.main.id))
         return "\n".join(lines) + "\n"
 
 class ExperimentEmitter:
@@ -46,6 +50,7 @@ class ExperimentEmitter:
             if not overwrite:
                 print(f"[INFO] {exp_root} already exists, not overwriting.")
                 return
+            print(f"[INFO] {exp_root} already exists, overwriting.")
             os.system(f"rm -rf {exp_root}")
 
         os.system(f"mkdir {exp_root}")
@@ -68,8 +73,12 @@ class ExperimentEmitter:
         for mut_id in range(self.params.MUTANT_NUM):
             if mut_id != 0:
                 random.shuffle(rws)
+            args = []
 
-            args = ", ".join([v + ": int" for v in VARS])
+            for i in range(self.params.EXPR_NUM):
+                args += [", ".join([f"{v}{i}: int" for v in VARS])]
+            args = ",\n".join(args)
+
             sig = f"pub proof fn {str(mode.value)}_{mut_id}({args})"
 
             if mode == StepMode.NLA:
@@ -96,8 +105,11 @@ class ExperimentEmitter:
         for mut_id in range(self.params.MUTANT_NUM):
             if mut_id != 0:
                 random.shuffle(rws)
-
-            args = ", ".join([v + ": int" for v in VARS])
+            args = []
+            for i in range(self.params.EXPR_NUM):
+                for v in VARS:
+                    args.append(f"{v}{i}: int")
+            args = ", ".join(args)
             sig = f"lemma {str(mode.value)}_{mut_id}({args})"
             sig += "\n{\n"
             out_f.write(sig)
@@ -117,7 +129,7 @@ if __name__ == "__main__":
     exp_root = sys.argv[1]
     pa = EmitterParams(ts)
     print(pa, end="")
-    ee = ExperimentEmitter(exp_root, pa)
+    ee = ExperimentEmitter(exp_root, pa, overwrite=True)
 
     ee.emit_verus_file(StepMode.AUTO)
     ee.emit_dafny_file(StepMode.AUTO)

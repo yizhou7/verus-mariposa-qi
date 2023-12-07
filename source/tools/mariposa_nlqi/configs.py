@@ -26,24 +26,24 @@ class Lang(enum.Enum):
 class StepMode(enum.Enum):
     INST = "inst"
     AUTO = "auto"
-    NLA = "nl_arith"
+    NLA = "nlarith"
 
 class EmitterParams:
     def __init__(self, seed):
         self.STEPS_TOTAL = 1
         self.KEEP_EVERY = 1
 
-        self.EXPR_MAX_DEPTH = 8
-        self.EXPR_NUM = 30
+        self.EXPR_MAX_DEPTH = 4
+        self.EXPR_NUM = 10
 
         self.MUTANT_NUM = 1
-        self.modes = [StepMode.AUTO, StepMode.INST]
+        self.modes = [StepMode.AUTO, StepMode.INST, StepMode.NLA]
 
         self.seed = seed
         random.seed(seed)
 
         self._LANG_TIMEOUT = 2000 # ms
-        self._SMT_TIMEOUT = 30000 # ms
+        self._SMT_TIMEOUT = 10000 # ms
 
     def get_lang_to_seconds(self):
         assert self._LANG_TIMEOUT > 1000
@@ -64,6 +64,9 @@ class EmitterParams:
 [INFO] keep every (steps): {self.KEEP_EVERY}
 [INFO] max depth of expressions: {self.EXPR_MAX_DEPTH}
 [INFO] number of expressions: {self.EXPR_NUM}
+[INFO] lang timeout (seconds): {self.get_lang_to_millis()}
+[INFO] smt timeout (seconds): {self.get_smt_to_seconds()}
+[INFO] solver path: {Z3_BIN_PATH}
 [INFO] seed: {self.seed}
 """
 
