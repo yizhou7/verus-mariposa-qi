@@ -63,6 +63,16 @@ class ExperimentEmitter:
             actual_expr_num = self.params.EXPR_NUM
         assert actual_expr_num <= self.params.EXPR_NUM
         return self.rws[:actual_expr_num]
+    
+    def get_args(self):
+        args = []
+        if self.params.related:
+            args = ", ".join([f"{v}: int" for v in VARS])
+        else:
+            for i in range(self.params.EXPR_NUM):
+                args += [", ".join([f"{v}{i}: int" for v in VARS])]
+            args = ",\n".join(args)
+        return args
 
     def emit_verus_file(self, mode, actual_expr_num=None):
         out_f = open(f"{self.verus_proj_root}/src/main.rs", "w+")
@@ -73,12 +83,7 @@ class ExperimentEmitter:
         for mut_id in range(self.params.MUTANT_NUM):
             if mut_id != 0:
                 random.shuffle(rws)
-            args = []
-
-            for i in range(self.params.EXPR_NUM):
-                args += [", ".join([f"{v}{i}: int" for v in VARS])]
-            args = ",\n".join(args)
-
+            args = self.get_args()
             sig = f"pub proof fn {str(mode.value)}_{mut_id}({args})"
 
             if mode == StepMode.NLA:
@@ -105,11 +110,7 @@ class ExperimentEmitter:
         for mut_id in range(self.params.MUTANT_NUM):
             if mut_id != 0:
                 random.shuffle(rws)
-            args = []
-            for i in range(self.params.EXPR_NUM):
-                for v in VARS:
-                    args.append(f"{v}{i}: int")
-            args = ", ".join(args)
+            args = self.get_args()
             sig = f"lemma {str(mode.value)}_{mut_id}({args})"
             sig += "\n{\n"
             out_f.write(sig)

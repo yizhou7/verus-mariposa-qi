@@ -11,7 +11,7 @@ OP_PROB = {
     "*": 0.8,
 }
 
-DAFNY_BIN_PATH = "~/dafny/Binaries/Dafny"
+DAFNY_BIN_PATH = "~/dafny/dafny"
 VREUS_BIN_PATH = "~/verus/source/target-verus/release/verus"
 
 MARIPOSA_ROOT = "~/mariposa/target/release/mariposa"
@@ -30,19 +30,23 @@ class StepMode(enum.Enum):
 
 class EmitterParams:
     def __init__(self, seed):
-        self.STEPS_TOTAL = 1
-        self.KEEP_EVERY = 1
+        self.STEPS_TOTAL = 8
+        self.KEEP_EVERY = 8
 
-        self.EXPR_MAX_DEPTH = 4
-        self.EXPR_NUM = 10
+        self.EXPR_MAX_DEPTH = 10
+        self.EXPR_NUM = 20
 
         self.MUTANT_NUM = 1
-        self.modes = [StepMode.AUTO, StepMode.INST, StepMode.NLA]
+        self.modes = [StepMode.AUTO, StepMode.INST]
+        # self.modes = [StepMode.NLA]
+        # self.modes = [StepMode.AUTO]
 
         self.seed = seed
         random.seed(seed)
 
-        self._LANG_TIMEOUT = 2000 # ms
+        self.related = True
+
+        self._LANG_TIMEOUT = 5000 # ms
         self._SMT_TIMEOUT = 10000 # ms
 
     def get_lang_to_seconds(self):
@@ -55,7 +59,7 @@ class EmitterParams:
     def get_smt_to_seconds(self):
         assert self._SMT_TIMEOUT > 1000
         return int(self._SMT_TIMEOUT / 1000)
-    
+
     def get_smt_to_millis(self):
         return self._SMT_TIMEOUT
 
@@ -64,7 +68,7 @@ class EmitterParams:
 [INFO] keep every (steps): {self.KEEP_EVERY}
 [INFO] max depth of expressions: {self.EXPR_MAX_DEPTH}
 [INFO] number of expressions: {self.EXPR_NUM}
-[INFO] lang timeout (seconds): {self.get_lang_to_millis()}
+[INFO] lang timeout (seconds): {self.get_lang_to_seconds()}
 [INFO] smt timeout (seconds): {self.get_smt_to_seconds()}
 [INFO] solver path: {Z3_BIN_PATH}
 [INFO] seed: {self.seed}

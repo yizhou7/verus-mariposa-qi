@@ -27,6 +27,8 @@ class Rewriter:
         self.steps = []
         self.eid = eid
 
+        if params.related:
+            eid = ""
         self.e = Expression.random_init(eid, params.EXPR_MAX_DEPTH)
         # self.init_subexps = self.e.get_unique_subexps()
         self.start = str(self.e)

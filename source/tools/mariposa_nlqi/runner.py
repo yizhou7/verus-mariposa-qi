@@ -207,8 +207,8 @@ if __name__ == "__main__":
     pa = EmitterParams(ts)
     print(pa, end="")
 
-    er = ExperimentRunner(exp_root, pa)
+    er = ExperimentRunner(exp_root, pa, overwrite=True)
     er.run_verus()
-    er.run_dafny()
+    # er.run_dafny()
     er.rerun_smt(er.verus_smt_dir)
-    er.rerun_smt(er.dafny_smt_dir)
+    # er.rerun_smt(er.dafny_smt_dir)
