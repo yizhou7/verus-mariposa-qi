@@ -44,24 +44,24 @@ class EmitterParams:
         self.seed = seed
         random.seed(seed)
 
-        self.related = True
+        self.related = False
 
-        self._LANG_TIMEOUT = 5000 # ms
-        self._SMT_TIMEOUT = 10000 # ms
+        self.LANG_TIMEOUT = 5000 # ms
+        self.SMT_TIMEOUT = 10000 # ms
 
     def get_lang_to_seconds(self):
-        assert self._LANG_TIMEOUT > 1000
-        return int(self._LANG_TIMEOUT / 1000)
+        assert self.LANG_TIMEOUT > 1000
+        return int(self.LANG_TIMEOUT / 1000)
 
     def get_lang_to_millis(self):
-        return self._LANG_TIMEOUT
+        return self.LANG_TIMEOUT
     
     def get_smt_to_seconds(self):
-        assert self._SMT_TIMEOUT > 1000
-        return int(self._SMT_TIMEOUT / 1000)
+        assert self.SMT_TIMEOUT > 1000
+        return int(self.SMT_TIMEOUT / 1000)
 
     def get_smt_to_millis(self):
-        return self._SMT_TIMEOUT
+        return self.SMT_TIMEOUT
 
     def __str__(self):
         return f"""[INFO] total number of rewrite steps: {self.STEPS_TOTAL}

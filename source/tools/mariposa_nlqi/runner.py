@@ -122,6 +122,7 @@ class ExperimentRunner(ExperimentEmitter):
             self.log_line("[WARN] verus-tool stderr: " + clean_newlines(stderr))
         line = f"[INFO] verus-tool {mode.value} {actual_expr_num} {elapsed}"
         self.log_line(line)
+        return elapsed
 
     def run_verus(self):
         for mode in self.params.modes:
@@ -155,6 +156,7 @@ class ExperimentRunner(ExperimentEmitter):
             self.log_line("[WARN] dafny-tool stdout: " + clean_newlines(stdout))
             self.log_line("[WARN] dafny-tool stderr: " + clean_newlines(stderr))
         self.log_line(f"[INFO] dafny-tool {mode.value} {actual_expr_num} {elapsed}")
+        return elapsed
 
     def run_dafny(self):
         for mode in self.params.modes:
