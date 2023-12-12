@@ -1,0 +1,22 @@
+[INFO] total number of rewrite steps: 1
+[INFO] keep every (steps): 1
+[INFO] max depth of expressions: 4
+[INFO] number of expressions: 20
+[INFO] lang timeout (seconds): 5
+[INFO] smt timeout (seconds): 10
+[INFO] solver path: ~/mariposa/solvers/z3-4.12.2
+[INFO] seed: 13020832159235112964
+[INFO] dafny-tool nlarith 1 1.47
+[INFO] dafny-tool nlarith 2 1.47
+[INFO] dafny-tool nlarith 3 1.47
+[INFO] dafny-tool nlarith 4 1.47
+[INFO] dafny-tool nlarith 5 1.47
+[INFO] dafny-tool nlarith 6 1.47
+[INFO] dafny-tool nlarith 7 1.47
+[INFO] dafny-tool nlarith 8 1.47
+[INFO] dafny-tool nlarith 9 1.52
+[INFO] dafny-tool nlarith 10 1.67
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool nlarith 11 6.0
+[INFO] found potential unstable dafny path: /home/yizhou7/verus/source/mariposa_data/dafny_unstable/13020832159235112964/nlqi_dafny/log/nlarith_10.1.smt2
