@@ -34,8 +34,11 @@ def list_smt_files(sub_root):
 def clean_newlines(s):
     return s.replace('\n', ' ').replace('\r', '')
 
-class ExperimentRunner(ExperimentEmitter):
-    def __init__(self, proj_root, prams, overwrite=False):
+class ExperimentRunner(ProjectEmitter):
+    def __init__(self, exp_root, prams, overwrite=False):
+        if not os.path.exists(exp_root):
+            os.system(f"mkdir {exp_root}")
+        proj_root = f"{exp_root}/{prams.seed}"
         super().__init__(proj_root, prams, overwrite)
         self.verus_tmp_dir = f"{self.verus_proj_root}/tmp"
         self.dafny_tmp_dir = f"{self.dafny_proj_root}/tmp"
@@ -110,7 +113,7 @@ class ExperimentRunner(ExperimentEmitter):
             f"--log-dir {self.verus_tmp_dir}",
             f"--smt-option timeout={self.params.get_lang_to_millis()}"
         ]
-        stdout, stderr, elapsed = run_command(cmd, self.params.get_lang_to_seconds() * 2)
+        stdout, stderr, elapsed = run_command(cmd, self.params.get_lang_to_seconds() + 1)
         os.system(f"mv {verus_file} {verus_file}.{mode.value}.{actual_expr_num}")
         tmp_file = self.get_tmp_file(Lang.VERUS, mode)
         assert os.path.exists(tmp_file)
@@ -146,7 +149,7 @@ class ExperimentRunner(ExperimentEmitter):
             cmd += [f"/noNLarith"]
 
         # print(" ".join(cmd))
-        stdout, stderr, elapsed = run_command(cmd, self.params.get_lang_to_seconds() * 2)
+        stdout, stderr, elapsed = run_command(cmd, self.params.get_lang_to_seconds() + 1)
         assert os.path.exists(tmp_file)
         os.system(f"mv {dafny_file} {dafny_file}.{actual_expr_num}")
         smt_file = self.get_smt_file(Lang.DAFNY, mode, actual_expr_num)
@@ -171,7 +174,7 @@ class ExperimentRunner(ExperimentEmitter):
             assert len(query_info) == 2
             mode, qid = query_info[0], int(query_info[1])
             mapped[qid][mode] = query
-        table = [["qid"] + [m for m in self.params.modes]]
+        table = [["qid"] + sorted([m.value for m in self.params.modes])]
         for qid in sorted(mapped):
             row = [qid]
             for m in sorted(mapped[qid]):
@@ -205,11 +208,10 @@ if __name__ == "__main__":
     else:
         ts = int.from_bytes(os.urandom(8), byteorder="big")
     
-    exp_root = str(ts)
     pa = EmitterParams(ts)
     print(pa, end="")
 
-    er = ExperimentRunner(exp_root, pa, overwrite=True)
+    er = ExperimentRunner(".", pa, overwrite=True)
     er.run_verus()
     # er.run_dafny()
     er.rerun_smt(er.verus_smt_dir)

@@ -19,6 +19,8 @@ Z3_BIN_PATH = "~/mariposa/solvers/z3-4.12.2"
 
 VARS = ["a", "b", "c", "d"]
 
+AUTO_CALL = "lemma_mul_properties_auto_1()"
+
 class Lang(enum.Enum):
     VERUS = "verus"
     DAFNY = "dafny"
@@ -27,27 +29,26 @@ class StepMode(enum.Enum):
     INST = "inst"
     AUTO = "auto"
     NLA = "nlarith"
+    FREE = "free" 
 
 class EmitterParams:
-    def __init__(self, seed):
-        self.STEPS_TOTAL = 8
-        self.KEEP_EVERY = 8
+    def __init__(self, contents, seed):
+        self.STEPS_TOTAL = contents["steps_total"]
+        self.KEEP_EVERY = contents["keep_every"]
 
-        self.EXPR_MAX_DEPTH = 10
-        self.EXPR_NUM = 20
+        self.EXPR_MAX_DEPTH = contents["expr_max_depth"]
+        self.EXPR_NUM = contents["expr_num"]
 
-        self.MUTANT_NUM = 1
-        self.modes = [StepMode.AUTO, StepMode.INST]
-        # self.modes = [StepMode.NLA]
-        # self.modes = [StepMode.AUTO]
+        self.modes = [StepMode(i) for i in contents["modes"]]
 
         self.seed = seed
         random.seed(seed)
 
-        self.related = False
+        self.related = contents["related"]
+        self.MUTANT_NUM = contents["mutant_num"]
 
-        self.LANG_TIMEOUT = 5000 # ms
-        self.SMT_TIMEOUT = 10000 # ms
+        self.LANG_TIMEOUT = contents["lang_timeout"] # ms
+        self.SMT_TIMEOUT = contents["smt_timeout"] # ms
 
     def get_lang_to_seconds(self):
         assert self.LANG_TIMEOUT > 1000

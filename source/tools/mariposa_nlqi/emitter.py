@@ -25,7 +25,7 @@ class Emitter(Rewriter):
         prev = self.get_temp(0)
         for s in self.csteps:
             stmt = "\tassert(" + prev + " == " + self.get_temp(s.main.id) + ")" 
-            if mode == StepMode.NLA:
+            if mode == StepMode.NLA or mode == StepMode.FREE:
                 lines.append(stmt + ";")
             else:
                 lines.append(stmt + " by ")
@@ -33,8 +33,8 @@ class Emitter(Rewriter):
                 lines.append(s.emit_calls(mode) + "// " + str(s.main.id))
         return "\n".join(lines) + "\n"
 
-class ExperimentEmitter:
-    def __init__(self, exp_root, params, overwrite=False):
+class ProjectEmitter:
+    def __init__(self, proj_root, params, overwrite=False):
         rws = []
 
         for i in range(params.EXPR_NUM):
@@ -43,17 +43,17 @@ class ExperimentEmitter:
         self.rws = rws
         self.params = params
 
-        self.verus_proj_root = exp_root + "/nlqi_verus"
-        self.dafny_proj_root = exp_root + "/nlqi_dafny"
+        self.verus_proj_root = proj_root + "/nlqi_verus"
+        self.dafny_proj_root = proj_root + "/nlqi_dafny"
         
-        if os.path.exists(exp_root):
+        if os.path.exists(proj_root):
             if not overwrite:
-                print(f"[INFO] {exp_root} already exists, not overwriting.")
+                print(f"[INFO] {proj_root} already exists, not overwriting.")
                 return
-            print(f"[INFO] {exp_root} already exists, overwriting.")
-            os.system(f"rm -rf {exp_root}")
+            print(f"[INFO] {proj_root} already exists, overwriting.")
+            os.system(f"rm -rf {proj_root}")
 
-        os.system(f"mkdir {exp_root}")
+        os.system(f"mkdir {proj_root}")
         os.system("cp -r ./tools/mariposa_nlqi/assets/nlqi_verus " + self.verus_proj_root)
         # dafny does not need a main file
         os.system("cp -r ./tools/mariposa_nlqi/assets/nlqi_dafny " + self.dafny_proj_root)
@@ -91,6 +91,9 @@ class ExperimentEmitter:
             sig += "\n{\n"
             out_f.write(sig)
 
+            if mode == StepMode.FREE:
+                out_f.write(f"\t{AUTO_CALL};\n")
+
             for rw in rws:
                 out_f.write(rw.emit_asserts(mode, lang=Lang.VERUS))
 
@@ -115,6 +118,9 @@ class ExperimentEmitter:
             sig += "\n{\n"
             out_f.write(sig)
 
+            if mode == StepMode.FREE:
+                out_f.write(f"\t{AUTO_CALL};\n")
+
             for rw in rws:
                 out_f.write(rw.emit_asserts(mode, lang=Lang.DAFNY))
 
@@ -122,15 +128,15 @@ class ExperimentEmitter:
         out_f.close()
  
 if __name__ == "__main__":
-    if len(sys.argv) == 3:
-        ts = int(sys.argv[2])
+    if len(sys.argv) == 2:
+        ts = int(sys.argv[1])
     else:
         ts = int.from_bytes(os.urandom(8), byteorder="big")
 
-    exp_root = sys.argv[1]
+    proj_root = str(ts)
     pa = EmitterParams(ts)
     print(pa, end="")
-    ee = ExperimentEmitter(exp_root, pa, overwrite=True)
+    ee = ProjectEmitter(proj_root, pa, overwrite=True)
 
-    ee.emit_verus_file(StepMode.AUTO)
-    ee.emit_dafny_file(StepMode.AUTO)
+    ee.emit_verus_file(StepMode.FREE)
+    # ee.emit_dafny_file(StepMode.AUTO)
