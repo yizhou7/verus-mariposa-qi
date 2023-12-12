@@ -39,6 +39,7 @@ class EmitterParams:
         self.root_dir = contents["root_dir"]
         self.steps_total = contents["steps_total"]
         self.keep_every = contents["keep_every"]
+        self.short_cut = contents["short_cut"]
 
         self.expr_max_depth = contents["expr_max_depth"]
         self.expr_num = contents["expr_num"]

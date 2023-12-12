@@ -196,7 +196,7 @@ class ExperimentRunner(ProjectEmitter):
                     ]
                     stdout, stderr, elapsed = run_command(cmd, self.params.get_smt_to_seconds() + 1)
 
-                    if elapsed > self.params.get_smt_to_seconds():
+                    if elapsed > self.params.get_smt_to_seconds() and self.params.short_cut:
                         to_count[m] += 1
                     else:
                         to_count[m] = 0

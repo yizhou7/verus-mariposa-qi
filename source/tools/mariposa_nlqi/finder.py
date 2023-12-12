@@ -20,16 +20,16 @@ def find_dafny_unstable(ts):
     assert os.path.exists(real_path)
     er.log_line(f"[INFO] found potential unstable dafny path: {real_path}")
 
-def compare_all_modes(ts):
-    pa = EmitterParams(seed=ts, config_name="all_4")
+def compare_all_modes(ts, config_name):
+    pa = EmitterParams(seed=ts, config_name=config_name)
     er = ExperimentRunner(pa, overwrite=True)
     er.run_default()
 
 if __name__ == "__main__":
-    if len(sys.argv) == 2:
-        ts = int(sys.argv[1])
+    if len(sys.argv) == 3:
+        ts = int(sys.argv[2])
     else:
         ts = int.from_bytes(os.urandom(8), byteorder="big")
 
     # find_dafny_unstable(ts)
-    compare_all_modes(ts)
+    compare_all_modes(ts, sys.argv[1])
