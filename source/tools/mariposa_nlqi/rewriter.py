@@ -29,22 +29,22 @@ class Rewriter:
 
         if params.related:
             eid = ""
-        self.e = Expression.random_init(eid, params.EXPR_MAX_DEPTH)
+        self.e = Expression.random_init(eid, params.expr_max_depth)
         # self.init_subexps = self.e.get_unique_subexps()
         self.start = str(self.e)
 
-        for _ in range(params.STEPS_TOTAL):
+        for _ in range(params.steps_total):
             call = self.e.rewrite_single_step()
             if call != None:
                 s = RewriteStep(len(self.steps)+1, call, str(self.e))
                 self.steps.append(s)
             else:
-                print("[ERROR] exceeded retry count, decrease STEPS_TOTAL or increase EXPR_MAX_DEPTH?")
+                print("[ERROR] exceeded retry count, decrease steps_total or increase expr_max_depth?")
                 exit(1)
 
         self.params = params
         self.vars = self.e.get_vars()
-        self.csteps = self.get_steps(params.STEPS_TOTAL, params.KEEP_EVERY)
+        self.csteps = self.get_steps(params.steps_total, params.keep_every)
 
     def get_steps(self, upto, keep_every):
         steps = self.steps[:upto]

@@ -1,4 +1,4 @@
-import random, enum
+import random, enum, json
 
 TERM_VAR_PROB = 0.975
 TERM_CONST_PROB = 1 - TERM_VAR_PROB
@@ -29,46 +29,51 @@ class StepMode(enum.Enum):
     INST = "inst"
     AUTO = "auto"
     NLA = "nlarith"
-    FREE = "free" 
+    FREE = "free"
 
 class EmitterParams:
-    def __init__(self, contents, seed):
-        self.STEPS_TOTAL = contents["steps_total"]
-        self.KEEP_EVERY = contents["keep_every"]
+    def __init__(self, seed, config_name="default"):
+        config_path = f"tools/mariposa_nlqi/configs/{config_name}.json"
+        contents = json.load(open(config_path, "r"))
 
-        self.EXPR_MAX_DEPTH = contents["expr_max_depth"]
-        self.EXPR_NUM = contents["expr_num"]
+        self.root_dir = contents["root_dir"]
+        self.steps_total = contents["steps_total"]
+        self.keep_every = contents["keep_every"]
+
+        self.expr_max_depth = contents["expr_max_depth"]
+        self.expr_num = contents["expr_num"]
 
         self.modes = [StepMode(i) for i in contents["modes"]]
+
+        self.related = contents["related"]
+        self.mutant_num = contents["mutant_num"]
+
+        self.langs = [Lang(i) for i in contents["langs"]]
+        self.lang_timeout = contents["lang_timeout"] # seconds
+        self.smt_timeout = contents["smt_timeout"] # seconds
 
         self.seed = seed
         random.seed(seed)
 
-        self.related = contents["related"]
-        self.MUTANT_NUM = contents["mutant_num"]
-
-        self.LANG_TIMEOUT = contents["lang_timeout"] # ms
-        self.SMT_TIMEOUT = contents["smt_timeout"] # ms
-
     def get_lang_to_seconds(self):
-        assert self.LANG_TIMEOUT > 1000
-        return int(self.LANG_TIMEOUT / 1000)
+        assert self.lang_timeout < 1000
+        return self.lang_timeout
 
     def get_lang_to_millis(self):
-        return self.LANG_TIMEOUT
+        return self.lang_timeout * 1000
     
     def get_smt_to_seconds(self):
-        assert self.SMT_TIMEOUT > 1000
-        return int(self.SMT_TIMEOUT / 1000)
+        assert self.smt_timeout < 1000
+        return int(self.smt_timeout)
 
     def get_smt_to_millis(self):
-        return self.SMT_TIMEOUT
+        return self.smt_timeout * 1000
 
     def __str__(self):
-        return f"""[INFO] total number of rewrite steps: {self.STEPS_TOTAL}
-[INFO] keep every (steps): {self.KEEP_EVERY}
-[INFO] max depth of expressions: {self.EXPR_MAX_DEPTH}
-[INFO] number of expressions: {self.EXPR_NUM}
+        return f"""[INFO] total number of rewrite steps: {self.steps_total}
+[INFO] keep every (steps): {self.keep_every}
+[INFO] max depth of expressions: {self.expr_max_depth}
+[INFO] number of expressions: {self.expr_num}
 [INFO] lang timeout (seconds): {self.get_lang_to_seconds()}
 [INFO] smt timeout (seconds): {self.get_smt_to_seconds()}
 [INFO] solver path: {Z3_BIN_PATH}

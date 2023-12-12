@@ -37,7 +37,7 @@ class ProjectEmitter:
     def __init__(self, proj_root, params, overwrite=False):
         rws = []
 
-        for i in range(params.EXPR_NUM):
+        for i in range(params.expr_num):
             rws.append(Emitter(i, params))
 
         self.rws = rws
@@ -60,8 +60,8 @@ class ProjectEmitter:
 
     def get_emitters(self, actual_expr_num=None):
         if actual_expr_num == None:
-            actual_expr_num = self.params.EXPR_NUM
-        assert actual_expr_num <= self.params.EXPR_NUM
+            actual_expr_num = self.params.expr_num
+        assert actual_expr_num <= self.params.expr_num
         return self.rws[:actual_expr_num]
     
     def get_args(self):
@@ -69,7 +69,7 @@ class ProjectEmitter:
         if self.params.related:
             args = ", ".join([f"{v}: int" for v in VARS])
         else:
-            for i in range(self.params.EXPR_NUM):
+            for i in range(self.params.expr_num):
                 args += [", ".join([f"{v}{i}: int" for v in VARS])]
             args = ",\n".join(args)
         return args
@@ -80,7 +80,7 @@ class ProjectEmitter:
 
         rws = self.get_emitters(actual_expr_num)
 
-        for mut_id in range(self.params.MUTANT_NUM):
+        for mut_id in range(self.params.mutant_num):
             if mut_id != 0:
                 random.shuffle(rws)
             args = self.get_args()
@@ -110,7 +110,7 @@ class ProjectEmitter:
         out_f.write(DAFNY_HEADER)
         rws = self.get_emitters(actual_expr_num)
 
-        for mut_id in range(self.params.MUTANT_NUM):
+        for mut_id in range(self.params.mutant_num):
             if mut_id != 0:
                 random.shuffle(rws)
             args = self.get_args()

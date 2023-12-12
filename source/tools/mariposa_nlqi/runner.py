@@ -23,9 +23,9 @@ def run_command(cmd, timeout):
     stderr = sp.communicate()[1].decode("utf-8")
     return stdout, stderr, round(elapsed, 2)
 
-def list_smt_files(sub_root):
+def list_smt_files(root_dir):
     file_paths = []
-    for root, _, files in os.walk(sub_root):
+    for root, _, files in os.walk(root_dir):
         for file in files:
             if file.endswith(".smt2"):
                 file_paths.append(os.path.join(root, file))
@@ -35,10 +35,13 @@ def clean_newlines(s):
     return s.replace('\n', ' ').replace('\r', '')
 
 class ExperimentRunner(ProjectEmitter):
-    def __init__(self, exp_root, prams, overwrite=False):
-        if not os.path.exists(exp_root):
-            os.system(f"mkdir {exp_root}")
-        proj_root = f"{exp_root}/{prams.seed}"
+    def __init__(self, prams, overwrite=False):
+        root_dir = prams.root_dir
+
+        if not os.path.exists(root_dir):
+            os.system(f"mkdir -p {root_dir}")
+
+        proj_root = f"{root_dir}/{prams.seed}"
         super().__init__(proj_root, prams, overwrite)
         self.verus_tmp_dir = f"{self.verus_proj_root}/tmp"
         self.dafny_tmp_dir = f"{self.dafny_proj_root}/tmp"
@@ -129,7 +132,7 @@ class ExperimentRunner(ProjectEmitter):
 
     def run_verus(self):
         for mode in self.params.modes:
-            for i in range(1, self.params.EXPR_NUM):
+            for i in range(1, self.params.expr_num):
                 self.emit_verus_file(mode, actual_expr_num=i)
                 self.run_single_verus(mode, i)
 
@@ -163,12 +166,12 @@ class ExperimentRunner(ProjectEmitter):
 
     def run_dafny(self):
         for mode in self.params.modes:
-            for i in range(1, self.params.EXPR_NUM):
+            for i in range(1, self.params.expr_num):
                 self.emit_dafny_file(mode, actual_expr_num=i)
                 self.run_single_dafny(mode, i)
 
     def rerun_smt(self, smt_dir):
-        mapped = {i: {} for i in range(1, self.params.EXPR_NUM)}
+        mapped = {i: {} for i in range(1, self.params.expr_num)}
         for query in list_smt_files(smt_dir):
             query_info = query.split("/")[-1].split(".")[0].split("_")
             assert len(query_info) == 2
@@ -182,7 +185,7 @@ class ExperimentRunner(ProjectEmitter):
                 query = mapped[qid][m]
 
                 if to_count[m] >= 3:
-                    self.log_line(f"[INFO] encountered at least 3 timeouts in {m} {query}")
+                    self.log_line(f"[INFO] encountered at least 3 consecutive timeouts in {m} {query}")
                     self.log_line(f"[INFO] skipping {qid} {m} {query}")
                     row.append(-1)
                 else:
@@ -195,11 +198,22 @@ class ExperimentRunner(ProjectEmitter):
 
                     if elapsed > self.params.get_smt_to_seconds():
                         to_count[m] += 1
+                    else:
+                        to_count[m] = 0
 
                     self.log_line(f"[INFO] z3 {qid} {m} {elapsed} {query} {clean_newlines(stdout)}")
                     row.append(elapsed)
             table.append(row)
         self.log_line(f"[INFO] rerun summary {smt_dir}\n" + tabulate(table))
+
+    def run_default(self):
+        if Lang.VERUS in self.params.langs:
+            self.run_verus()
+            self.rerun_smt(self.verus_smt_dir)
+
+        if Lang.DAFNY in self.params.langs:
+            self.run_dafny()
+            self.rerun_smt(self.dafny_smt_dir)
 
 # def mixed_mode_linear_check(em, log_file):
 #     log_lines = []
@@ -218,12 +232,8 @@ if __name__ == "__main__":
         ts = int(sys.argv[1])
     else:
         ts = int.from_bytes(os.urandom(8), byteorder="big")
-    
-    pa = EmitterParams(ts)
-    print(pa, end="")
 
+    pa = EmitterParams(seed=ts)
+    print(pa, end="")
     er = ExperimentRunner(".", pa, overwrite=True)
-    er.run_verus()
-    # er.run_dafny()
-    er.rerun_smt(er.verus_smt_dir)
-    # er.rerun_smt(er.dafny_smt_dir)
+    er.run_default()
