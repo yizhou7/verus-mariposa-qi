@@ -1,14 +1,14 @@
 {
-    "root_dir": "mariposa_data/10/",
+    "root_dir": "mariposa_data/6/",
     "steps_total": 1,
     "keep_every": 1,
-    "expr_max_depth": 10,
-    "expr_num": 60,
-    "modes":["auto", "inst"],
+    "expr_max_depth": 6,
+    "expr_num": 10,
+    "modes":["auto", "inst", "nlarith", "free"],
     "mutant_num": 1,
     "related": false,
     "langs": ["dafny", "verus"],
     "short_cut": false,
     "lang_timeout": 5,
-    "smt_timeout": 120
+    "smt_timeout": 10
 }
