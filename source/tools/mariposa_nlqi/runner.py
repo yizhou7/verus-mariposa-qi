@@ -3,6 +3,17 @@ from emitter import *
 import sys, os
 import subprocess, signal, time
 
+def parse_basic_output(output):
+    if "unsat" in output:
+        return "unsat"
+    elif "sat" in output:
+        return "sat"
+    elif "timeout" in output:
+        return "timeout"
+    elif "unknown" in output:
+        return "unknown"
+    return "error"
+
 def run_command(cmd, timeout):
     cmd = " ".join(cmd)
     # print(f"[INFO] running:\n{cmd}")
@@ -195,14 +206,14 @@ class ExperimentRunner(ProjectEmitter):
                         f"-T:{self.params.get_smt_to_seconds()}",
                     ]
                     stdout, stderr, elapsed = run_command(cmd, self.params.get_smt_to_seconds() + 1)
-
+                    output = parse_basic_output(stdout)
                     if elapsed > self.params.get_smt_to_seconds() and self.params.short_cut:
                         to_count[m] += 1
                     else:
                         to_count[m] = 0
 
                     self.log_line(f"[INFO] z3 {qid} {m} {elapsed} {query} {clean_newlines(stdout)}")
-                    row.append(elapsed)
+                    row.append((elapsed, output))
             table.append(row)
         self.log_line(f"[INFO] rerun summary {smt_dir}\n" + tabulate(table))
 
