@@ -35,18 +35,18 @@ def find_dafny_unstable(ts):
     er.log_line(f"[INFO] found potential unstable dafny path: {real_path}")
 
 def compare_all_modes_small(ts):
-    exp_root = f"ah_8"
+    exp_root = f"ah_6"
 
     params = {
         "steps_total": 1,
         "keep_every": 1,
-        "expr_max_depth": 8,
+        "expr_max_depth": 6,
         "expr_num": 10,
         "modes": [StepMode.INST.value, StepMode.AUTO.value, StepMode.NLA.value, StepMode.FREE.value],
         "mutant_num": 1,
         "related": False,
         "lang_timeout": 5000,
-        "smt_timeout": 120000,
+        "smt_timeout": 10000,
     }
 
     pa = EmitterParams(params, ts)

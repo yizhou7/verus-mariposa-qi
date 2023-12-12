@@ -175,18 +175,29 @@ class ExperimentRunner(ProjectEmitter):
             mode, qid = query_info[0], int(query_info[1])
             mapped[qid][mode] = query
         table = [["qid"] + sorted([m.value for m in self.params.modes])]
+        to_count = {m.value: 0 for m in self.params.modes}
         for qid in sorted(mapped):
             row = [qid]
             for m in sorted(mapped[qid]):
                 query = mapped[qid][m]
-                cmd = [
-                    Z3_BIN_PATH,
-                    f"{query}",
-                    f"-T:{self.params.get_smt_to_seconds()}",
-                ]
-                stdout, stderr, elapsed = run_command(cmd, self.params.get_smt_to_seconds() + 1)
-                self.log_line(f"[INFO] z3 {qid} {m} {elapsed} {query} {clean_newlines(stdout)}")
-                row.append(elapsed)
+
+                if to_count[m] >= 3:
+                    self.log_line(f"[INFO] encountered at least 3 timeouts in {m} {query}")
+                    self.log_line(f"[INFO] skipping {qid} {m} {query}")
+                    row.append(-1)
+                else:
+                    cmd = [
+                        Z3_BIN_PATH,
+                        f"{query}",
+                        f"-T:{self.params.get_smt_to_seconds()}",
+                    ]
+                    stdout, stderr, elapsed = run_command(cmd, self.params.get_smt_to_seconds() + 1)
+
+                    if elapsed > self.params.get_smt_to_seconds():
+                        to_count[m] += 1
+
+                    self.log_line(f"[INFO] z3 {qid} {m} {elapsed} {query} {clean_newlines(stdout)}")
+                    row.append(elapsed)
             table.append(row)
         self.log_line(f"[INFO] rerun summary {smt_dir}\n" + tabulate(table))
 
