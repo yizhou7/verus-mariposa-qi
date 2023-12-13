@@ -1,0 +1,142 @@
+[INFO] total number of rewrite steps: 1
+[INFO] keep every (steps): 1
+[INFO] max depth of expressions: 6
+[INFO] number of expressions: 10
+[INFO] lang timeout (seconds): 5
+[INFO] smt timeout (seconds): 10
+[INFO] solver path: ~/mariposa/solvers/z3-4.12.2
+[INFO] seed: 13606876099769543430
+[INFO] verus-tool auto 1 0.37
+[INFO] verus-tool auto 2 0.47
+[INFO] verus-tool auto 3 0.37
+[INFO] verus-tool auto 4 0.37
+[INFO] verus-tool auto 5 0.37
+[INFO] verus-tool auto 6 0.42
+[INFO] verus-tool auto 7 0.42
+[INFO] verus-tool auto 8 0.42
+[INFO] verus-tool auto 9 0.47
+[INFO] verus-tool inst 1 0.32
+[INFO] verus-tool inst 2 0.37
+[INFO] verus-tool inst 3 0.37
+[INFO] verus-tool inst 4 0.37
+[INFO] verus-tool inst 5 0.37
+[INFO] verus-tool inst 6 0.42
+[INFO] verus-tool inst 7 0.42
+[INFO] verus-tool inst 8 0.47
+[INFO] verus-tool inst 9 0.42
+[INFO] verus-tool nlarith 1 0.32
+[INFO] verus-tool nlarith 2 0.37
+[INFO] verus-tool nlarith 3 0.37
+[INFO] verus-tool nlarith 4 0.37
+[INFO] verus-tool nlarith 5 0.42
+[INFO] verus-tool nlarith 6 0.42
+[INFO] verus-tool nlarith 7 0.42
+[INFO] verus-tool nlarith 8 0.42
+[INFO] verus-tool nlarith 9 0.42
+[INFO] z3 1 auto 0.02 mariposa_data/6//13606876099769543430/nlqi_verus/log/auto_1.1.smt2 unsat 
+[INFO] z3 1 inst 0.02 mariposa_data/6//13606876099769543430/nlqi_verus/log/inst_1.1.smt2 unsat 
+[INFO] z3 1 nlarith 0.02 mariposa_data/6//13606876099769543430/nlqi_verus/log/nlarith_1.1.smt2 unsat 
+[INFO] z3 2 auto 0.17 mariposa_data/6//13606876099769543430/nlqi_verus/log/auto_2.1.smt2 unsat 
+[INFO] z3 2 inst 0.02 mariposa_data/6//13606876099769543430/nlqi_verus/log/inst_2.1.smt2 unsat 
+[INFO] z3 2 nlarith 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/nlarith_2.1.smt2 unsat 
+[INFO] z3 3 auto 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/auto_3.1.smt2 unsat 
+[INFO] z3 3 inst 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/inst_3.1.smt2 unsat 
+[INFO] z3 3 nlarith 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/nlarith_3.1.smt2 unsat 
+[INFO] z3 4 auto 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/auto_4.1.smt2 unsat 
+[INFO] z3 4 inst 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/inst_4.1.smt2 unsat 
+[INFO] z3 4 nlarith 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/nlarith_4.1.smt2 unsat 
+[INFO] z3 5 auto 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/auto_5.1.smt2 unsat 
+[INFO] z3 5 inst 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/inst_5.1.smt2 unsat 
+[INFO] z3 5 nlarith 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/nlarith_5.1.smt2 unsat 
+[INFO] z3 6 auto 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/auto_6.1.smt2 unsat 
+[INFO] z3 6 inst 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/inst_6.1.smt2 unsat 
+[INFO] z3 6 nlarith 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/nlarith_6.1.smt2 unsat 
+[INFO] z3 7 auto 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/auto_7.1.smt2 unsat 
+[INFO] z3 7 inst 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/inst_7.1.smt2 unsat 
+[INFO] z3 7 nlarith 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/nlarith_7.1.smt2 unsat 
+[INFO] z3 8 auto 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/auto_8.1.smt2 unsat 
+[INFO] z3 8 inst 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/inst_8.1.smt2 unsat 
+[INFO] z3 8 nlarith 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/nlarith_8.1.smt2 unsat 
+[INFO] z3 9 auto 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/auto_9.1.smt2 unsat 
+[INFO] z3 9 inst 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/inst_9.1.smt2 unsat 
+[INFO] z3 9 nlarith 0.03 mariposa_data/6//13606876099769543430/nlqi_verus/log/nlarith_9.1.smt2 unsat 
+[INFO] rerun summary mariposa_data/6//13606876099769543430/nlqi_verus/log
+---  ---------------  ---------------  ---------------
+qid  auto             inst             nlarith
+1    (0.02, 'unsat')  (0.02, 'unsat')  (0.02, 'unsat')
+2    (0.17, 'unsat')  (0.02, 'unsat')  (0.03, 'unsat')
+3    (0.03, 'unsat')  (0.03, 'unsat')  (0.03, 'unsat')
+4    (0.03, 'unsat')  (0.03, 'unsat')  (0.03, 'unsat')
+5    (0.03, 'unsat')  (0.03, 'unsat')  (0.03, 'unsat')
+6    (0.03, 'unsat')  (0.03, 'unsat')  (0.03, 'unsat')
+7    (0.03, 'unsat')  (0.03, 'unsat')  (0.03, 'unsat')
+8    (0.03, 'unsat')  (0.03, 'unsat')  (0.03, 'unsat')
+9    (0.03, 'unsat')  (0.03, 'unsat')  (0.03, 'unsat')
+---  ---------------  ---------------  ---------------
+[INFO] dafny-tool auto 1 1.52
+[INFO] dafny-tool auto 2 1.52
+[INFO] dafny-tool auto 3 1.52
+[INFO] dafny-tool auto 4 1.52
+[INFO] dafny-tool auto 5 1.52
+[INFO] dafny-tool auto 6 1.52
+[INFO] dafny-tool auto 7 1.57
+[INFO] dafny-tool auto 8 1.52
+[INFO] dafny-tool auto 9 1.57
+[INFO] dafny-tool inst 1 1.52
+[INFO] dafny-tool inst 2 1.52
+[INFO] dafny-tool inst 3 1.52
+[INFO] dafny-tool inst 4 1.52
+[INFO] dafny-tool inst 5 1.52
+[INFO] dafny-tool inst 6 1.52
+[INFO] dafny-tool inst 7 1.52
+[INFO] dafny-tool inst 8 1.52
+[INFO] dafny-tool inst 9 1.57
+[INFO] dafny-tool nlarith 1 1.47
+[INFO] dafny-tool nlarith 2 1.42
+[INFO] dafny-tool nlarith 3 1.47
+[INFO] dafny-tool nlarith 4 1.47
+[INFO] dafny-tool nlarith 5 1.47
+[INFO] dafny-tool nlarith 6 1.47
+[INFO] dafny-tool nlarith 7 1.47
+[INFO] dafny-tool nlarith 8 1.47
+[INFO] dafny-tool nlarith 9 1.52
+[INFO] z3 1 auto 0.02 mariposa_data/6//13606876099769543430/nlqi_dafny/log/auto_1.1.smt2 unsat 
+[INFO] z3 1 inst 0.02 mariposa_data/6//13606876099769543430/nlqi_dafny/log/inst_1.1.smt2 unsat 
+[INFO] z3 1 nlarith 0.02 mariposa_data/6//13606876099769543430/nlqi_dafny/log/nlarith_1.1.smt2 unsat 
+[INFO] z3 2 auto 0.03 mariposa_data/6//13606876099769543430/nlqi_dafny/log/auto_2.1.smt2 unsat 
+[INFO] z3 2 inst 0.02 mariposa_data/6//13606876099769543430/nlqi_dafny/log/inst_2.1.smt2 unsat 
+[INFO] z3 2 nlarith 0.02 mariposa_data/6//13606876099769543430/nlqi_dafny/log/nlarith_2.1.smt2 unsat 
+[INFO] z3 3 auto 0.03 mariposa_data/6//13606876099769543430/nlqi_dafny/log/auto_3.1.smt2 unsat 
+[INFO] z3 3 inst 0.02 mariposa_data/6//13606876099769543430/nlqi_dafny/log/inst_3.1.smt2 unsat 
+[INFO] z3 3 nlarith 0.02 mariposa_data/6//13606876099769543430/nlqi_dafny/log/nlarith_3.1.smt2 unsat 
+[INFO] z3 4 auto 0.03 mariposa_data/6//13606876099769543430/nlqi_dafny/log/auto_4.1.smt2 unsat 
+[INFO] z3 4 inst 0.02 mariposa_data/6//13606876099769543430/nlqi_dafny/log/inst_4.1.smt2 unsat 
+[INFO] z3 4 nlarith 0.02 mariposa_data/6//13606876099769543430/nlqi_dafny/log/nlarith_4.1.smt2 unsat 
+[INFO] z3 5 auto 0.03 mariposa_data/6//13606876099769543430/nlqi_dafny/log/auto_5.1.smt2 unsat 
+[INFO] z3 5 inst 0.02 mariposa_data/6//13606876099769543430/nlqi_dafny/log/inst_5.1.smt2 unsat 
+[INFO] z3 5 nlarith 0.03 mariposa_data/6//13606876099769543430/nlqi_dafny/log/nlarith_5.1.smt2 unsat 
+[INFO] z3 6 auto 0.03 mariposa_data/6//13606876099769543430/nlqi_dafny/log/auto_6.1.smt2 unsat 
+[INFO] z3 6 inst 0.03 mariposa_data/6//13606876099769543430/nlqi_dafny/log/inst_6.1.smt2 unsat 
+[INFO] z3 6 nlarith 0.03 mariposa_data/6//13606876099769543430/nlqi_dafny/log/nlarith_6.1.smt2 unsat 
+[INFO] z3 7 auto 0.03 mariposa_data/6//13606876099769543430/nlqi_dafny/log/auto_7.1.smt2 unsat 
+[INFO] z3 7 inst 0.03 mariposa_data/6//13606876099769543430/nlqi_dafny/log/inst_7.1.smt2 unsat 
+[INFO] z3 7 nlarith 0.03 mariposa_data/6//13606876099769543430/nlqi_dafny/log/nlarith_7.1.smt2 unsat 
+[INFO] z3 8 auto 0.03 mariposa_data/6//13606876099769543430/nlqi_dafny/log/auto_8.1.smt2 unsat 
+[INFO] z3 8 inst 0.03 mariposa_data/6//13606876099769543430/nlqi_dafny/log/inst_8.1.smt2 unsat 
+[INFO] z3 8 nlarith 0.03 mariposa_data/6//13606876099769543430/nlqi_dafny/log/nlarith_8.1.smt2 unsat 
+[INFO] z3 9 auto 0.03 mariposa_data/6//13606876099769543430/nlqi_dafny/log/auto_9.1.smt2 unsat 
+[INFO] z3 9 inst 0.03 mariposa_data/6//13606876099769543430/nlqi_dafny/log/inst_9.1.smt2 unsat 
+[INFO] z3 9 nlarith 0.03 mariposa_data/6//13606876099769543430/nlqi_dafny/log/nlarith_9.1.smt2 unsat 
+[INFO] rerun summary mariposa_data/6//13606876099769543430/nlqi_dafny/log
+---  ---------------  ---------------  ---------------
+qid  auto             inst             nlarith
+1    (0.02, 'unsat')  (0.02, 'unsat')  (0.02, 'unsat')
+2    (0.03, 'unsat')  (0.02, 'unsat')  (0.02, 'unsat')
+3    (0.03, 'unsat')  (0.02, 'unsat')  (0.02, 'unsat')
+4    (0.03, 'unsat')  (0.02, 'unsat')  (0.02, 'unsat')
+5    (0.03, 'unsat')  (0.02, 'unsat')  (0.03, 'unsat')
+6    (0.03, 'unsat')  (0.03, 'unsat')  (0.03, 'unsat')
+7    (0.03, 'unsat')  (0.03, 'unsat')  (0.03, 'unsat')
+8    (0.03, 'unsat')  (0.03, 'unsat')  (0.03, 'unsat')
+9    (0.03, 'unsat')  (0.03, 'unsat')  (0.03, 'unsat')
+---  ---------------  ---------------  ---------------
