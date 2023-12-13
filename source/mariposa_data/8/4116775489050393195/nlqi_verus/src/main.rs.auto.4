@@ -1,0 +1,87 @@
+use builtin_macros::*;
+use builtin::*;
+mod nl_basics;
+use crate::nl_basics::*;
+verus! {
+
+pub proof fn auto_0(a0: int, b0: int, c0: int, d0: int,
+a1: int, b1: int, c1: int, d1: int,
+a2: int, b2: int, c2: int, d2: int,
+a3: int, b3: int, c3: int, d3: int,
+a4: int, b4: int, c4: int, d4: int,
+a5: int, b5: int, c5: int, d5: int,
+a6: int, b6: int, c6: int, d6: int,
+a7: int, b7: int, c7: int, d7: int,
+a8: int, b8: int, c8: int, d8: int,
+a9: int, b9: int, c9: int, d9: int,
+a10: int, b10: int, c10: int, d10: int,
+a11: int, b11: int, c11: int, d11: int,
+a12: int, b12: int, c12: int, d12: int,
+a13: int, b13: int, c13: int, d13: int,
+a14: int, b14: int, c14: int, d14: int,
+a15: int, b15: int, c15: int, d15: int,
+a16: int, b16: int, c16: int, d16: int,
+a17: int, b17: int, c17: int, d17: int,
+a18: int, b18: int, c18: int, d18: int,
+a19: int, b19: int, c19: int, d19: int,
+a20: int, b20: int, c20: int, d20: int,
+a21: int, b21: int, c21: int, d21: int,
+a22: int, b22: int, c22: int, d22: int,
+a23: int, b23: int, c23: int, d23: int,
+a24: int, b24: int, c24: int, d24: int,
+a25: int, b25: int, c25: int, d25: int,
+a26: int, b26: int, c26: int, d26: int,
+a27: int, b27: int, c27: int, d27: int,
+a28: int, b28: int, c28: int, d28: int,
+a29: int, b29: int, c29: int, d29: int,
+a30: int, b30: int, c30: int, d30: int,
+a31: int, b31: int, c31: int, d31: int,
+a32: int, b32: int, c32: int, d32: int,
+a33: int, b33: int, c33: int, d33: int,
+a34: int, b34: int, c34: int, d34: int,
+a35: int, b35: int, c35: int, d35: int,
+a36: int, b36: int, c36: int, d36: int,
+a37: int, b37: int, c37: int, d37: int,
+a38: int, b38: int, c38: int, d38: int,
+a39: int, b39: int, c39: int, d39: int,
+a40: int, b40: int, c40: int, d40: int,
+a41: int, b41: int, c41: int, d41: int,
+a42: int, b42: int, c42: int, d42: int,
+a43: int, b43: int, c43: int, d43: int,
+a44: int, b44: int, c44: int, d44: int,
+a45: int, b45: int, c45: int, d45: int,
+a46: int, b46: int, c46: int, d46: int,
+a47: int, b47: int, c47: int, d47: int,
+a48: int, b48: int, c48: int, d48: int,
+a49: int, b49: int, c49: int, d49: int,
+a50: int, b50: int, c50: int, d50: int,
+a51: int, b51: int, c51: int, d51: int,
+a52: int, b52: int, c52: int, d52: int,
+a53: int, b53: int, c53: int, d53: int,
+a54: int, b54: int, c54: int, d54: int,
+a55: int, b55: int, c55: int, d55: int,
+a56: int, b56: int, c56: int, d56: int,
+a57: int, b57: int, c57: int, d57: int,
+a58: int, b58: int, c58: int, d58: int,
+a59: int, b59: int, c59: int, d59: int)
+{
+	let temp_0_0 = ((((((((a0*c0)*(b0*b0))*((c0-b0)*(c0*d0)))*(((a0*b0)*a0)*((2 as int)*(a0+b0))))*b0)*(((((c0*a0)*a0)*((b0*b0)-c0))*(((d0-b0)*(b0*b0))+(65 as int)))+((((a0-a0)*(c0*b0))*((b0*b0)*(c0*a0)))*((b0*(d0*d0))*((a0*d0)*b0)))))*(((d0*(((d0*a0)*(d0+a0))*(((12 as int)*c0)*(b0*b0))))*(((d0*(d0*a0))-(b0*(d0*b0)))*(((b0+c0)*(b0*d0))*((d0*(0 as int))-(b0*b0)))))*(((((d0-c0)*(a0+b0))*((a0*a0)-(d0*b0)))*(((a0*c0)*(b0*a0))*b0))*((d0+d0)*(a0*((c0*c0)*(c0+d0)))))))*(b0*((((((b0*c0)*b0)*((a0*a0)-(a0*d0)))+(((b0*c0)*(b0-c0))*(d0*(d0*a0))))*((((d0*d0)*(c0*c0))*((b0*c0)-b0))*(((b0*b0)*(d0*d0))*b0)))*c0)));
+	let temp_0_1 = ((((((((a0*c0)*(b0*b0))*((c0-b0)*(c0*d0)))*(((a0*b0)*a0)*((a0+b0)*(2 as int))))*b0)*(((((c0*a0)*a0)*((b0*b0)-c0))*(((d0-b0)*(b0*b0))+(65 as int)))+((((a0-a0)*(c0*b0))*((b0*b0)*(c0*a0)))*((b0*(d0*d0))*((a0*d0)*b0)))))*(((d0*(((d0*a0)*(d0+a0))*(((12 as int)*c0)*(b0*b0))))*(((d0*(d0*a0))-(b0*(d0*b0)))*(((b0+c0)*(b0*d0))*((d0*(0 as int))-(b0*b0)))))*(((((d0-c0)*(a0+b0))*((a0*a0)-(d0*b0)))*(((a0*c0)*(b0*a0))*b0))*((d0+d0)*(a0*((c0*c0)*(c0+d0)))))))*(b0*((((((b0*c0)*b0)*((a0*a0)-(a0*d0)))+(((b0*c0)*(b0-c0))*(d0*(d0*a0))))*((((d0*d0)*(c0*c0))*((b0*c0)-b0))*(((b0*b0)*(d0*d0))*b0)))*c0)));
+	assert(temp_0_0 == temp_0_1) by 
+			{lemma_mul_properties_auto_1();}// 1
+	let temp_1_0 = (((((c1*(((c1*d1)+(b1*c1))*b1))*((((b1*b1)*(a1+d1))*(d1*(c1*a1)))*(((a1*d1)*(c1-c1))*((c1+a1)*d1))))*(((c1*((b1*a1)*(d1*c1)))*(d1*((d1*a1)*(b1*d1))))*((((b1+b1)*(c1*d1))*((a1*c1)+(b1*d1)))*(((a1+a1)+((78 as int)*c1))+((b1*b1)*(a1*b1))))))*(((b1*(((a1*a1)*(a1-b1))+(a1*(c1*c1))))*c1)*((b1*c1)+(d1*(b1*((b1-d1)*a1))))))-((((d1+((a1*d1)*((c1*a1)*(b1*c1))))+(((b1*(c1*d1))*(b1*(b1+d1)))*(d1*((d1*d1)*(d1*c1)))))*(((((a1*c1)*(a1*c1))*((b1*a1)-b1))*(((c1*b1)*a1)*((a1-a1)*(c1*c1))))+((((a1*a1)*(a1*c1))*((b1*c1)*c1))-(((b1*d1)*(b1*a1))-((a1-a1)-(b1+b1))))))*((((((a1*b1)+(c1*a1))*(d1*(a1*d1)))-(((c1*d1)*(a1*b1))*a1))+((((a1*d1)*a1)*(((22 as int)*b1)-(a1*a1)))*(((b1*c1)+(c1-c1))*((c1*b1)*(a1*b1)))))*((((a1-a1)*((c1-c1)*(b1*c1)))*(((b1+d1)-c1)*b1))*(a1*(((d1*b1)*c1)*(b1*(b1*a1))))))));
+	let temp_1_1 = (((((c1*(((c1*d1)+(b1*c1))*b1))*((((b1*b1)*(a1+d1))*(d1*(c1*a1)))*(((d1*a1)*(c1-c1))*((c1+a1)*d1))))*(((c1*((b1*a1)*(d1*c1)))*(d1*((d1*a1)*(b1*d1))))*((((b1+b1)*(c1*d1))*((a1*c1)+(b1*d1)))*(((a1+a1)+((78 as int)*c1))+((b1*b1)*(a1*b1))))))*(((b1*(((a1*a1)*(a1-b1))+(a1*(c1*c1))))*c1)*((b1*c1)+(d1*(b1*((b1-d1)*a1))))))-((((d1+((a1*d1)*((c1*a1)*(b1*c1))))+(((b1*(c1*d1))*(b1*(b1+d1)))*(d1*((d1*d1)*(d1*c1)))))*(((((a1*c1)*(a1*c1))*((b1*a1)-b1))*(((c1*b1)*a1)*((a1-a1)*(c1*c1))))+((((a1*a1)*(a1*c1))*((b1*c1)*c1))-(((b1*d1)*(b1*a1))-((a1-a1)-(b1+b1))))))*((((((a1*b1)+(c1*a1))*(d1*(a1*d1)))-(((c1*d1)*(a1*b1))*a1))+((((a1*d1)*a1)*(((22 as int)*b1)-(a1*a1)))*(((b1*c1)+(c1-c1))*((c1*b1)*(a1*b1)))))*((((a1-a1)*((c1-c1)*(b1*c1)))*(((b1+d1)-c1)*b1))*(a1*(((d1*b1)*c1)*(b1*(b1*a1))))))));
+	assert(temp_1_0 == temp_1_1) by 
+			{lemma_mul_properties_auto_1();}// 1
+	let temp_2_0 = ((((((c2*b2)+(((b2*b2)*(d2*a2))*((a2*d2)*(c2-c2))))-((((b2*c2)*(c2*d2))-((b2*d2)*(b2*a2)))*(c2*((b2*a2)*(c2*c2)))))*(((((c2*d2)*(c2*a2))*b2)*(((c2-a2)*(d2*b2))*((c2*c2)*(c2*b2))))*b2))*((((((b2*a2)-(a2-a2))*a2)-((d2*(a2*b2))*((d2*a2)*(d2*a2))))*(((b2*(b2*d2))+(a2*(c2*(38 as int))))*(((b2+b2)*(c2*b2))+((a2*d2)-((8 as int)*d2)))))*((b2*(((b2-(44 as int))+(a2*d2))*((c2*d2)*(a2*a2))))*((((b2-a2)*(b2*b2))*(d2*(b2*a2)))*(c2+((a2*a2)*(b2*b2)))))))+(((((d2-(a2*(a2*d2)))*(((d2-b2)*(a2*d2))*((d2*a2)*(c2*c2))))*((((b2+d2)*b2)*((a2*b2)*d2))*((c2*c2)+((a2+b2)*(d2*c2)))))*(d2*((((c2+a2)*(a2*c2))*(((58 as int)+c2)*(c2*b2)))*(((b2*b2)*(b2*a2))*a2))))*(((a2*(((a2*d2)*(d2*b2))*((c2*b2)*(b2*c2))))+((((c2*c2)*(c2*d2))*((b2*d2)*(a2*b2)))*(((d2-b2)*c2)*((a2*c2)*c2))))+a2)));
+	let temp_2_1 = ((((((c2*b2)+(((b2*b2)*(d2*a2))*((a2*d2)*(c2-c2))))-((((b2*c2)*(c2*d2))-((b2*d2)*(b2*a2)))*(c2*((b2*a2)*(c2*c2)))))*(((((c2*d2)*(c2*a2))*b2)*(((c2-a2)*(d2*b2))*((c2*c2)*(c2*b2))))*b2))*((((((b2*a2)-(a2-a2))*a2)-((d2*(a2*b2))*((d2*a2)*(d2*a2))))*(((b2*(b2*d2))+(a2*(c2*(38 as int))))*(((b2+b2)*(c2*b2))+((a2*d2)-((8 as int)*d2)))))*((b2*(((b2-(44 as int))+(a2*d2))*((c2*d2)*(a2*a2))))*((((b2-a2)*(b2*b2))*(d2*(b2*a2)))*(c2+((a2*a2)*(b2*b2)))))))+(((((d2-(a2*(a2*d2)))*(((d2-b2)*(a2*d2))*((d2*a2)*(c2*c2))))*((((b2+d2)*b2)*((a2*b2)*d2))*((c2*c2)+((a2+b2)*(d2*c2)))))*(d2*((((c2+a2)*(a2*c2))*(((58 as int)+c2)*(c2*b2)))*(((b2*b2)*(b2*a2))*a2))))*(((a2*(((d2*b2)*(a2*d2))*((c2*b2)*(b2*c2))))+((((c2*c2)*(c2*d2))*((b2*d2)*(a2*b2)))*(((d2-b2)*c2)*((a2*c2)*c2))))+a2)));
+	assert(temp_2_0 == temp_2_1) by 
+			{lemma_mul_properties_auto_1();}// 1
+	let temp_3_0 = ((((((((a3+c3)*c3)*((b3*b3)*d3))*(d3*c3))-((((a3*b3)*(b3+b3))*(d3*(c3*c3)))-d3))*(((((b3*a3)*a3)*((d3*a3)*(c3-c3)))*(((c3*c3)*(d3*c3))*((c3*d3)*(c3*c3))))*((((a3*d3)*(b3*a3))*((d3*d3)*d3))*a3)))*((((((b3*c3)+a3)*((d3*d3)*(b3-d3)))*((d3*(d3*d3))*a3))*((((a3-b3)*b3)-((a3*d3)*b3))+(d3*((b3*d3)*(a3*d3)))))*(((d3*((b3+c3)-(d3-b3)))+(((b3*b3)*(c3*d3))*(b3+(b3-b3))))*((((b3*b3)*a3)*c3)*((d3+(a3*d3))*((d3*c3)*b3))))))*(((((((c3*b3)*(a3*a3))-c3)*(((c3*c3)-(d3*(6 as int)))*(c3-(c3*b3))))*((d3*((c3*d3)*(a3*a3)))*(((a3*d3)*a3)*((c3*a3)*(a3*c3)))))*d3)*((((((c3*a3)*(c3-a3))*((d3-c3)*(c3*c3)))*(((b3+a3)*(c3*c3))*((b3*c3)*(d3*a3))))*((((d3*b3)*(d3*d3))*((a3*a3)*(c3*c3)))*(((a3*b3)*(d3*d3))*((b3*b3)*(a3*d3)))))*((a3*(c3*((d3*a3)*(b3*d3))))+(a3+(((d3*b3)*(d3*d3))*d3))))));
+	let temp_3_1 = ((((((((a3+c3)*c3)*((b3*b3)*d3))*(d3*c3))-((((a3*b3)*(b3+b3))*(d3*(c3*c3)))-d3))*(((((b3*a3)*a3)*((d3*a3)*(c3-c3)))*(((c3*c3)*(d3*c3))*((c3*d3)*(c3*c3))))*((((a3*d3)*(b3*a3))*((d3*d3)*d3))*a3)))*((((((b3*c3)+a3)*((d3*d3)*(b3-d3)))*((d3*(d3*d3))*a3))*((((a3-b3)*b3)-((a3*d3)*b3))+(d3*((b3*d3)*(d3*a3)))))*(((d3*((b3+c3)-(d3-b3)))+(((b3*b3)*(c3*d3))*(b3+(b3-b3))))*((((b3*b3)*a3)*c3)*((d3+(a3*d3))*((d3*c3)*b3))))))*(((((((c3*b3)*(a3*a3))-c3)*(((c3*c3)-(d3*(6 as int)))*(c3-(c3*b3))))*((d3*((c3*d3)*(a3*a3)))*(((a3*d3)*a3)*((c3*a3)*(a3*c3)))))*d3)*((((((c3*a3)*(c3-a3))*((d3-c3)*(c3*c3)))*(((b3+a3)*(c3*c3))*((b3*c3)*(d3*a3))))*((((d3*b3)*(d3*d3))*((a3*a3)*(c3*c3)))*(((a3*b3)*(d3*d3))*((b3*b3)*(a3*d3)))))*((a3*(c3*((d3*a3)*(b3*d3))))+(a3+(((d3*b3)*(d3*d3))*d3))))));
+	assert(temp_3_0 == temp_3_1) by 
+			{lemma_mul_properties_auto_1();}// 1
+
+}
+
+} // verus!

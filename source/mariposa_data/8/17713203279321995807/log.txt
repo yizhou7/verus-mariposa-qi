@@ -1,0 +1,744 @@
+[INFO] total number of rewrite steps: 1
+[INFO] keep every (steps): 1
+[INFO] max depth of expressions: 8
+[INFO] number of expressions: 60
+[INFO] lang timeout (seconds): 5
+[INFO] smt timeout (seconds): 120
+[INFO] solver path: ~/mariposa/solvers/z3-4.12.2
+[INFO] seed: 17713203279321995807
+[INFO] verus-tool auto 1 0.37
+[INFO] verus-tool auto 2 1.12
+[INFO] verus-tool auto 3 0.47
+[INFO] verus-tool auto 4 0.52
+[INFO] verus-tool auto 5 0.52
+[INFO] verus-tool auto 6 0.57
+[INFO] verus-tool auto 7 0.57
+[INFO] verus-tool auto 8 0.67
+[INFO] verus-tool auto 9 0.72
+[INFO] verus-tool auto 10 0.77
+[INFO] verus-tool auto 11 0.92
+[INFO] verus-tool auto 12 1.02
+[INFO] verus-tool auto 13 1.17
+[INFO] verus-tool auto 14 1.32
+[INFO] verus-tool auto 15 1.47
+[INFO] verus-tool auto 16 1.72
+[INFO] verus-tool auto 17 1.92
+[INFO] verus-tool auto 18 2.17
+[INFO] verus-tool auto 19 2.42
+[INFO] verus-tool auto 20 2.77
+[INFO] verus-tool auto 21 3.37
+[INFO] verus-tool auto 22 3.77
+[INFO] verus-tool auto 23 4.27
+[INFO] verus-tool auto 24 4.92
+[INFO] verus-tool auto 25 5.83
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  error: function body check: Resource limit (rlimit) exceeded; consider rerunning with --profile for more details   --> mariposa_data/8//17713203279321995807/nlqi_verus/src/main.rs:7:1    | 7  | / pub proof fn auto_0(a0: int, b0: int, c0: int, d0: int, 8  | | a1: int, b1: int, c1: int, d1: int, 9  | | a2: int, b2: int, c2: int, d2: int, 10 | | a3: int, b3: int, c3: int, d3: int, ...  | 65 | | a58: int, b58: int, c58: int, d58: int, 66 | | a59: int, b59: int, c59: int, d59: int)    | |_______________________________________^  
+[INFO] verus-tool auto 26 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  error: function body check: Resource limit (rlimit) exceeded; consider rerunning with --profile for more details   --> mariposa_data/8//17713203279321995807/nlqi_verus/src/main.rs:7:1    | 7  | / pub proof fn auto_0(a0: int, b0: int, c0: int, d0: int, 8  | | a1: int, b1: int, c1: int, d1: int, 9  | | a2: int, b2: int, c2: int, d2: int, 10 | | a3: int, b3: int, c3: int, d3: int, ...  | 65 | | a58: int, b58: int, c58: int, d58: int, 66 | | a59: int, b59: int, c59: int, d59: int)    | |_______________________________________^  
+[INFO] verus-tool auto 27 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 28 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 29 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 30 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 31 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 32 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 33 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 34 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 35 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 36 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 37 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 38 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 39 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 40 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 41 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 42 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 43 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 44 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 45 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 46 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 47 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 48 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 49 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 50 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 51 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 52 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 53 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 54 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 55 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 56 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 57 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 58 6.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 59 6.0
+[INFO] verus-tool inst 1 0.37
+[INFO] verus-tool inst 2 0.42
+[INFO] verus-tool inst 3 0.47
+[INFO] verus-tool inst 4 0.47
+[INFO] verus-tool inst 5 0.52
+[INFO] verus-tool inst 6 0.57
+[INFO] verus-tool inst 7 0.57
+[INFO] verus-tool inst 8 0.62
+[INFO] verus-tool inst 9 0.67
+[INFO] verus-tool inst 10 0.72
+[INFO] verus-tool inst 11 0.77
+[INFO] verus-tool inst 12 0.82
+[INFO] verus-tool inst 13 0.87
+[INFO] verus-tool inst 14 0.92
+[INFO] verus-tool inst 15 0.97
+[INFO] verus-tool inst 16 1.02
+[INFO] verus-tool inst 17 1.07
+[INFO] verus-tool inst 18 1.12
+[INFO] verus-tool inst 19 1.17
+[INFO] verus-tool inst 20 1.27
+[INFO] verus-tool inst 21 1.32
+[INFO] verus-tool inst 22 1.37
+[INFO] verus-tool inst 23 1.42
+[INFO] verus-tool inst 24 1.52
+[INFO] verus-tool inst 25 1.57
+[INFO] verus-tool inst 26 1.72
+[INFO] verus-tool inst 27 1.72
+[INFO] verus-tool inst 28 1.77
+[INFO] verus-tool inst 29 1.82
+[INFO] verus-tool inst 30 1.92
+[INFO] verus-tool inst 31 1.97
+[INFO] verus-tool inst 32 2.07
+[INFO] verus-tool inst 33 2.12
+[INFO] verus-tool inst 34 2.22
+[INFO] verus-tool inst 35 2.27
+[INFO] verus-tool inst 36 2.37
+[INFO] verus-tool inst 37 2.42
+[INFO] verus-tool inst 38 2.52
+[INFO] verus-tool inst 39 2.62
+[INFO] verus-tool inst 40 2.67
+[INFO] verus-tool inst 41 2.77
+[INFO] verus-tool inst 42 2.82
+[INFO] verus-tool inst 43 2.97
+[INFO] verus-tool inst 44 3.02
+[INFO] verus-tool inst 45 3.17
+[INFO] verus-tool inst 46 3.22
+[INFO] verus-tool inst 47 3.37
+[INFO] verus-tool inst 48 3.47
+[INFO] verus-tool inst 49 3.57
+[INFO] verus-tool inst 50 3.72
+[INFO] verus-tool inst 51 3.82
+[INFO] verus-tool inst 52 3.97
+[INFO] verus-tool inst 53 4.07
+[INFO] verus-tool inst 54 4.22
+[INFO] verus-tool inst 55 4.37
+[INFO] verus-tool inst 56 4.52
+[INFO] verus-tool inst 57 4.62
+[INFO] verus-tool inst 58 4.72
+[INFO] verus-tool inst 59 4.97
+[INFO] z3 1 auto 0.03 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_1.1.smt2 unsat 
+[INFO] z3 1 inst 0.03 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_1.1.smt2 unsat 
+[INFO] z3 2 auto 0.77 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_2.1.smt2 unsat 
+[INFO] z3 2 inst 0.03 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_2.1.smt2 unsat 
+[INFO] z3 3 auto 0.03 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_3.1.smt2 unsat 
+[INFO] z3 3 inst 0.03 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_3.1.smt2 unsat 
+[INFO] z3 4 auto 0.07 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_4.1.smt2 unsat 
+[INFO] z3 4 inst 0.03 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_4.1.smt2 unsat 
+[INFO] z3 5 auto 0.07 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_5.1.smt2 unsat 
+[INFO] z3 5 inst 0.03 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_5.1.smt2 unsat 
+[INFO] z3 6 auto 0.07 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_6.1.smt2 unsat 
+[INFO] z3 6 inst 0.03 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_6.1.smt2 unsat 
+[INFO] z3 7 auto 0.12 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_7.1.smt2 unsat 
+[INFO] z3 7 inst 0.07 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_7.1.smt2 unsat 
+[INFO] z3 8 auto 0.12 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_8.1.smt2 unsat 
+[INFO] z3 8 inst 0.07 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_8.1.smt2 unsat 
+[INFO] z3 9 auto 0.12 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_9.1.smt2 unsat 
+[INFO] z3 9 inst 0.07 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_9.1.smt2 unsat 
+[INFO] z3 10 auto 0.17 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_10.1.smt2 unsat 
+[INFO] z3 10 inst 0.07 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_10.1.smt2 unsat 
+[INFO] z3 11 auto 0.27 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_11.1.smt2 unsat 
+[INFO] z3 11 inst 0.07 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_11.1.smt2 unsat 
+[INFO] z3 12 auto 0.32 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_12.1.smt2 unsat 
+[INFO] z3 12 inst 0.12 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_12.1.smt2 unsat 
+[INFO] z3 13 auto 0.42 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_13.1.smt2 unsat 
+[INFO] z3 13 inst 0.12 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_13.1.smt2 unsat 
+[INFO] z3 14 auto 0.52 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_14.1.smt2 unsat 
+[INFO] z3 14 inst 0.12 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_14.1.smt2 unsat 
+[INFO] z3 15 auto 0.67 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_15.1.smt2 unsat 
+[INFO] z3 15 inst 0.12 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_15.1.smt2 unsat 
+[INFO] z3 16 auto 0.87 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_16.1.smt2 unsat 
+[INFO] z3 16 inst 0.17 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_16.1.smt2 unsat 
+[INFO] z3 17 auto 1.07 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_17.1.smt2 unsat 
+[INFO] z3 17 inst 0.17 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_17.1.smt2 unsat 
+[INFO] z3 18 auto 1.27 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_18.1.smt2 unsat 
+[INFO] z3 18 inst 0.17 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_18.1.smt2 unsat 
+[INFO] z3 19 auto 1.47 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_19.1.smt2 unsat 
+[INFO] z3 19 inst 0.22 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_19.1.smt2 unsat 
+[INFO] z3 20 auto 1.82 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_20.1.smt2 unsat 
+[INFO] z3 20 inst 0.22 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_20.1.smt2 unsat 
+[INFO] z3 21 auto 2.37 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_21.1.smt2 unsat 
+[INFO] z3 21 inst 0.27 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_21.1.smt2 unsat 
+[INFO] z3 22 auto 2.87 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_22.1.smt2 unsat 
+[INFO] z3 22 inst 0.27 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_22.1.smt2 unsat 
+[INFO] z3 23 auto 3.27 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_23.1.smt2 unsat 
+[INFO] z3 23 inst 0.32 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_23.1.smt2 unsat 
+[INFO] z3 24 auto 3.92 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_24.1.smt2 unsat 
+[INFO] z3 24 inst 0.32 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_24.1.smt2 unsat 
+[INFO] z3 25 auto 4.97 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_25.1.smt2 unsat 
+[INFO] z3 25 inst 0.37 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_25.1.smt2 unsat 
+[INFO] z3 26 auto 5.58 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_26.1.smt2 unsat 
+[INFO] z3 26 inst 0.42 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_26.1.smt2 unsat 
+[INFO] z3 27 auto 6.43 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_27.1.smt2 unsat 
+[INFO] z3 27 inst 0.42 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_27.1.smt2 unsat 
+[INFO] z3 28 auto 7.58 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_28.1.smt2 unsat 
+[INFO] z3 28 inst 0.47 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_28.1.smt2 unsat 
+[INFO] z3 29 auto 8.78 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_29.1.smt2 unsat 
+[INFO] z3 29 inst 0.47 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_29.1.smt2 unsat 
+[INFO] z3 30 auto 10.33 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_30.1.smt2 unsat 
+[INFO] z3 30 inst 0.52 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_30.1.smt2 unsat 
+[INFO] z3 31 auto 12.09 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_31.1.smt2 unsat 
+[INFO] z3 31 inst 0.57 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_31.1.smt2 unsat 
+[INFO] z3 32 auto 13.89 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_32.1.smt2 unsat 
+[INFO] z3 32 inst 0.62 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_32.1.smt2 unsat 
+[INFO] z3 33 auto 16.65 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_33.1.smt2 unsat 
+[INFO] z3 33 inst 0.67 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_33.1.smt2 unsat 
+[INFO] z3 34 auto 18.45 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_34.1.smt2 unsat 
+[INFO] z3 34 inst 0.72 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_34.1.smt2 unsat 
+[INFO] z3 35 auto 21.55 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_35.1.smt2 unsat 
+[INFO] z3 35 inst 0.77 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_35.1.smt2 unsat 
+[INFO] z3 36 auto 23.66 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_36.1.smt2 unsat 
+[INFO] z3 36 inst 0.77 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_36.1.smt2 unsat 
+[INFO] z3 37 auto 26.97 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_37.1.smt2 unsat 
+[INFO] z3 37 inst 0.82 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_37.1.smt2 unsat 
+[INFO] z3 38 auto 30.28 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_38.1.smt2 unsat 
+[INFO] z3 38 inst 0.92 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_38.1.smt2 unsat 
+[INFO] z3 39 auto 34.58 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_39.1.smt2 unsat 
+[INFO] z3 39 inst 0.97 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_39.1.smt2 unsat 
+[INFO] z3 40 auto 39.29 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_40.1.smt2 unsat 
+[INFO] z3 40 inst 1.02 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_40.1.smt2 unsat 
+[INFO] z3 41 auto 44.35 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_41.1.smt2 unsat 
+[INFO] z3 41 inst 1.02 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_41.1.smt2 unsat 
+[INFO] z3 42 auto 48.66 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_42.1.smt2 unsat 
+[INFO] z3 42 inst 1.12 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_42.1.smt2 unsat 
+[INFO] z3 43 auto 54.27 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_43.1.smt2 unsat 
+[INFO] z3 43 inst 1.17 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_43.1.smt2 unsat 
+[INFO] z3 44 auto 60.14 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_44.1.smt2 unsat 
+[INFO] z3 44 inst 1.22 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_44.1.smt2 unsat 
+[INFO] z3 45 auto 67.75 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_45.1.smt2 unsat 
+[INFO] z3 45 inst 1.32 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_45.1.smt2 unsat 
+[INFO] z3 46 auto 78.18 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_46.1.smt2 unsat 
+[INFO] z3 46 inst 1.37 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_46.1.smt2 unsat 
+[INFO] z3 47 auto 90.05 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_47.1.smt2 unsat 
+[INFO] z3 47 inst 1.42 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_47.1.smt2 unsat 
+[INFO] z3 48 auto 103.08 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_48.1.smt2 unsat 
+[INFO] z3 48 inst 1.47 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_48.1.smt2 unsat 
+[INFO] z3 49 auto 116.85 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_49.1.smt2 unsat 
+[INFO] z3 49 inst 1.57 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_49.1.smt2 unsat 
+[INFO] z3 50 auto 120.06 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_50.1.smt2 timeout 
+[INFO] z3 50 inst 1.62 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_50.1.smt2 unsat 
+[INFO] z3 51 auto 120.06 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_51.1.smt2 timeout 
+[INFO] z3 51 inst 1.72 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_51.1.smt2 unsat 
+[INFO] z3 52 auto 120.06 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_52.1.smt2 timeout 
+[INFO] z3 52 inst 1.77 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_52.1.smt2 unsat 
+[INFO] z3 53 auto 120.02 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_53.1.smt2 timeout 
+[INFO] z3 53 inst 1.87 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_53.1.smt2 unsat 
+[INFO] z3 54 auto 120.12 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_54.1.smt2 timeout 
+[INFO] z3 54 inst 1.97 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_54.1.smt2 unsat 
+[INFO] z3 55 auto 120.12 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_55.1.smt2 timeout 
+[INFO] z3 55 inst 2.07 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_55.1.smt2 unsat 
+[INFO] z3 56 auto 120.12 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_56.1.smt2 timeout 
+[INFO] z3 56 inst 2.17 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_56.1.smt2 unsat 
+[INFO] z3 57 auto 120.12 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_57.1.smt2 timeout 
+[INFO] z3 57 inst 2.22 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_57.1.smt2 unsat 
+[INFO] z3 58 auto 120.12 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_58.1.smt2 timeout 
+[INFO] z3 58 inst 2.32 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_58.1.smt2 unsat 
+[INFO] z3 59 auto 120.12 mariposa_data/8//17713203279321995807/nlqi_verus/log/auto_59.1.smt2 timeout 
+[INFO] z3 59 inst 2.42 mariposa_data/8//17713203279321995807/nlqi_verus/log/inst_59.1.smt2 unsat 
+[INFO] rerun summary mariposa_data/8//17713203279321995807/nlqi_verus/log
+---  -------------------  ---------------
+qid  auto                 inst
+1    (0.03, 'unsat')      (0.03, 'unsat')
+2    (0.77, 'unsat')      (0.03, 'unsat')
+3    (0.03, 'unsat')      (0.03, 'unsat')
+4    (0.07, 'unsat')      (0.03, 'unsat')
+5    (0.07, 'unsat')      (0.03, 'unsat')
+6    (0.07, 'unsat')      (0.03, 'unsat')
+7    (0.12, 'unsat')      (0.07, 'unsat')
+8    (0.12, 'unsat')      (0.07, 'unsat')
+9    (0.12, 'unsat')      (0.07, 'unsat')
+10   (0.17, 'unsat')      (0.07, 'unsat')
+11   (0.27, 'unsat')      (0.07, 'unsat')
+12   (0.32, 'unsat')      (0.12, 'unsat')
+13   (0.42, 'unsat')      (0.12, 'unsat')
+14   (0.52, 'unsat')      (0.12, 'unsat')
+15   (0.67, 'unsat')      (0.12, 'unsat')
+16   (0.87, 'unsat')      (0.17, 'unsat')
+17   (1.07, 'unsat')      (0.17, 'unsat')
+18   (1.27, 'unsat')      (0.17, 'unsat')
+19   (1.47, 'unsat')      (0.22, 'unsat')
+20   (1.82, 'unsat')      (0.22, 'unsat')
+21   (2.37, 'unsat')      (0.27, 'unsat')
+22   (2.87, 'unsat')      (0.27, 'unsat')
+23   (3.27, 'unsat')      (0.32, 'unsat')
+24   (3.92, 'unsat')      (0.32, 'unsat')
+25   (4.97, 'unsat')      (0.37, 'unsat')
+26   (5.58, 'unsat')      (0.42, 'unsat')
+27   (6.43, 'unsat')      (0.42, 'unsat')
+28   (7.58, 'unsat')      (0.47, 'unsat')
+29   (8.78, 'unsat')      (0.47, 'unsat')
+30   (10.33, 'unsat')     (0.52, 'unsat')
+31   (12.09, 'unsat')     (0.57, 'unsat')
+32   (13.89, 'unsat')     (0.62, 'unsat')
+33   (16.65, 'unsat')     (0.67, 'unsat')
+34   (18.45, 'unsat')     (0.72, 'unsat')
+35   (21.55, 'unsat')     (0.77, 'unsat')
+36   (23.66, 'unsat')     (0.77, 'unsat')
+37   (26.97, 'unsat')     (0.82, 'unsat')
+38   (30.28, 'unsat')     (0.92, 'unsat')
+39   (34.58, 'unsat')     (0.97, 'unsat')
+40   (39.29, 'unsat')     (1.02, 'unsat')
+41   (44.35, 'unsat')     (1.02, 'unsat')
+42   (48.66, 'unsat')     (1.12, 'unsat')
+43   (54.27, 'unsat')     (1.17, 'unsat')
+44   (60.14, 'unsat')     (1.22, 'unsat')
+45   (67.75, 'unsat')     (1.32, 'unsat')
+46   (78.18, 'unsat')     (1.37, 'unsat')
+47   (90.05, 'unsat')     (1.42, 'unsat')
+48   (103.08, 'unsat')    (1.47, 'unsat')
+49   (116.85, 'unsat')    (1.57, 'unsat')
+50   (120.06, 'timeout')  (1.62, 'unsat')
+51   (120.06, 'timeout')  (1.72, 'unsat')
+52   (120.06, 'timeout')  (1.77, 'unsat')
+53   (120.02, 'timeout')  (1.87, 'unsat')
+54   (120.12, 'timeout')  (1.97, 'unsat')
+55   (120.12, 'timeout')  (2.07, 'unsat')
+56   (120.12, 'timeout')  (2.17, 'unsat')
+57   (120.12, 'timeout')  (2.22, 'unsat')
+58   (120.12, 'timeout')  (2.32, 'unsat')
+59   (120.12, 'timeout')  (2.42, 'unsat')
+---  -------------------  ---------------
+[INFO] dafny-tool auto 1 1.52
+[INFO] dafny-tool auto 2 1.57
+[INFO] dafny-tool auto 3 1.52
+[INFO] dafny-tool auto 4 1.57
+[INFO] dafny-tool auto 5 1.62
+[INFO] dafny-tool auto 6 1.62
+[INFO] dafny-tool auto 7 1.62
+[INFO] dafny-tool auto 8 1.67
+[INFO] dafny-tool auto 9 1.72
+[INFO] dafny-tool auto 10 1.77
+[INFO] dafny-tool auto 11 1.87
+[INFO] dafny-tool auto 12 1.92
+[INFO] dafny-tool auto 13 2.07
+[INFO] dafny-tool auto 14 2.22
+[INFO] dafny-tool auto 15 2.37
+[INFO] dafny-tool auto 16 2.57
+[INFO] dafny-tool auto 17 2.82
+[INFO] dafny-tool auto 18 3.02
+[INFO] dafny-tool auto 19 3.27
+[INFO] dafny-tool auto 20 3.62
+[INFO] dafny-tool auto 21 4.32
+[INFO] dafny-tool auto 22 4.62
+[INFO] dafny-tool auto 23 5.08
+[INFO] dafny-tool auto 24 5.63
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 25 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 26 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 27 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 28 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 29 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 30 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 31 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 32 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 33 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 34 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 35 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 36 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 37 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 38 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 39 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 40 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 41 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 42 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 43 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 44 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 45 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 46 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 47 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 48 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 49 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 50 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 51 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 52 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 53 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 54 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 55 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 56 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 57 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 58 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool auto 59 6.0
+[INFO] dafny-tool inst 1 1.47
+[INFO] dafny-tool inst 2 1.52
+[INFO] dafny-tool inst 3 1.52
+[INFO] dafny-tool inst 4 1.57
+[INFO] dafny-tool inst 5 1.57
+[INFO] dafny-tool inst 6 1.57
+[INFO] dafny-tool inst 7 1.62
+[INFO] dafny-tool inst 8 1.62
+[INFO] dafny-tool inst 9 1.62
+[INFO] dafny-tool inst 10 1.67
+[INFO] dafny-tool inst 11 1.67
+[INFO] dafny-tool inst 12 1.67
+[INFO] dafny-tool inst 13 1.72
+[INFO] dafny-tool inst 14 1.72
+[INFO] dafny-tool inst 15 1.77
+[INFO] dafny-tool inst 16 1.77
+[INFO] dafny-tool inst 17 1.82
+[INFO] dafny-tool inst 18 1.82
+[INFO] dafny-tool inst 19 1.87
+[INFO] dafny-tool inst 20 1.87
+[INFO] dafny-tool inst 21 1.92
+[INFO] dafny-tool inst 22 1.92
+[INFO] dafny-tool inst 23 2.02
+[INFO] dafny-tool inst 24 2.02
+[INFO] dafny-tool inst 25 2.02
+[INFO] dafny-tool inst 26 2.07
+[INFO] dafny-tool inst 27 2.12
+[INFO] dafny-tool inst 28 2.17
+[INFO] dafny-tool inst 29 2.17
+[INFO] dafny-tool inst 30 2.22
+[INFO] dafny-tool inst 31 2.27
+[INFO] dafny-tool inst 32 2.32
+[INFO] dafny-tool inst 33 2.37
+[INFO] dafny-tool inst 34 2.42
+[INFO] dafny-tool inst 35 2.47
+[INFO] dafny-tool inst 36 2.47
+[INFO] dafny-tool inst 37 2.52
+[INFO] dafny-tool inst 38 2.57
+[INFO] dafny-tool inst 39 2.67
+[INFO] dafny-tool inst 40 2.67
+[INFO] dafny-tool inst 41 2.77
+[INFO] dafny-tool inst 42 2.77
+[INFO] dafny-tool inst 43 2.87
+[INFO] dafny-tool inst 44 2.92
+[INFO] dafny-tool inst 45 2.97
+[INFO] dafny-tool inst 46 3.02
+[INFO] dafny-tool inst 47 3.07
+[INFO] dafny-tool inst 48 3.17
+[INFO] dafny-tool inst 49 3.27
+[INFO] dafny-tool inst 50 3.32
+[INFO] dafny-tool inst 51 3.37
+[INFO] dafny-tool inst 52 3.47
+[INFO] dafny-tool inst 53 3.57
+[INFO] dafny-tool inst 54 3.62
+[INFO] dafny-tool inst 55 3.67
+[INFO] dafny-tool inst 56 3.72
+[INFO] dafny-tool inst 57 3.82
+[INFO] dafny-tool inst 58 3.92
+[INFO] dafny-tool inst 59 3.97
+[INFO] z3 1 auto 0.03 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_1.1.smt2 unsat 
+[INFO] z3 1 inst 0.02 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_1.1.smt2 unsat 
+[INFO] z3 2 auto 0.03 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_2.1.smt2 unsat 
+[INFO] z3 2 inst 0.02 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_2.1.smt2 unsat 
+[INFO] z3 3 auto 0.03 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_3.1.smt2 unsat 
+[INFO] z3 3 inst 0.03 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_3.1.smt2 unsat 
+[INFO] z3 4 auto 0.07 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_4.1.smt2 unsat 
+[INFO] z3 4 inst 0.03 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_4.1.smt2 unsat 
+[INFO] z3 5 auto 0.07 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_5.1.smt2 unsat 
+[INFO] z3 5 inst 0.03 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_5.1.smt2 unsat 
+[INFO] z3 6 auto 0.07 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_6.1.smt2 unsat 
+[INFO] z3 6 inst 0.03 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_6.1.smt2 unsat 
+[INFO] z3 7 auto 0.12 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_7.1.smt2 unsat 
+[INFO] z3 7 inst 0.03 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_7.1.smt2 unsat 
+[INFO] z3 8 auto 0.12 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_8.1.smt2 unsat 
+[INFO] z3 8 inst 0.07 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_8.1.smt2 unsat 
+[INFO] z3 9 auto 0.12 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_9.1.smt2 unsat 
+[INFO] z3 9 inst 0.07 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_9.1.smt2 unsat 
+[INFO] z3 10 auto 0.17 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_10.1.smt2 unsat 
+[INFO] z3 10 inst 0.07 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_10.1.smt2 unsat 
+[INFO] z3 11 auto 0.27 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_11.1.smt2 unsat 
+[INFO] z3 11 inst 0.07 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_11.1.smt2 unsat 
+[INFO] z3 12 auto 0.32 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_12.1.smt2 unsat 
+[INFO] z3 12 inst 0.07 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_12.1.smt2 unsat 
+[INFO] z3 13 auto 0.42 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_13.1.smt2 unsat 
+[INFO] z3 13 inst 0.12 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_13.1.smt2 unsat 
+[INFO] z3 14 auto 0.57 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_14.1.smt2 unsat 
+[INFO] z3 14 inst 0.12 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_14.1.smt2 unsat 
+[INFO] z3 15 auto 0.67 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_15.1.smt2 unsat 
+[INFO] z3 15 inst 0.12 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_15.1.smt2 unsat 
+[INFO] z3 16 auto 0.87 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_16.1.smt2 unsat 
+[INFO] z3 16 inst 0.12 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_16.1.smt2 unsat 
+[INFO] z3 17 auto 1.12 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_17.1.smt2 unsat 
+[INFO] z3 17 inst 0.17 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_17.1.smt2 unsat 
+[INFO] z3 18 auto 1.32 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_18.1.smt2 unsat 
+[INFO] z3 18 inst 0.17 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_18.1.smt2 unsat 
+[INFO] z3 19 auto 1.57 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_19.1.smt2 unsat 
+[INFO] z3 19 inst 0.17 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_19.1.smt2 unsat 
+[INFO] z3 20 auto 1.87 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_20.1.smt2 unsat 
+[INFO] z3 20 inst 0.17 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_20.1.smt2 unsat 
+[INFO] z3 21 auto 2.37 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_21.1.smt2 unsat 
+[INFO] z3 21 inst 0.22 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_21.1.smt2 unsat 
+[INFO] z3 22 auto 2.87 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_22.1.smt2 unsat 
+[INFO] z3 22 inst 0.22 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_22.1.smt2 unsat 
+[INFO] z3 23 auto 3.27 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_23.1.smt2 unsat 
+[INFO] z3 23 inst 0.22 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_23.1.smt2 unsat 
+[INFO] z3 24 auto 3.87 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_24.1.smt2 unsat 
+[INFO] z3 24 inst 0.27 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_24.1.smt2 unsat 
+[INFO] z3 25 auto 4.92 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_25.1.smt2 unsat 
+[INFO] z3 25 inst 0.27 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_25.1.smt2 unsat 
+[INFO] z3 26 auto 5.68 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_26.1.smt2 unsat 
+[INFO] z3 26 inst 0.32 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_26.1.smt2 unsat 
+[INFO] z3 27 auto 6.33 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_27.1.smt2 unsat 
+[INFO] z3 27 inst 0.32 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_27.1.smt2 unsat 
+[INFO] z3 28 auto 7.38 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_28.1.smt2 unsat 
+[INFO] z3 28 inst 0.37 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_28.1.smt2 unsat 
+[INFO] z3 29 auto 8.88 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_29.1.smt2 unsat 
+[INFO] z3 29 inst 0.37 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_29.1.smt2 unsat 
+[INFO] z3 30 auto 10.03 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_30.1.smt2 unsat 
+[INFO] z3 30 inst 0.42 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_30.1.smt2 unsat 
+[INFO] z3 31 auto 12.39 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_31.1.smt2 unsat 
+[INFO] z3 31 inst 0.42 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_31.1.smt2 unsat 
+[INFO] z3 32 auto 13.59 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_32.1.smt2 unsat 
+[INFO] z3 32 inst 0.47 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_32.1.smt2 unsat 
+[INFO] z3 33 auto 15.49 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_33.1.smt2 unsat 
+[INFO] z3 33 inst 0.52 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_33.1.smt2 unsat 
+[INFO] z3 34 auto 16.95 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_34.1.smt2 unsat 
+[INFO] z3 34 inst 0.52 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_34.1.smt2 unsat 
+[INFO] z3 35 auto 19.75 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_35.1.smt2 unsat 
+[INFO] z3 35 inst 0.57 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_35.1.smt2 unsat 
+[INFO] z3 36 auto 21.61 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_36.1.smt2 unsat 
+[INFO] z3 36 inst 0.62 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_36.1.smt2 unsat 
+[INFO] z3 37 auto 24.61 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_37.1.smt2 unsat 
+[INFO] z3 37 inst 0.62 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_37.1.smt2 unsat 
+[INFO] z3 38 auto 27.17 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_38.1.smt2 unsat 
+[INFO] z3 38 inst 0.67 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_38.1.smt2 unsat 
+[INFO] z3 39 auto 32.83 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_39.1.smt2 unsat 
+[INFO] z3 39 inst 0.72 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_39.1.smt2 unsat 
+[INFO] z3 40 auto 35.64 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_40.1.smt2 unsat 
+[INFO] z3 40 inst 0.72 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_40.1.smt2 unsat 
+[INFO] z3 41 auto 40.5 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_41.1.smt2 unsat 
+[INFO] z3 41 inst 0.77 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_41.1.smt2 unsat 
+[INFO] z3 42 auto 44.1 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_42.1.smt2 unsat 
+[INFO] z3 42 inst 0.82 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_42.1.smt2 unsat 
+[INFO] z3 43 auto 49.16 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_43.1.smt2 unsat 
+[INFO] z3 43 inst 0.87 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_43.1.smt2 unsat 
+[INFO] z3 44 auto 54.47 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_44.1.smt2 unsat 
+[INFO] z3 44 inst 0.92 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_44.1.smt2 unsat 
+[INFO] z3 45 auto 61.29 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_45.1.smt2 unsat 
+[INFO] z3 45 inst 0.97 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_45.1.smt2 unsat 
+[INFO] z3 46 auto 70.46 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_46.1.smt2 unsat 
+[INFO] z3 46 inst 1.02 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_46.1.smt2 unsat 
+[INFO] z3 47 auto 82.54 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_47.1.smt2 unsat 
+[INFO] z3 47 inst 1.07 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_47.1.smt2 unsat 
+[INFO] z3 48 auto 103.73 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_48.1.smt2 unsat 
+[INFO] z3 48 inst 1.12 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_48.1.smt2 unsat 
+[INFO] z3 49 auto 108.89 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_49.1.smt2 unsat 
+[INFO] z3 49 inst 1.17 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_49.1.smt2 unsat 
+[INFO] z3 50 auto 119.16 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_50.1.smt2 unsat 
+[INFO] z3 50 inst 1.47 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_50.1.smt2 unsat 
+[INFO] z3 51 auto 120.07 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_51.1.smt2 timeout 
+[INFO] z3 51 inst 1.27 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_51.1.smt2 unsat 
+[INFO] z3 52 auto 120.07 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_52.1.smt2 timeout 
+[INFO] z3 52 inst 1.32 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_52.1.smt2 unsat 
+[INFO] z3 53 auto 120.08 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_53.1.smt2 timeout 
+[INFO] z3 53 inst 1.37 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_53.1.smt2 unsat 
+[INFO] z3 54 auto 120.07 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_54.1.smt2 timeout 
+[INFO] z3 54 inst 1.47 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_54.1.smt2 unsat 
+[INFO] z3 55 auto 120.08 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_55.1.smt2 timeout 
+[INFO] z3 55 inst 1.52 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_55.1.smt2 unsat 
+[INFO] z3 56 auto 120.07 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_56.1.smt2 timeout 
+[INFO] z3 56 inst 1.62 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_56.1.smt2 unsat 
+[INFO] z3 57 auto 120.12 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_57.1.smt2 timeout 
+[INFO] z3 57 inst 1.67 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_57.1.smt2 unsat 
+[INFO] z3 58 auto 120.17 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_58.1.smt2 timeout 
+[INFO] z3 58 inst 1.72 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_58.1.smt2 unsat 
+[INFO] z3 59 auto 120.17 mariposa_data/8//17713203279321995807/nlqi_dafny/log/auto_59.1.smt2 timeout 
+[INFO] z3 59 inst 1.82 mariposa_data/8//17713203279321995807/nlqi_dafny/log/inst_59.1.smt2 unsat 
+[INFO] rerun summary mariposa_data/8//17713203279321995807/nlqi_dafny/log
+---  -------------------  ---------------
+qid  auto                 inst
+1    (0.03, 'unsat')      (0.02, 'unsat')
+2    (0.03, 'unsat')      (0.02, 'unsat')
+3    (0.03, 'unsat')      (0.03, 'unsat')
+4    (0.07, 'unsat')      (0.03, 'unsat')
+5    (0.07, 'unsat')      (0.03, 'unsat')
+6    (0.07, 'unsat')      (0.03, 'unsat')
+7    (0.12, 'unsat')      (0.03, 'unsat')
+8    (0.12, 'unsat')      (0.07, 'unsat')
+9    (0.12, 'unsat')      (0.07, 'unsat')
+10   (0.17, 'unsat')      (0.07, 'unsat')
+11   (0.27, 'unsat')      (0.07, 'unsat')
+12   (0.32, 'unsat')      (0.07, 'unsat')
+13   (0.42, 'unsat')      (0.12, 'unsat')
+14   (0.57, 'unsat')      (0.12, 'unsat')
+15   (0.67, 'unsat')      (0.12, 'unsat')
+16   (0.87, 'unsat')      (0.12, 'unsat')
+17   (1.12, 'unsat')      (0.17, 'unsat')
+18   (1.32, 'unsat')      (0.17, 'unsat')
+19   (1.57, 'unsat')      (0.17, 'unsat')
+20   (1.87, 'unsat')      (0.17, 'unsat')
+21   (2.37, 'unsat')      (0.22, 'unsat')
+22   (2.87, 'unsat')      (0.22, 'unsat')
+23   (3.27, 'unsat')      (0.22, 'unsat')
+24   (3.87, 'unsat')      (0.27, 'unsat')
+25   (4.92, 'unsat')      (0.27, 'unsat')
+26   (5.68, 'unsat')      (0.32, 'unsat')
+27   (6.33, 'unsat')      (0.32, 'unsat')
+28   (7.38, 'unsat')      (0.37, 'unsat')
+29   (8.88, 'unsat')      (0.37, 'unsat')
+30   (10.03, 'unsat')     (0.42, 'unsat')
+31   (12.39, 'unsat')     (0.42, 'unsat')
+32   (13.59, 'unsat')     (0.47, 'unsat')
+33   (15.49, 'unsat')     (0.52, 'unsat')
+34   (16.95, 'unsat')     (0.52, 'unsat')
+35   (19.75, 'unsat')     (0.57, 'unsat')
+36   (21.61, 'unsat')     (0.62, 'unsat')
+37   (24.61, 'unsat')     (0.62, 'unsat')
+38   (27.17, 'unsat')     (0.67, 'unsat')
+39   (32.83, 'unsat')     (0.72, 'unsat')
+40   (35.64, 'unsat')     (0.72, 'unsat')
+41   (40.5, 'unsat')      (0.77, 'unsat')
+42   (44.1, 'unsat')      (0.82, 'unsat')
+43   (49.16, 'unsat')     (0.87, 'unsat')
+44   (54.47, 'unsat')     (0.92, 'unsat')
+45   (61.29, 'unsat')     (0.97, 'unsat')
+46   (70.46, 'unsat')     (1.02, 'unsat')
+47   (82.54, 'unsat')     (1.07, 'unsat')
+48   (103.73, 'unsat')    (1.12, 'unsat')
+49   (108.89, 'unsat')    (1.17, 'unsat')
+50   (119.16, 'unsat')    (1.47, 'unsat')
+51   (120.07, 'timeout')  (1.27, 'unsat')
+52   (120.07, 'timeout')  (1.32, 'unsat')
+53   (120.08, 'timeout')  (1.37, 'unsat')
+54   (120.07, 'timeout')  (1.47, 'unsat')
+55   (120.08, 'timeout')  (1.52, 'unsat')
+56   (120.07, 'timeout')  (1.62, 'unsat')
+57   (120.12, 'timeout')  (1.67, 'unsat')
+58   (120.17, 'timeout')  (1.72, 'unsat')
+59   (120.17, 'timeout')  (1.82, 'unsat')
+---  -------------------  ---------------
