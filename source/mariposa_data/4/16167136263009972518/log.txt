@@ -1,0 +1,229 @@
+[INFO] total number of rewrite steps: 1
+[INFO] keep every (steps): 1
+[INFO] max depth of expressions: 4
+[INFO] number of expressions: 10
+[INFO] lang timeout (seconds): 5
+[INFO] smt timeout (seconds): 10
+[INFO] solver path: ~/mariposa/solvers/z3-4.12.2
+[INFO] seed: 16167136263009972518
+[INFO] verus-tool auto 1 0.32
+[INFO] verus-tool auto 2 0.37
+[INFO] verus-tool auto 3 0.32
+[INFO] verus-tool auto 4 0.31
+[INFO] verus-tool auto 5 0.31
+[INFO] verus-tool auto 6 0.37
+[INFO] verus-tool auto 7 0.42
+[INFO] verus-tool auto 8 0.37
+[INFO] verus-tool auto 9 0.37
+[INFO] verus-tool inst 1 0.31
+[INFO] verus-tool inst 2 0.32
+[INFO] verus-tool inst 3 0.32
+[INFO] verus-tool inst 4 0.32
+[INFO] verus-tool inst 5 0.31
+[INFO] verus-tool inst 6 0.37
+[INFO] verus-tool inst 7 0.37
+[INFO] verus-tool inst 8 0.37
+[INFO] verus-tool inst 9 0.42
+[INFO] mariposa_data/4//16167136263009972518/nlqi_verus/tmp/rootmain!nlarith_0._01.smt2 is split into 1 file(s), ignored 1 check-sat 
+[WARN] verus-tool stdout: verification results:: 0 verified, 1 errors (partial verification with `--verify-*`) 
+[WARN] verus-tool stderr: warning: unused import: `crate::nl_basics::*`  --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:4:5   | 4 | use crate::nl_basics::*;   |     ^^^^^^^^^^^^^^^^^^^   |   = note: `#[warn(unused_imports)]` on by default  note: verifying root module  error: assertion failed   --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:20:9    | 20 |     assert(temp_0_0 == temp_0_1);    |            ^^^^^^^^^^^^^^^^^^^^ assertion failed  error: aborting due to previous error; 1 warning emitted  
+[INFO] verus-tool nlarith 1 5.32
+[INFO] mariposa_data/4//16167136263009972518/nlqi_verus/tmp/rootmain!nlarith_0._01.smt2 is split into 1 file(s), ignored 1 check-sat 
+[WARN] verus-tool stdout: verification results:: 0 verified, 1 errors (partial verification with `--verify-*`) 
+[WARN] verus-tool stderr: warning: unused import: `crate::nl_basics::*`  --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:4:5   | 4 | use crate::nl_basics::*;   |     ^^^^^^^^^^^^^^^^^^^   |   = note: `#[warn(unused_imports)]` on by default  note: verifying root module  error: assertion failed   --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:20:9    | 20 |     assert(temp_0_0 == temp_0_1);    |            ^^^^^^^^^^^^^^^^^^^^ assertion failed  error: aborting due to previous error; 1 warning emitted  
+[INFO] verus-tool nlarith 2 5.32
+[INFO] mariposa_data/4//16167136263009972518/nlqi_verus/tmp/rootmain!nlarith_0._01.smt2 is split into 1 file(s), ignored 1 check-sat 
+[WARN] verus-tool stdout: verification results:: 0 verified, 1 errors (partial verification with `--verify-*`) 
+[WARN] verus-tool stderr: warning: unused import: `crate::nl_basics::*`  --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:4:5   | 4 | use crate::nl_basics::*;   |     ^^^^^^^^^^^^^^^^^^^   |   = note: `#[warn(unused_imports)]` on by default  note: verifying root module  error: assertion failed   --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:20:9    | 20 |     assert(temp_0_0 == temp_0_1);    |            ^^^^^^^^^^^^^^^^^^^^ assertion failed  error: aborting due to previous error; 1 warning emitted  
+[INFO] verus-tool nlarith 3 5.32
+[INFO] mariposa_data/4//16167136263009972518/nlqi_verus/tmp/rootmain!nlarith_0._01.smt2 is split into 1 file(s), ignored 1 check-sat 
+[WARN] verus-tool stdout: verification results:: 0 verified, 1 errors (partial verification with `--verify-*`) 
+[WARN] verus-tool stderr: warning: unused import: `crate::nl_basics::*`  --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:4:5   | 4 | use crate::nl_basics::*;   |     ^^^^^^^^^^^^^^^^^^^   |   = note: `#[warn(unused_imports)]` on by default  note: verifying root module  error: assertion failed   --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:20:9    | 20 |     assert(temp_0_0 == temp_0_1);    |            ^^^^^^^^^^^^^^^^^^^^ assertion failed  error: aborting due to previous error; 1 warning emitted  
+[INFO] verus-tool nlarith 4 5.32
+[INFO] mariposa_data/4//16167136263009972518/nlqi_verus/tmp/rootmain!nlarith_0._01.smt2 is split into 1 file(s), ignored 1 check-sat 
+[WARN] verus-tool stdout: verification results:: 0 verified, 1 errors (partial verification with `--verify-*`) 
+[WARN] verus-tool stderr: warning: unused import: `crate::nl_basics::*`  --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:4:5   | 4 | use crate::nl_basics::*;   |     ^^^^^^^^^^^^^^^^^^^   |   = note: `#[warn(unused_imports)]` on by default  note: verifying root module  error: assertion failed   --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:20:9    | 20 |     assert(temp_0_0 == temp_0_1);    |            ^^^^^^^^^^^^^^^^^^^^ assertion failed  error: aborting due to previous error; 1 warning emitted  
+[INFO] verus-tool nlarith 5 5.32
+[WARN] verus-tool stdout: verification results:: 0 verified, 1 errors (partial verification with `--verify-*`) 
+[WARN] verus-tool stderr: warning: unused import: `crate::nl_basics::*`  --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:4:5   | 4 | use crate::nl_basics::*;   |     ^^^^^^^^^^^^^^^^^^^   |   = note: `#[warn(unused_imports)]` on by default  note: verifying root module  error: function body check: Resource limit (rlimit) exceeded; consider rerunning with --profile for more details   --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:7:1    | 7  | / pub proof fn nlarith_0(a0: int, b0: int, c0: int, d0: int, 8  | | a1: int, b1: int, c1: int, d1: int, 9  | | a2: int, b2: int, c2: int, d2: int, 10 | | a3: int, b3: int, c3: int, d3: int, ...  | 15 | | a8: int, b8: int, c8: int, d8: int, 16 | | a9: int, b9: int, c9: int, d9: int) by (nonlinear_arith)    | |___________________________________^  error: aborting due to previous error; 1 warning emitted  
+[INFO] verus-tool nlarith 6 5.32
+[INFO] mariposa_data/4//16167136263009972518/nlqi_verus/tmp/rootmain!nlarith_0._01.smt2 is split into 1 file(s), ignored 1 check-sat 
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: warning: unused import: `crate::nl_basics::*`  --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:4:5   | 4 | use crate::nl_basics::*;   |     ^^^^^^^^^^^^^^^^^^^   |   = note: `#[warn(unused_imports)]` on by default  note: verifying root module  error: assertion failed   --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:35:9    | 35 |     assert(temp_5_0 == temp_5_1);    |            ^^^^^^^^^^^^^^^^^^^^ assertion failed  
+[INFO] verus-tool nlarith 7 6.0
+[INFO] mariposa_data/4//16167136263009972518/nlqi_verus/tmp/rootmain!nlarith_0._01.smt2 is split into 1 file(s), ignored 1 check-sat 
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: warning: unused import: `crate::nl_basics::*`  --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:4:5   | 4 | use crate::nl_basics::*;   |     ^^^^^^^^^^^^^^^^^^^   |   = note: `#[warn(unused_imports)]` on by default  note: verifying root module  error: assertion failed   --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:35:9    | 35 |     assert(temp_5_0 == temp_5_1);    |            ^^^^^^^^^^^^^^^^^^^^ assertion failed  
+[INFO] verus-tool nlarith 8 6.0
+[WARN] verus-tool stdout: verification results:: 0 verified, 1 errors (partial verification with `--verify-*`) 
+[WARN] verus-tool stderr: warning: unused import: `crate::nl_basics::*`  --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:4:5   | 4 | use crate::nl_basics::*;   |     ^^^^^^^^^^^^^^^^^^^   |   = note: `#[warn(unused_imports)]` on by default  note: verifying root module  error: function body check: Resource limit (rlimit) exceeded; consider rerunning with --profile for more details   --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:7:1    | 7  | / pub proof fn nlarith_0(a0: int, b0: int, c0: int, d0: int, 8  | | a1: int, b1: int, c1: int, d1: int, 9  | | a2: int, b2: int, c2: int, d2: int, 10 | | a3: int, b3: int, c3: int, d3: int, ...  | 15 | | a8: int, b8: int, c8: int, d8: int, 16 | | a9: int, b9: int, c9: int, d9: int) by (nonlinear_arith)    | |___________________________________^  error: aborting due to previous error; 1 warning emitted  
+[INFO] verus-tool nlarith 9 5.32
+[INFO] verus-tool free 1 0.32
+[INFO] verus-tool free 2 0.37
+[INFO] verus-tool free 3 0.57
+[INFO] verus-tool free 4 5.02
+[WARN] verus-tool stdout: verification results:: 0 verified, 1 errors (partial verification with `--verify-*`) 
+[WARN] verus-tool stderr: note: verifying root module  error: function body check: Resource limit (rlimit) exceeded; consider rerunning with --profile for more details   --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:7:1    | 7  | / pub proof fn free_0(a0: int, b0: int, c0: int, d0: int, 8  | | a1: int, b1: int, c1: int, d1: int, 9  | | a2: int, b2: int, c2: int, d2: int, 10 | | a3: int, b3: int, c3: int, d3: int, ...  | 15 | | a8: int, b8: int, c8: int, d8: int, 16 | | a9: int, b9: int, c9: int, d9: int)    | |___________________________________^  error: aborting due to previous error  
+[INFO] verus-tool free 5 5.88
+[WARN] verus-tool stdout: verification results:: 0 verified, 1 errors (partial verification with `--verify-*`) 
+[WARN] verus-tool stderr: note: verifying root module  error: function body check: Resource limit (rlimit) exceeded; consider rerunning with --profile for more details   --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:7:1    | 7  | / pub proof fn free_0(a0: int, b0: int, c0: int, d0: int, 8  | | a1: int, b1: int, c1: int, d1: int, 9  | | a2: int, b2: int, c2: int, d2: int, 10 | | a3: int, b3: int, c3: int, d3: int, ...  | 15 | | a8: int, b8: int, c8: int, d8: int, 16 | | a9: int, b9: int, c9: int, d9: int)    | |___________________________________^  error: aborting due to previous error  
+[INFO] verus-tool free 6 5.83
+[WARN] verus-tool stdout: verification results:: 0 verified, 1 errors (partial verification with `--verify-*`) 
+[WARN] verus-tool stderr: note: verifying root module  error: function body check: Resource limit (rlimit) exceeded; consider rerunning with --profile for more details   --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:7:1    | 7  | / pub proof fn free_0(a0: int, b0: int, c0: int, d0: int, 8  | | a1: int, b1: int, c1: int, d1: int, 9  | | a2: int, b2: int, c2: int, d2: int, 10 | | a3: int, b3: int, c3: int, d3: int, ...  | 15 | | a8: int, b8: int, c8: int, d8: int, 16 | | a9: int, b9: int, c9: int, d9: int)    | |___________________________________^  error: aborting due to previous error  
+[INFO] verus-tool free 7 5.88
+[WARN] verus-tool stdout: verification results:: 0 verified, 1 errors (partial verification with `--verify-*`) 
+[WARN] verus-tool stderr: note: verifying root module  error: function body check: Resource limit (rlimit) exceeded; consider rerunning with --profile for more details   --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:7:1    | 7  | / pub proof fn free_0(a0: int, b0: int, c0: int, d0: int, 8  | | a1: int, b1: int, c1: int, d1: int, 9  | | a2: int, b2: int, c2: int, d2: int, 10 | | a3: int, b3: int, c3: int, d3: int, ...  | 15 | | a8: int, b8: int, c8: int, d8: int, 16 | | a9: int, b9: int, c9: int, d9: int)    | |___________________________________^  error: aborting due to previous error  
+[INFO] verus-tool free 8 5.88
+[WARN] verus-tool stdout: verification results:: 0 verified, 1 errors (partial verification with `--verify-*`) 
+[WARN] verus-tool stderr: note: verifying root module  error: function body check: Resource limit (rlimit) exceeded; consider rerunning with --profile for more details   --> mariposa_data/4//16167136263009972518/nlqi_verus/src/main.rs:7:1    | 7  | / pub proof fn free_0(a0: int, b0: int, c0: int, d0: int, 8  | | a1: int, b1: int, c1: int, d1: int, 9  | | a2: int, b2: int, c2: int, d2: int, 10 | | a3: int, b3: int, c3: int, d3: int, ...  | 15 | | a8: int, b8: int, c8: int, d8: int, 16 | | a9: int, b9: int, c9: int, d9: int)    | |___________________________________^  error: aborting due to previous error  
+[INFO] verus-tool free 9 5.88
+[INFO] z3 1 auto 0.02 mariposa_data/4//16167136263009972518/nlqi_verus/log/auto_1.1.smt2 unsat 
+[INFO] z3 1 free 0.02 mariposa_data/4//16167136263009972518/nlqi_verus/log/free_1.1.smt2 unsat 
+[INFO] z3 1 inst 0.02 mariposa_data/4//16167136263009972518/nlqi_verus/log/inst_1.1.smt2 unsat 
+[INFO] z3 1 nlarith 10.03 mariposa_data/4//16167136263009972518/nlqi_verus/log/nlarith_1.1.smt2 timeout 
+[INFO] z3 2 auto 0.02 mariposa_data/4//16167136263009972518/nlqi_verus/log/auto_2.1.smt2 unsat 
+[INFO] z3 2 free 0.02 mariposa_data/4//16167136263009972518/nlqi_verus/log/free_2.1.smt2 unsat 
+[INFO] z3 2 inst 0.02 mariposa_data/4//16167136263009972518/nlqi_verus/log/inst_2.1.smt2 unsat 
+[INFO] z3 2 nlarith 10.03 mariposa_data/4//16167136263009972518/nlqi_verus/log/nlarith_2.1.smt2 timeout 
+[INFO] z3 3 auto 0.02 mariposa_data/4//16167136263009972518/nlqi_verus/log/auto_3.1.smt2 unsat 
+[INFO] z3 3 free 0.22 mariposa_data/4//16167136263009972518/nlqi_verus/log/free_3.1.smt2 unsat 
+[INFO] z3 3 inst 0.03 mariposa_data/4//16167136263009972518/nlqi_verus/log/inst_3.1.smt2 unsat 
+[INFO] z3 3 nlarith 10.03 mariposa_data/4//16167136263009972518/nlqi_verus/log/nlarith_3.1.smt2 timeout 
+[INFO] z3 4 auto 0.03 mariposa_data/4//16167136263009972518/nlqi_verus/log/auto_4.1.smt2 unsat 
+[INFO] z3 4 free 4.42 mariposa_data/4//16167136263009972518/nlqi_verus/log/free_4.1.smt2 unsat 
+[INFO] z3 4 inst 0.02 mariposa_data/4//16167136263009972518/nlqi_verus/log/inst_4.1.smt2 unsat 
+[INFO] z3 4 nlarith 10.03 mariposa_data/4//16167136263009972518/nlqi_verus/log/nlarith_4.1.smt2 timeout 
+[INFO] z3 5 auto 0.03 mariposa_data/4//16167136263009972518/nlqi_verus/log/auto_5.1.smt2 unsat 
+[INFO] z3 5 free 7.28 mariposa_data/4//16167136263009972518/nlqi_verus/log/free_5.1.smt2 unsat 
+[INFO] z3 5 inst 0.02 mariposa_data/4//16167136263009972518/nlqi_verus/log/inst_5.1.smt2 unsat 
+[INFO] z3 5 nlarith 10.03 mariposa_data/4//16167136263009972518/nlqi_verus/log/nlarith_5.1.smt2 timeout 
+[INFO] z3 6 auto 0.03 mariposa_data/4//16167136263009972518/nlqi_verus/log/auto_6.1.smt2 unsat 
+[INFO] z3 6 free 10.14 mariposa_data/4//16167136263009972518/nlqi_verus/log/free_6.1.smt2 timeout 
+[INFO] z3 6 inst 0.03 mariposa_data/4//16167136263009972518/nlqi_verus/log/inst_6.1.smt2 unsat 
+[INFO] z3 6 nlarith 10.03 mariposa_data/4//16167136263009972518/nlqi_verus/log/nlarith_6.1.smt2 timeout 
+[INFO] z3 7 auto 0.03 mariposa_data/4//16167136263009972518/nlqi_verus/log/auto_7.1.smt2 unsat 
+[INFO] z3 7 free 10.14 mariposa_data/4//16167136263009972518/nlqi_verus/log/free_7.1.smt2 timeout 
+[INFO] z3 7 inst 0.03 mariposa_data/4//16167136263009972518/nlqi_verus/log/inst_7.1.smt2 unsat 
+[INFO] z3 7 nlarith 10.03 mariposa_data/4//16167136263009972518/nlqi_verus/log/nlarith_7.1.smt2 timeout 
+[INFO] z3 8 auto 0.03 mariposa_data/4//16167136263009972518/nlqi_verus/log/auto_8.1.smt2 unsat 
+[INFO] z3 8 free 10.14 mariposa_data/4//16167136263009972518/nlqi_verus/log/free_8.1.smt2 timeout 
+[INFO] z3 8 inst 0.03 mariposa_data/4//16167136263009972518/nlqi_verus/log/inst_8.1.smt2 unsat 
+[INFO] z3 8 nlarith 10.03 mariposa_data/4//16167136263009972518/nlqi_verus/log/nlarith_8.1.smt2 timeout 
+[INFO] z3 9 auto 0.03 mariposa_data/4//16167136263009972518/nlqi_verus/log/auto_9.1.smt2 unsat 
+[INFO] z3 9 free 10.14 mariposa_data/4//16167136263009972518/nlqi_verus/log/free_9.1.smt2 timeout 
+[INFO] z3 9 inst 0.03 mariposa_data/4//16167136263009972518/nlqi_verus/log/inst_9.1.smt2 unsat 
+[INFO] z3 9 nlarith 10.03 mariposa_data/4//16167136263009972518/nlqi_verus/log/nlarith_9.1.smt2 timeout 
+[INFO] rerun summary mariposa_data/4//16167136263009972518/nlqi_verus/log
+---  ---------------  ------------------  ---------------  ------------------
+qid  auto             free                inst             nlarith
+1    (0.02, 'unsat')  (0.02, 'unsat')     (0.02, 'unsat')  (10.03, 'timeout')
+2    (0.02, 'unsat')  (0.02, 'unsat')     (0.02, 'unsat')  (10.03, 'timeout')
+3    (0.02, 'unsat')  (0.22, 'unsat')     (0.03, 'unsat')  (10.03, 'timeout')
+4    (0.03, 'unsat')  (4.42, 'unsat')     (0.02, 'unsat')  (10.03, 'timeout')
+5    (0.03, 'unsat')  (7.28, 'unsat')     (0.02, 'unsat')  (10.03, 'timeout')
+6    (0.03, 'unsat')  (10.14, 'timeout')  (0.03, 'unsat')  (10.03, 'timeout')
+7    (0.03, 'unsat')  (10.14, 'timeout')  (0.03, 'unsat')  (10.03, 'timeout')
+8    (0.03, 'unsat')  (10.14, 'timeout')  (0.03, 'unsat')  (10.03, 'timeout')
+9    (0.03, 'unsat')  (10.14, 'timeout')  (0.03, 'unsat')  (10.03, 'timeout')
+---  ---------------  ------------------  ---------------  ------------------
+[INFO] dafny-tool auto 1 1.47
+[INFO] dafny-tool auto 2 1.52
+[INFO] dafny-tool auto 3 1.57
+[INFO] dafny-tool auto 4 1.52
+[INFO] dafny-tool auto 5 1.57
+[INFO] dafny-tool auto 6 1.57
+[INFO] dafny-tool auto 7 1.57
+[INFO] dafny-tool auto 8 1.52
+[INFO] dafny-tool auto 9 1.52
+[INFO] dafny-tool inst 1 1.52
+[INFO] dafny-tool inst 2 1.52
+[INFO] dafny-tool inst 3 1.52
+[INFO] dafny-tool inst 4 1.52
+[INFO] dafny-tool inst 5 1.52
+[INFO] dafny-tool inst 6 1.57
+[INFO] dafny-tool inst 7 1.57
+[INFO] dafny-tool inst 8 1.57
+[INFO] dafny-tool inst 9 1.57
+[INFO] dafny-tool nlarith 1 1.47
+[INFO] dafny-tool nlarith 2 1.47
+[INFO] dafny-tool nlarith 3 1.47
+[INFO] dafny-tool nlarith 4 1.47
+[INFO] dafny-tool nlarith 5 1.47
+[INFO] dafny-tool nlarith 6 1.52
+[INFO] dafny-tool nlarith 7 1.52
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool nlarith 8 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool nlarith 9 6.0
+[INFO] dafny-tool free 1 1.52
+[INFO] dafny-tool free 2 1.57
+[INFO] dafny-tool free 3 1.72
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool free 4 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool free 5 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool free 6 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool free 7 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool free 8 6.0
+[WARN] dafny-tool stdout: 
+[WARN] dafny-tool stderr: 
+[INFO] dafny-tool free 9 6.0
+[INFO] z3 1 auto 0.02 mariposa_data/4//16167136263009972518/nlqi_dafny/log/auto_1.1.smt2 unsat 
+[INFO] z3 1 free 0.02 mariposa_data/4//16167136263009972518/nlqi_dafny/log/free_1.1.smt2 unsat 
+[INFO] z3 1 inst 0.02 mariposa_data/4//16167136263009972518/nlqi_dafny/log/inst_1.1.smt2 unsat 
+[INFO] z3 1 nlarith 0.03 mariposa_data/4//16167136263009972518/nlqi_dafny/log/nlarith_1.1.smt2 unsat 
+[INFO] z3 2 auto 0.02 mariposa_data/4//16167136263009972518/nlqi_dafny/log/auto_2.1.smt2 unsat 
+[INFO] z3 2 free 0.02 mariposa_data/4//16167136263009972518/nlqi_dafny/log/free_2.1.smt2 unsat 
+[INFO] z3 2 inst 0.02 mariposa_data/4//16167136263009972518/nlqi_dafny/log/inst_2.1.smt2 unsat 
+[INFO] z3 2 nlarith 0.03 mariposa_data/4//16167136263009972518/nlqi_dafny/log/nlarith_2.1.smt2 unsat 
+[INFO] z3 3 auto 0.03 mariposa_data/4//16167136263009972518/nlqi_dafny/log/auto_3.1.smt2 unsat 
+[INFO] z3 3 free 0.27 mariposa_data/4//16167136263009972518/nlqi_dafny/log/free_3.1.smt2 unsat 
+[INFO] z3 3 inst 0.03 mariposa_data/4//16167136263009972518/nlqi_dafny/log/inst_3.1.smt2 unsat 
+[INFO] z3 3 nlarith 0.03 mariposa_data/4//16167136263009972518/nlqi_dafny/log/nlarith_3.1.smt2 unsat 
+[INFO] z3 4 auto 0.03 mariposa_data/4//16167136263009972518/nlqi_dafny/log/auto_4.1.smt2 unsat 
+[INFO] z3 4 free 5.18 mariposa_data/4//16167136263009972518/nlqi_dafny/log/free_4.1.smt2 unsat 
+[INFO] z3 4 inst 0.02 mariposa_data/4//16167136263009972518/nlqi_dafny/log/inst_4.1.smt2 unsat 
+[INFO] z3 4 nlarith 0.03 mariposa_data/4//16167136263009972518/nlqi_dafny/log/nlarith_4.1.smt2 unsat 
+[INFO] z3 5 auto 0.03 mariposa_data/4//16167136263009972518/nlqi_dafny/log/auto_5.1.smt2 unsat 
+[INFO] z3 5 free 8.88 mariposa_data/4//16167136263009972518/nlqi_dafny/log/free_5.1.smt2 unsat 
+[INFO] z3 5 inst 0.03 mariposa_data/4//16167136263009972518/nlqi_dafny/log/inst_5.1.smt2 unsat 
+[INFO] z3 5 nlarith 0.03 mariposa_data/4//16167136263009972518/nlqi_dafny/log/nlarith_5.1.smt2 unsat 
+[INFO] z3 6 auto 0.03 mariposa_data/4//16167136263009972518/nlqi_dafny/log/auto_6.1.smt2 unsat 
+[INFO] z3 6 free 10.09 mariposa_data/4//16167136263009972518/nlqi_dafny/log/free_6.1.smt2 timeout 
+[INFO] z3 6 inst 0.02 mariposa_data/4//16167136263009972518/nlqi_dafny/log/inst_6.1.smt2 unsat 
+[INFO] z3 6 nlarith 0.07 mariposa_data/4//16167136263009972518/nlqi_dafny/log/nlarith_6.1.smt2 unsat 
+[INFO] z3 7 auto 0.03 mariposa_data/4//16167136263009972518/nlqi_dafny/log/auto_7.1.smt2 unsat 
+[INFO] z3 7 free 10.09 mariposa_data/4//16167136263009972518/nlqi_dafny/log/free_7.1.smt2 timeout 
+[INFO] z3 7 inst 0.03 mariposa_data/4//16167136263009972518/nlqi_dafny/log/inst_7.1.smt2 unsat 
+[INFO] z3 7 nlarith 0.06 mariposa_data/4//16167136263009972518/nlqi_dafny/log/nlarith_7.1.smt2 unsat 
+[INFO] z3 8 auto 0.03 mariposa_data/4//16167136263009972518/nlqi_dafny/log/auto_8.1.smt2 unsat 
+[INFO] z3 8 free 10.09 mariposa_data/4//16167136263009972518/nlqi_dafny/log/free_8.1.smt2 timeout 
+[INFO] z3 8 inst 0.03 mariposa_data/4//16167136263009972518/nlqi_dafny/log/inst_8.1.smt2 unsat 
+[INFO] z3 8 nlarith 10.03 mariposa_data/4//16167136263009972518/nlqi_dafny/log/nlarith_8.1.smt2 timeout 
+[INFO] z3 9 auto 0.03 mariposa_data/4//16167136263009972518/nlqi_dafny/log/auto_9.1.smt2 unsat 
+[INFO] z3 9 free 10.09 mariposa_data/4//16167136263009972518/nlqi_dafny/log/free_9.1.smt2 timeout 
+[INFO] z3 9 inst 0.03 mariposa_data/4//16167136263009972518/nlqi_dafny/log/inst_9.1.smt2 unsat 
+[INFO] z3 9 nlarith 10.03 mariposa_data/4//16167136263009972518/nlqi_dafny/log/nlarith_9.1.smt2 timeout 
+[INFO] rerun summary mariposa_data/4//16167136263009972518/nlqi_dafny/log
+---  ---------------  ------------------  ---------------  ------------------
+qid  auto             free                inst             nlarith
+1    (0.02, 'unsat')  (0.02, 'unsat')     (0.02, 'unsat')  (0.03, 'unsat')
+2    (0.02, 'unsat')  (0.02, 'unsat')     (0.02, 'unsat')  (0.03, 'unsat')
+3    (0.03, 'unsat')  (0.27, 'unsat')     (0.03, 'unsat')  (0.03, 'unsat')
+4    (0.03, 'unsat')  (5.18, 'unsat')     (0.02, 'unsat')  (0.03, 'unsat')
+5    (0.03, 'unsat')  (8.88, 'unsat')     (0.03, 'unsat')  (0.03, 'unsat')
+6    (0.03, 'unsat')  (10.09, 'timeout')  (0.02, 'unsat')  (0.07, 'unsat')
+7    (0.03, 'unsat')  (10.09, 'timeout')  (0.03, 'unsat')  (0.06, 'unsat')
+8    (0.03, 'unsat')  (10.09, 'timeout')  (0.03, 'unsat')  (10.03, 'timeout')
+9    (0.03, 'unsat')  (10.09, 'timeout')  (0.03, 'unsat')  (10.03, 'timeout')
+---  ---------------  ------------------  ---------------  ------------------
