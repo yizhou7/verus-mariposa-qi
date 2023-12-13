@@ -26,6 +26,7 @@ class Rewriter:
     def __init__(self, eid, params):
         self.steps = []
         self.eid = eid
+        self.ok = True
 
         if params.related:
             eid = ""
@@ -40,7 +41,8 @@ class Rewriter:
                 self.steps.append(s)
             else:
                 print("[ERROR] exceeded retry count, decrease steps_total or increase expr_max_depth?")
-                exit(1)
+                self.ok = False
+                return
 
         self.params = params
         self.vars = self.e.get_vars()

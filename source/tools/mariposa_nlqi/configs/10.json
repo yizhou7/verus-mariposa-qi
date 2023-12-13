@@ -9,6 +9,6 @@
     "related": false,
     "langs": ["dafny", "verus"],
     "short_cut": false,
-    "lang_timeout": 5,
+    "lang_timeout": 10,
     "smt_timeout": 120
 }

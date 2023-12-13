@@ -38,7 +38,11 @@ class ProjectEmitter:
         rws = []
 
         for i in range(params.expr_num):
-            rws.append(Emitter(i, params))
+            em = Emitter(i, params)
+            if not em.ok:
+                print(f"[ERROR] failed to generate expression {i}, exiting.")
+                exit(1)
+            rws.append(em)
 
         self.rws = rws
         self.params = params
