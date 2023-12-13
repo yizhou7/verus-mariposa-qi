@@ -95,11 +95,16 @@ def parse_log(proj_root):
             headers.extend(header)
         index += 1
 
-    fig, ax = plt.subplots()
     vdata = datas[0]
     ddata = datas[1][:, 1:]
     data = np.hstack((vdata, ddata))
     headers = ["asserts"] + headers
+        
+    return data, headers
+
+def plot_log(proj_root):
+    data, headers = parse_log(proj_root)
+    fig, ax = plt.subplots()
 
     for i in range(1, len(headers)):
         marker = "o" if "INST" in headers[i] else "x"
@@ -108,28 +113,31 @@ def parse_log(proj_root):
     ax.set_ylabel("time (s)")
     ax.legend()
     plt.savefig(proj_root + "/log.png", dpi=300)
+    plt.close()
 
-    return data, headers
 
 def get_column_stats(column):
-    num_timeouts = 0
-    first_timeout = len(column) + 1
+    num_unsat = 0
+    til_fe = len(column)
     for i in range(len(column)):
-        if smt_result_from_int(column[i][1]) == "timeout":
-            if first_timeout == len(column) + 1:
-                first_timeout = i + 2
-            num_timeouts += 1
-    return num_timeouts, first_timeout
+        res = smt_result_from_int(column[i][1])
+        if res == "unsat":
+            num_unsat += 1
+        else:
+            if til_fe == len(column):
+                til_fe = i - 1
+    return num_unsat, til_fe
 
 def get_proj_stats(data, headers):
     # pretty_print_data(data, headers)
     stats = {headers[i]: None for i in range(1, len(headers))}
     # print(num_timeouts)
     for i in range(1, len(data[0])):
-        column = data[1:, i]
-        num_timeouts, first_timeout = get_column_stats(column)
+        column = data[:, i]
+        # print(column)
+        num_unsat, til_fe = get_column_stats(column)
         # print(headers[i], num_timeouts, first_timeout)
-        stats[headers[i]] = [(num_timeouts, first_timeout)]
+        stats[headers[i]] = [(num_unsat, til_fe)]
     return stats
 
 def stat_multiple(path):
@@ -149,10 +157,12 @@ def stat_multiple(path):
                     all_stats[k].extend(stats[k])
             sample_count += 1
     print("number of samples", sample_count)
-    table = [["mode", "num_TO (mean)", "first_TO (mean)"]]
+    table = [["mode", "num_unsat\n(mean)", "first_error\n(mean)"]]
     for k in all_stats:
         mode_stats = np.array(all_stats[k])
-        table += [[k, np.round(np.mean(mode_stats[:,0]), 2), np.round(np.mean(mode_stats[:,1]), 2)]]
+        num_unsat = np.round(np.mean(mode_stats[:,0]), 2)
+        first_error = np.round(np.mean(mode_stats[:,1]), 2)
+        table += [[k, num_unsat, first_error]]
     print(tabulate(table, headers="firstrow"))
 
 if __name__ == "__main__":
