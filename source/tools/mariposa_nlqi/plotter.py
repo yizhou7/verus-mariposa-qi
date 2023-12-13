@@ -75,7 +75,8 @@ def parse_table(lines, index):
                 row.append(smt_result_as_int(item[1:-2]))
         row = list(zip(row[::2], row[1::2]))
         rows.append(row)
-    return index, np.array(rows), header
+    rows = np.array(rows)
+    return index, rows, header
 
 def parse_log(proj_root):
     f = open(proj_root + "/log.txt", "r")
@@ -99,22 +100,33 @@ def parse_log(proj_root):
     ddata = datas[1][:, 1:]
     data = np.hstack((vdata, ddata))
     headers = ["asserts"] + headers
-        
+    assert (data[:, 0, 0] == np.arange(1, data.shape[0]+1)).all()
+    # assume 0 step success
+    null_step = np.zeros((1, data.shape[1], data.shape[2]))
+    data = np.vstack((null_step, data))
+
     return data, headers
 
-def plot_log(proj_root):
-    data, headers = parse_log(proj_root)
-    fig, ax = plt.subplots()
+def plot_log(proj_root, data, headers):
+    fig, axs = plt.subplots(2, 1)
+    fig.set_size_inches(8, 8)
+    xs = data[:, 0, 0]
+    for ax in axs:
+        for i in range(1, len(headers)):
+            marker = "o" if "inst" in headers[i] else "x"
+            ax.scatter(xs, data[:, i, 0], label=headers[i], marker=marker, s=10)
+        # ax.plot(xs, np.power(1.12, xs)/10, linestyle="--", label="1.14^x/15")
+        ax.set_xlim(0, data.shape[0]-1)
 
-    for i in range(1, len(headers)):
-        marker = "o" if "INST" in headers[i] else "x"
-        ax.plot(data[:, 0, 0], data[:, i, 0], label=headers[i], marker=marker)
-    ax.set_xlabel("number of asserts")
-    ax.set_ylabel("time (s)")
-    ax.legend()
+    axs[0].legend()
+    axs[0].set_ylim(0, 120)
+    axs[1].set_yscale("log")
+
+    fig.supxlabel("number of asserts")
+    fig.supylabel("time (s)")
     plt.savefig(proj_root + "/log.png", dpi=300)
+    plt.tight_layout()
     plt.close()
-
 
 def get_column_stats(column):
     num_unsat = 0
@@ -125,45 +137,50 @@ def get_column_stats(column):
             num_unsat += 1
         else:
             if til_fe == len(column):
-                til_fe = i - 1
+                til_fe = i
+    # assume 0 step success
     return num_unsat, til_fe
 
 def get_proj_stats(data, headers):
     # pretty_print_data(data, headers)
     stats = {headers[i]: None for i in range(1, len(headers))}
-    # print(num_timeouts)
+    
     for i in range(1, len(data[0])):
         column = data[:, i]
-        # print(column)
         num_unsat, til_fe = get_column_stats(column)
-        # print(headers[i], num_timeouts, first_timeout)
         stats[headers[i]] = [(num_unsat, til_fe)]
+        # print(headers[i], num_unsat, til_fe)
     return stats
 
 def stat_multiple(path):
     all_stats = None
+    shape = None
+
     sample_count = 0
     for proj_root in os.listdir(path):
         proj_root = path + "/" + proj_root
-        if os.path.isdir(proj_root):
-            # print(proj_root)
-            data, headers = parse_log(proj_root)
-            stats = get_proj_stats(data, headers)
-            if all_stats == None:
-                all_stats = stats
-            else:
-                assert all_stats.keys() == stats.keys()
-                for k in stats:
-                    all_stats[k].extend(stats[k])
-            sample_count += 1
+        if not os.path.isdir(proj_root):
+            continue
+        data, headers = parse_log(proj_root)
+        stats = get_proj_stats(data, headers)
+        if all_stats == None:
+            all_stats = stats
+            shape = data.shape
+        else:
+            assert all_stats.keys() == stats.keys()
+            assert shape == data.shape
+            for k in stats:
+                all_stats[k].extend(stats[k])
+        sample_count += 1
     print("number of samples", sample_count)
-    table = [["mode", "num_unsat\n(mean)", "first_error\n(mean)"]]
+    print("number of steps", shape[0] + 1)
+    table = [["mode", "total_unsat\nsteps", "error_free\nsteps"]]
     for k in all_stats:
         mode_stats = np.array(all_stats[k])
-        num_unsat = np.round(np.mean(mode_stats[:,0]), 2)
-        first_error = np.round(np.mean(mode_stats[:,1]), 2)
-        table += [[k, num_unsat, first_error]]
-    print(tabulate(table, headers="firstrow"))
+        num_unsat = np.mean(mode_stats[:,0])
+        error_free = np.mean(mode_stats[:,1])
+        table += [[k, num_unsat, error_free]]
+    print(tabulate(table, headers="firstrow", floatfmt=".2f"))
 
 if __name__ == "__main__":
     path = sys.argv[1]
@@ -171,5 +188,6 @@ if __name__ == "__main__":
     if os.path.exists(log_path):
         data, headers = parse_log(path)
         pretty_print_data(data, headers)
+        plot_log(path, data, headers)
     else:
         stat_multiple(path)
