@@ -114,12 +114,14 @@ def plot_log(proj_root, data, headers):
     for ax in axs:
         for i in range(1, len(headers)):
             marker = "o" if "inst" in headers[i] else "x"
-            ax.scatter(xs, data[:, i, 0], label=headers[i], marker=marker, s=10)
+            marker = "s" if "label" in headers[i] else marker
+            ax.scatter(xs, data[:, i, 0], label=headers[i], marker=marker, s=10, alpha=0.5)
         # ax.plot(xs, np.power(1.12, xs)/10, linestyle="--", label="1.14^x/15")
         ax.set_xlim(0, data.shape[0]-1)
+    y_max = int(np.max(data[:, :, 0]))
 
     axs[0].legend()
-    axs[0].set_ylim(0, 120)
+    axs[0].set_ylim(0, y_max)
     axs[1].set_yscale("log")
 
     fig.supxlabel("number of asserts")
