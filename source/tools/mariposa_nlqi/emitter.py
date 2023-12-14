@@ -24,6 +24,13 @@ class Emitter(Rewriter):
         lines = self.emit_temp_decls(lang)
         prev = self.get_temp(0)
         for s in self.csteps:
+            if mode == StepMode.LBL:
+                if lang == Lang.DAFNY:
+                    lines.append(f"\tlabel lbl_{self.eid}: ")
+                else:
+                    assert lang == Lang.VERUS
+                    lines.append("\tassert (true) by {")
+
             stmt = "\tassert(" + prev + " == " + self.get_temp(s.main.id) + ")" 
             if mode == StepMode.NLA or mode == StepMode.FREE:
                 lines.append(stmt + ";")
@@ -31,6 +38,9 @@ class Emitter(Rewriter):
                 lines.append(stmt + " by ")
                 prev = self.get_temp(s.main.id)
                 lines.append(s.emit_calls(mode) + "// " + str(s.main.id))
+
+            if mode == StepMode.LBL and lang == Lang.VERUS:
+                lines.append("\t}")
         return "\n".join(lines) + "\n"
 
 class ProjectEmitter:
@@ -132,15 +142,14 @@ class ProjectEmitter:
         out_f.close()
  
 if __name__ == "__main__":
-    if len(sys.argv) == 2:
-        ts = int(sys.argv[1])
+    if len(sys.argv) == 3:
+        ts = int(sys.argv[2])
     else:
         ts = int.from_bytes(os.urandom(8), byteorder="big")
 
     proj_root = str(ts)
-    pa = EmitterParams(ts)
+    pa = EmitterParams(ts, config_name=sys.argv[1])
     print(pa, end="")
     ee = ProjectEmitter(proj_root, pa, overwrite=True)
-
-    ee.emit_verus_file(StepMode.FREE)
-    # ee.emit_dafny_file(StepMode.AUTO)
+    ee.emit_dafny_file(StepMode.LBL)
+    ee.emit_verus_file(StepMode.LBL)

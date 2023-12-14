@@ -30,6 +30,7 @@ class StepMode(enum.Enum):
     AUTO = "auto"
     NLA = "nlarith"
     FREE = "free"
+    LBL = "label"
 
 class EmitterParams:
     def __init__(self, seed, config_name="default"):

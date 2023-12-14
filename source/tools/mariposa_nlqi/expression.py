@@ -30,7 +30,7 @@ class LemmaCall:
         self.hint_call = "assert (%s == %s)" % (left, right)
 
     def emit(self, mode):
-        if mode == StepMode.AUTO: 
+        if mode == StepMode.AUTO or mode == StepMode.LBL:
             return self.auto_call
 
         if mode == StepMode.NLA:
