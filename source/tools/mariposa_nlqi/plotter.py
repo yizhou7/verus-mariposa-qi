@@ -88,7 +88,6 @@ def parse_log(proj_root):
     datas = []
     headers = []
 
-
     while index < len(lines):
         line = lines[index]
         if line.startswith("[INFO] rerun summary "):
