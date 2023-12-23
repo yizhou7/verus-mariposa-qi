@@ -1,7 +1,7 @@
 import sys, os
-from rewriter import *
+from expander import *
 
-class Emitter(Rewriter):
+class Emitter(Expander):
     def __init__(self, eid, params):
         super().__init__(eid, params)
 
@@ -31,7 +31,7 @@ class Emitter(Rewriter):
                     assert lang == Lang.VERUS
                     lines.append("\tassert (true) by {")
 
-            stmt = "\tassert(" + prev + " == " + self.get_temp(s.main.id) + ")" 
+            stmt = "\tassert(" + prev + " <= " + self.get_temp(s.main.id) + ")" 
             if mode == StepMode.NLA or mode == StepMode.FREE:
                 lines.append(stmt + ";")
             else:
@@ -156,4 +156,4 @@ if __name__ == "__main__":
     print(pa, end="")
     ee = ProjectEmitter(proj_root, pa, overwrite=True)
     # ee.emit_dafny_file(StepMode.LBL)
-    ee.emit_verus_file(StepMode.INST)
+    ee.emit_verus_file(StepMode.AUTO)

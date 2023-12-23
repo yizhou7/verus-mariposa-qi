@@ -47,6 +47,12 @@ pub proof fn lemma_mul_is_commutative(x: int, y: int)
 {}
 
 #[verifier::external_body]
+pub proof fn lemma_mul_monotonic(x: int, y: int)
+    // requires y > 0
+    ensures x <= x * y
+{}
+
+#[verifier::external_body]
 pub proof fn lemma_mul_is_distributive_auto()
     ensures
         forall |x: int, y: int, z: int|
@@ -121,6 +127,9 @@ pub proof fn lemma_mul_properties_auto_0()
         forall |x: int, y: int, z: int|
             #![trigger (x - y) * z] #![trigger (x * z) - (y * z)]
             (x - y) * z == (x * z) - (y * z),
+        forall |x: int, y: int|
+            #![trigger x * y]
+            (x <= x * y)
 {}
 
 // I think this is the same as the above, maybe slightly worse
@@ -150,6 +159,8 @@ pub proof fn lemma_mul_properties_auto_1()
             (x * (y - z)) == #[trigger]((x * y) - (x * z)),
         forall |x: int, y: int, z: int|
             ((x - y) * z) == #[trigger]((x * z) - (y * z)),
+        forall |x: int, y: int|
+            x <= #[trigger](x * y),
 {}
 
 // I think using multi-pattern is incomplete

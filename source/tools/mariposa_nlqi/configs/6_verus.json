@@ -1,0 +1,14 @@
+{
+    "expr_max_depth": 2,
+    "root_dir": "mariposa_data/6_verus/",
+    "steps_total": 10,
+    "keep_every": 10,
+    "expr_num": 7,
+    "modes":["auto"],
+    "mutant_num": 1,
+    "related": false,
+    "langs": ["verus"],
+    "short_cut": false,
+    "lang_timeout": 5,
+    "smt_timeout": 10
+}

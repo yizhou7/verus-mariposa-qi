@@ -123,10 +123,13 @@ class Expression:
             call.set_hint(orig, str(self))
 
         if right_enable:
-            call = LemmaCall("mul_is_associative", [self.left, self.right.left, self.right.right])
-            t_right = self.right
-            self.right = t_right.right
-            self.left = Expression(self.op, self.left, t_right.left)
+            x, y, z = self.left, self.right.left, self.right.right
+            assert str(self) == f"({x}*({y}*{z}))"
+            call = LemmaCall("mul_is_associative", [x, y, z])
+            self.right = z
+            self.left = Expression(self.op, x, y)
+            assert str(self) == f"(({x}*{y})*{z})"
+            # print(orig, "<=", str(self))
             call.set_hint(orig, str(self))
 
         return call
@@ -217,14 +220,11 @@ class Expression:
     def rewrite_single_step(self):
         retry_count = 0
 
-        while retry_count < 10:
-            nodes = self.list_op_nodes()
-            random.shuffle(nodes)
-            for n in nodes:
-                fun = random.choice(FUNS)
-                call = fun(n)
-                if call != None:
-                    return call
+        while retry_count < 8:
+            fun = random.choice(FUNS)
+            call = fun(self)
+            if call != None:
+                return call
             retry_count += 1
         return None
 
@@ -234,9 +234,9 @@ class Expression:
         return "(%s%s%s)" % (self.left, self.op.value, self.right)
 
 FUNS = [lambda e: e.rewrite_commutative(), 
-        lambda e: e.rewrite_associative(), 
-        lambda e: e.rewrite_mul_distributive(),
-        lambda e: e.rewrite_mul_add_distributive_inverse()]
+        lambda e: e.rewrite_associative(),
+        lambda e: e.rewrite_mul_distributive()]
+        # lambda e: e.rewrite_mul_add_distributive_inverse()]
 
 if __name__ == "__main__":
     table = [["depth", "mean\nunique\nsubexps", "mean\nunique\nsubexps\nper depth"]]

@@ -1,5 +1,11 @@
-from expression import *
 import sys, os
+from expression import *
+
+class ExpandStep:
+    def __init__(self, id, call, result):
+        self.id = id
+        self.call = call
+        self.result = result
 
 class RewriteStep:
     def __init__(self, id, call, result):
@@ -22,7 +28,7 @@ class CompStep:
                 calls.append(s.call.emit(mode))
         return "\t\t\t{" + ";\n\t\t\t".join(calls) + ";}"
 
-class Rewriter:
+class Expander:
     def __init__(self, eid, params):
         self.steps = []
         self.eid = eid
@@ -32,20 +38,23 @@ class Rewriter:
             eid = ""
 
         self.e = Expression.random_init(eid, params.expr_max_depth)
-        # self.init_subexps = self.e.get_unique_subexps()
+        pe = self.e
         self.start = str(self.e)
 
-        for _ in range(params.steps_total):
-            call = self.e.rewrite_single_step()
-            if call != None:
-                s = RewriteStep(len(self.steps)+1, call, str(self.e))
-                self.steps.append(s)
+        for i in range(params.steps_total):
+            if i % 2 == 0:
+                ce = Expression.random_init(eid, params.expr_max_depth)
+                ne = Expression(Operator.MUL, pe, ce)
+                call = LemmaCall("mul_monotonic", [pe, ce])
+                pe = ne
+                s = ExpandStep(len(self.steps)+1, call, ne)
             else:
-                self.ok = False
-                return
+                call = pe.rewrite_single_step()
+                s = RewriteStep(len(self.steps)+1, call, str(pe))
+                self.steps.append(s)
 
-        self.params = params
-        self.vars = self.e.get_vars()
+            # print(call.emit(StepMode.AUTO))
+            self.steps.append(s)
         self.csteps = self.get_steps(params.steps_total, params.keep_every)
 
     def get_steps(self, upto, keep_every):
@@ -61,3 +70,12 @@ class Rewriter:
             else:
                 between += [s]
         return compressed
+
+if __name__ == "__main__":
+    if len(sys.argv) == 3:
+        ts = int(sys.argv[2])
+    else:
+        ts = int.from_bytes(os.urandom(8), byteorder="big")
+
+    pa = EmitterParams(ts, config_name=sys.argv[1])
+    Expander(0, pa)
