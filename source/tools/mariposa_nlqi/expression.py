@@ -1,11 +1,28 @@
 import numpy as np
 from tabulate import tabulate
 from configs import *
+from copy import deepcopy
+
+OP_PROB = {
+    "add_": 0.1,
+    "sub_": 0.1,
+    "mul_": 0.8,
+}
+
+MOD_PROB = 0.1
+
+OP_PRETTY = {
+    "add_": "+",
+    "sub_": "-",
+    "mul_": "*",
+    "mod_": "%",
+}
 
 class Operator(enum.Enum):
-    ADD = "+"
-    SUB = "-"
-    MUL = "*"
+    ADD = "add_"
+    SUB = "sub_"
+    MUL = "mul_"
+    MOD = "mod_"
 
     @classmethod
     def random_init(cls):
@@ -16,43 +33,10 @@ class Operator(enum.Enum):
             return Operator.SUB
         return Operator.MUL
 
-class LemmaCall:
-    def __init__(self, name, args):
-        self.name = name
-        self.args = args
-
-        self.inst_call = "lemma_%s(%s)" % (self.name, ", ".join([str(a) for a in self.args]))
-        self.auto_call = AUTO_CALL
-        self.hint_call = None
-
-    def set_hint(self, left, right):
-        # print(left, right)
-        self.hint_call = "assert (%s == %s)" % (left, right)
-
-    def emit(self, mode):
-        if mode == StepMode.AUTO or mode == StepMode.LBL:
-            return self.auto_call
-
-        if mode == StepMode.NLA:
-            return ""
-
-        if mode == StepMode.INST:
-            return self.inst_call
-
-        assert False
-
-def pick_side(left, right):
-    if left and right:
-        if random.random() < 0.5:
-            left = False
-        else:
-            right = False
-    assert left + right <= 1
-    return left, right
-
 class Expression:
     def __init__(self, op, left, right, suffix=""):
         self.op = op
+        self.suffix = suffix
 
         if op == None:
             assert left == None and right == None
@@ -67,6 +51,12 @@ class Expression:
         self.right = right
 
     @classmethod
+    def var_init(cls, var, suffix=""):
+        v = cls(None, None, None, suffix)
+        v.value = var + str(suffix)
+        return v
+
+    @classmethod
     def random_init(cls, suffix, max_depth, prob=1):
         op = Operator.random_init()
         if max_depth == 0 or random.random() > prob:
@@ -74,7 +64,12 @@ class Expression:
         else:
             left = Expression.random_init(suffix, max_depth-1, prob*EARLY_STOP_FACTOR)
             right = Expression.random_init(suffix, max_depth-1, prob*EARLY_STOP_FACTOR)
-        return cls(op, left, right, suffix)
+        e = cls(op, left, right, suffix)
+        if random.random() <= MOD_PROB:
+            m = Expression.var_init("m" + str(suffix))
+            return cls(Operator.MOD, e, m, suffix)
+        else:
+            return e
 
     def get_layer_stats(self, depth=0):
         if self.op == None:
@@ -93,7 +88,7 @@ class Expression:
         
     def get_vars(self):
         if self.op == None:
-            if self.value in VARS:
+            if "as int)" not in self.value:
                 return {self.value}
             else:
                 return set()
@@ -104,139 +99,61 @@ class Expression:
             return {str(self)}
         return {str(self)} | self.left.get_unique_subexps() | self.right.get_unique_subexps()
 
-    def rewrite_associative(self):
-        call = None
+    # self is the skeleton, other is the expression
+    def get_substitution(self, other):
+        if self.op == None:
+            return {self.value: other}
 
-        if self.op != Operator.MUL:
-            return call
-
-        left_enable, right_enable = pick_side(self.left.op == self.op, 
-                                            self.right.op == self.op)
-
-        orig = str(self)
-
-        if left_enable:
-            call = LemmaCall("mul_is_associative", [self.left.left, self.left.right, self.right])
-            t_left = self.left
-            self.left = t_left.left
-            self.right = Expression(self.op, t_left.right, self.right)
-            call.set_hint(orig, str(self))
-
-        if right_enable:
-            call = LemmaCall("mul_is_associative", [self.left, self.right.left, self.right.right])
-            t_right = self.right
-            self.right = t_right.right
-            self.left = Expression(self.op, self.left, t_right.left)
-            call.set_hint(orig, str(self))
-
-        return call
-    
-    def rewrite_commutative(self):
-        if self.op != Operator.MUL:
+        if self.op != other.op:
             return None
-        orig = str(self)
-        call = LemmaCall("mul_is_commutative", [self.left, self.right])
-        t_right, t_left = self.right, self.left
-        self.left, self.right = t_right, t_left
-        call.set_hint(orig, str(self))
-        return call
 
-    def rewrite_mul_distributive(self):
-        call = None
+        left_subs = self.left.get_substitution(other.left)
+        right_subs = self.right.get_substitution(other.right)
+        if left_subs == None or right_subs == None:
+            return None
+        return {**left_subs, **right_subs}
 
-        if self.op != Operator.MUL:
-            return call
+    # self is the skeleton
+    def apply_substitution(self, subs, suffix, expand=False):
+        if self.op == None:
+            if self.value in subs:
+                return deepcopy(subs[self.value])
+            if expand:
+                ne = Expression.random_init(suffix, 2)
+                subs[self.value] = ne
+                return ne
+            assert False
+        return Expression(deepcopy(self.op), 
+                    self.left.apply_substitution(subs, suffix, expand), 
+                    self.right.apply_substitution(subs, suffix, expand))
 
-        left_enable, right_enable = pick_side(self.left.op in {Operator.ADD, Operator.SUB},
-                                            self.right.op in {Operator.ADD, Operator.SUB})
-
-        orig = str(self)
-
-        t_right, t_left = self.right, self.left
-
-        if left_enable:
-            call =  LemmaCall("mul_is_distributive", [self.left.left, self.left.right, self.right])
-            op = self.left.op
-            self.left = Expression(Operator.MUL, t_left.left, t_right)
-            self.right = Expression(Operator.MUL, t_left.right, t_right)
-            self.op = op
-            call.set_hint(orig, str(self))
-
-        if right_enable:
-            call =  LemmaCall("mul_is_distributive", [self.left, self.right.left, self.right.right])
-            op = self.right.op
-            self.left = Expression(Operator.MUL, t_left, t_right.left)
-            self.right = Expression(Operator.MUL, t_left, t_right.right)
-            self.op = op
-            call.set_hint(orig, str(self))
-
-        return call
-
-    def rewrite_mul_add_distributive_inverse(self):
-        call = None
-    
-        if self.left.op != Operator.MUL or \
-            self.right.op != Operator.MUL:
-            return call
+    def replace(self, new):
+        self.op = new.op
+        self.suffix = new.suffix
+        self.value = new.value
+        self.left = new.left
+        self.right = new.right
         
-        if self.op not in {Operator.ADD, Operator.SUB}:
-            return call
-
-        left_enable, right_enable = pick_side(str(self.left.left) == str(self.right.left),
-                                            str(self.left.right) == str(self.right.right))
-
-        t_right, t_left = self.right, self.left
-
-        orig = str(self)
-        op = self.op
-
-        if left_enable:
-            x, y, z = t_left.left, t_left.right, t_right.right
-            call =  LemmaCall("mul_is_distributive", [x, y, z])
-            self.left = x
-            self.right = Expression(op, y, z)
-            self.op = Operator.MUL
-            call.set_hint(orig, str(self))
-
-        if right_enable:
-            x, y, z = t_left.left, t_right.left, t_right.right
-            call =  LemmaCall("mul_is_distributive", [x, y, z])
-            self.left = Expression(op, x, y)
-            self.right = z
-            self.op = Operator.MUL
-            call.set_hint(orig, str(self))
-
-        return call
-
     def list_op_nodes(self):
         if self.op == None:
             return []
         else:
             return [self] + self.left.list_op_nodes() + self.right.list_op_nodes()
 
-    def rewrite_single_step(self):
-        retry_count = 0
-
-        while retry_count < 10:
-            nodes = self.list_op_nodes()
-            random.shuffle(nodes)
-            for n in nodes:
-                fun = random.choice(FUNS)
-                call = fun(n)
-                if call != None:
-                    return call
-            retry_count += 1
-        return None
-
     def __str__(self):
         if self.op == None:
             return str(self.value)
-        return "(%s%s%s)" % (self.left, self.op.value, self.right)
+        return "(%s(%s, %s))" % (self.op.value, self.left,self.right)
 
-FUNS = [lambda e: e.rewrite_commutative(), 
-        lambda e: e.rewrite_associative(), 
-        lambda e: e.rewrite_mul_distributive(),
-        lambda e: e.rewrite_mul_add_distributive_inverse()]
+    def to_str(self, pretty=False):
+        if self.op == None:
+            return str(self.value)
+        if not pretty:
+            return str(self)
+        if self.op == Operator.MOD:
+            return "(%s %% %s)" % (self.left.to_str(pretty), self.right.to_str(pretty))
+        op = OP_PRETTY[self.op.value]
+        return "(%s %s %s)" % (self.left.to_str(pretty), op, self.right.to_str(pretty))
 
 if __name__ == "__main__":
     table = [["depth", "mean\nunique\nsubexps", "mean\nunique\nsubexps\nper depth"]]

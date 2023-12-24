@@ -1,5 +1,5 @@
 from expression import *
-import sys, os
+from axioms import *
 
 class RewriteStep:
     def __init__(self, id, call, result):
@@ -22,6 +22,40 @@ class CompStep:
                 calls.append(s.call.emit(mode))
         return "\t\t\t{" + ";\n\t\t\t".join(calls) + ";}"
 
+class ExpRewriter(Expression):
+    def __init__(self, op, left, right, suffix=""):
+        super().__init__(op, left, right, suffix)
+
+    @classmethod
+    def random_init(cls, suffix, max_depth, prob=1):
+        return super().random_init(suffix, max_depth, prob)
+
+    def try_apply(self, nodes, ax):
+        random.shuffle(nodes)
+        for n in nodes:
+            res = ax.try_apply_lemma(n)
+            if res != None:
+                return res
+        return None
+
+    def rewrite_single_step(self):
+        success = None
+        nodes = list(self.list_op_nodes())
+
+        if random.randint(0, 1) < 0.5:
+            print("overall: ", self.to_str(True))
+            success = self.try_apply(nodes, MOD_MUL_VANISH)
+
+        if not success:
+            axioms = [ax for ax in AXIOMS]
+            random.shuffle(axioms)
+            while len(axioms) > 0 and not success:
+                ax = axioms.pop()
+                success = self.try_apply(nodes, ax)
+
+        assert success
+        return success
+
 class Rewriter:
     def __init__(self, eid, params):
         self.steps = []
@@ -30,7 +64,7 @@ class Rewriter:
 
         if params.related:
             eid = ""
-        self.e = Expression.random_init(eid, params.expr_max_depth)
+        self.e = ExpRewriter.random_init(eid, params.expr_max_depth)
         # self.init_subexps = self.e.get_unique_subexps()
         self.start = str(self.e)
 
@@ -61,3 +95,12 @@ class Rewriter:
             else:
                 between += [s]
         return compressed
+
+if __name__ == "__main__":
+    # random.seed(0)
+    e = ExpRewriter.random_init("", 3)
+    print(e.to_str(True))
+    for i in range(10):
+        e.rewrite_single_step()
+    print(e.to_str(True))
+    # MUL_COMM.is_applicable(e)

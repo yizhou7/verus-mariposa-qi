@@ -5,11 +5,6 @@ TERM_CONST_PROB = 1 - TERM_VAR_PROB
 
 EARLY_STOP_FACTOR = 0.975
 
-OP_PROB = {
-    "+": 0.1,
-    "-": 0.1,
-    "*": 0.8,
-}
 
 DAFNY_BIN_PATH = "~/dafny/dafny"
 VREUS_BIN_PATH = "~/verus/source/target-verus/release/verus"

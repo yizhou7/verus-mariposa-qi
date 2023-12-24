@@ -31,7 +31,7 @@ class Emitter(Rewriter):
                     assert lang == Lang.VERUS
                     lines.append("\tassert (true) by {")
 
-            stmt = "\tassert(" + prev + " == " + self.get_temp(s.main.id) + ")" 
+            stmt = f"\tassert(eq_({prev}, {self.get_temp(s.main.id)}))"
             if mode == StepMode.NLA or mode == StepMode.FREE:
                 lines.append(stmt + ";")
             else:
@@ -81,10 +81,10 @@ class ProjectEmitter:
     def get_args(self):
         args = []
         if self.params.related:
-            args = ", ".join([f"{v}: int" for v in VARS])
+            args = ", ".join([f"{v}: int" for v in VARS + ["m"]])
         else:
             for i in range(self.params.expr_num):
-                args += [", ".join([f"{v}{i}: int" for v in VARS])]
+                args += [", ".join([f"{v}{i}: int" for v in VARS + ["m"]])]
             args = ",\n".join(args)
         return args
 
@@ -151,5 +151,6 @@ if __name__ == "__main__":
     pa = EmitterParams(ts, config_name=sys.argv[1])
     print(pa, end="")
     ee = ProjectEmitter(proj_root, pa, overwrite=True)
-    ee.emit_dafny_file(StepMode.LBL)
-    ee.emit_verus_file(StepMode.LBL)
+    # ee.emit_dafny_file(StepMode.LBL)
+    ee.emit_verus_file(StepMode.AUTO)
+    # ee.emit_verus_file(StepMode.INST)

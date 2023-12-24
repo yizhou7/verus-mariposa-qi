@@ -1,0 +1,14 @@
+{
+    "expr_max_depth": 5,
+    "root_dir": "mariposa_data/uf/",
+    "steps_total": 20,
+    "keep_every": 2,
+    "expr_num": 1,
+    "modes":["auto", "inst", "nlarith", "free"],
+    "mutant_num": 1,
+    "related": false,
+    "langs": ["dafny", "verus"],
+    "short_cut": false,
+    "lang_timeout": 5,
+    "smt_timeout": 10
+}
