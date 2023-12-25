@@ -279,7 +279,7 @@ AXIOMS = [ADD_COMM,
         MUL_COMM, MUL_ASSOC, MUL_DIST,
         MOD_MUL_NOOP, MOD_MUL_VANISH, MOD_ADD_NOOP, MOD_SUB_NOOP]
 
-if __name__ == "__main__":
+def write_axioms():
     f = open("tools/mariposa_nlqi/assets/nlqi_verus/src/nl_basics.rs", "w+")
     f.write(
         """use builtin_macros::*;
@@ -322,3 +322,6 @@ verus! {
 
     f.write("}\n")
 #     print(a.to_str())
+
+if __name__ == "__main__":
+    write_axioms()

@@ -45,6 +45,17 @@ def list_smt_files(root_dir):
 def clean_newlines(s):
     return s.replace('\n', ' ').replace('\r', '')
 
+def run_single_smt(query, timeout):
+    cmd = [
+        Z3_BIN_PATH,
+        f"{query}",
+        f"-T:{timeout}",
+    ]
+    stdout, stderr, elapsed = run_command(cmd, timeout + 1)
+    stdout += stderr
+    output = parse_basic_output(stdout)
+    return elapsed, output, stdout
+
 class ExperimentRunner(ProjectEmitter):
     def __init__(self, prams, overwrite=False):
         root_dir = prams.root_dir
@@ -53,6 +64,8 @@ class ExperimentRunner(ProjectEmitter):
             os.system(f"mkdir -p {root_dir}")
 
         proj_root = f"{root_dir}/{prams.seed}"
+        print(prams)
+        self.proj_root = proj_root
         super().__init__(proj_root, prams, overwrite)
         self.verus_tmp_dir = f"{self.verus_proj_root}/tmp"
         self.dafny_tmp_dir = f"{self.dafny_proj_root}/tmp"
@@ -67,6 +80,7 @@ class ExperimentRunner(ProjectEmitter):
         # this dir is for persistent 
         self.verus_smt_dir = f"{self.verus_proj_root}/log"
         self.dafny_smt_dir = f"{self.dafny_proj_root}/log"
+        self.verus_file = f"{self.verus_proj_root}/src/main.rs"
 
         if not os.path.exists(self.verus_smt_dir):
             os.system(f"mkdir {self.verus_smt_dir}")
@@ -79,6 +93,9 @@ class ExperimentRunner(ProjectEmitter):
 
         if not os.path.exists(self.dafny_tmp_dir):
             os.system(f"mkdir {self.dafny_tmp_dir}")
+
+    def clear_experiment(self):
+        os.system(f"rm -rf {self.proj_root}")
 
     def log_line(self, line):
         print(line)
@@ -114,32 +131,33 @@ class ExperimentRunner(ProjectEmitter):
             self.log_line(clean_newlines(stdout))
         mp_query = dst.replace(".smt2", ".1.smt2")
         assert os.path.exists(mp_query)
+        return mp_query
 
     def run_single_verus(self, mode, actual_expr_num):
-        verus_file = f"{self.verus_proj_root}/src/main.rs"
         cmd = [
             VREUS_BIN_PATH,
-            verus_file,
+            self.verus_file,
             f"--verify-root",
             f"--crate-type lib",
             f"--no-auto-recommends-check",
             f"--log smt",
             f"--log-dir {self.verus_tmp_dir}",
-            f"--smt-option timeout={self.params.get_lang_to_millis()}"
+            f"--rlimit 10000" # basically no timeout
         ]
         stdout, stderr, elapsed = run_command(cmd, self.params.get_lang_to_seconds() + 1)
-        os.system(f"mv {verus_file} {verus_file}.{mode.value}.{actual_expr_num}")
+        saved_verus = f"{self.verus_file}.{mode.value}.{actual_expr_num}"
+        os.system(f"mv {self.verus_file} {saved_verus}")
         tmp_file = self.get_tmp_file(Lang.VERUS, mode)
         assert os.path.exists(tmp_file)
         smt_file = self.get_smt_file(Lang.VERUS, mode, actual_expr_num)
-        self.post_process_smt(tmp_file, smt_file)
+        smt_file = self.post_process_smt(tmp_file, smt_file)
     
         if "verification results:: 1 verified, 0 errors" not in stdout:
             self.log_line("[WARN] verus-tool stdout: " + clean_newlines(stdout))
             self.log_line("[WARN] verus-tool stderr: " + clean_newlines(stderr))
         line = f"[INFO] verus-tool {mode.value} {actual_expr_num} {elapsed}"
         self.log_line(line)
-        return elapsed
+        return elapsed, smt_file, saved_verus
 
     def run_verus(self):
         for mode in self.params.modes:
@@ -181,6 +199,8 @@ class ExperimentRunner(ProjectEmitter):
                 self.emit_dafny_file(mode, actual_expr_num=i)
                 self.run_single_dafny(mode, i)
 
+
+
     def rerun_smt(self, smt_dir):
         mapped = {i: {} for i in range(1, self.params.expr_num)}
         for query in list_smt_files(smt_dir):
@@ -200,18 +220,11 @@ class ExperimentRunner(ProjectEmitter):
                     self.log_line(f"[INFO] skipping {qid} {m} {query}")
                     row.append(-1)
                 else:
-                    cmd = [
-                        Z3_BIN_PATH,
-                        f"{query}",
-                        f"-T:{self.params.get_smt_to_seconds()}",
-                    ]
-                    stdout, stderr, elapsed = run_command(cmd, self.params.get_smt_to_seconds() + 1)
-                    output = parse_basic_output(stdout)
+                    elapsed, output, stdout = run_single_smt(query, self.params.get_smt_to_seconds())
                     if elapsed > self.params.get_smt_to_seconds() and self.params.short_cut:
                         to_count[m] += 1
                     else:
                         to_count[m] = 0
-
                     self.log_line(f"[INFO] z3 {qid} {m} {elapsed} {query} {clean_newlines(stdout)}")
                     row.append((elapsed, output))
             table.append(row)

@@ -1,5 +1,6 @@
 import sys, os
 from rewriter import *
+from axioms import *
 
 class Emitter(Rewriter):
     def __init__(self, eid, params):
@@ -46,6 +47,7 @@ class Emitter(Rewriter):
 class ProjectEmitter:
     def __init__(self, proj_root, params, overwrite=False):
         rws = []
+        write_axioms()
 
         for i in range(params.expr_num):
             em = Emitter(i, params)

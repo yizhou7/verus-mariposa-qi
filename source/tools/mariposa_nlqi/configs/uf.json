@@ -3,13 +3,13 @@
     "root_dir": "mariposa_data/uf/",
     "steps_total": 1,
     "keep_every": 1,
-    "expr_num": 100,
-    "modes":["auto", "inst", "nlarith", "free"],
+    "expr_num": 300,
+    "modes":["auto"],
     "mutant_num": 1,
     "related": true,
-    "langs": ["dafny", "verus"],
+    "langs": ["verus"],
     "short_cut": false,
     "uf": true,
-    "lang_timeout": 5,
-    "smt_timeout": 10
+    "lang_timeout": 3,
+    "smt_timeout": 30
 }
