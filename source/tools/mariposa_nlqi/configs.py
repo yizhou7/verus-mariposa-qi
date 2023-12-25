@@ -48,6 +48,8 @@ class EmitterParams:
         self.langs = [Lang(i) for i in contents["langs"]]
         self.lang_timeout = contents["lang_timeout"] # seconds
         self.smt_timeout = contents["smt_timeout"] # seconds
+        
+        self.uf = contents["uf"]
 
         self.seed = seed
         random.seed(seed)

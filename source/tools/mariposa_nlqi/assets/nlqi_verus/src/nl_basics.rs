@@ -1,8 +1,7 @@
 use builtin_macros::*;
 use builtin::*;
 verus! {
-pub open spec fn eq_(x: int, y: int) -> bool
-{x == y}
+pub closed spec fn eq_(x: int, y: int) -> bool;
 
 pub closed spec fn add_(x: int, y: int) -> int;
 
@@ -53,6 +52,20 @@ ensures
 		eq_((mod_((sub_(x, y)), m)), (mod_((sub_(x, (mod_(y, m)))), m))),
 	forall |x: int, y: int, m: int|
 		eq_((mod_((sub_(x, y)), m)), (mod_((sub_((mod_(x, m)), y)), m))),
+	forall |x: int|
+		eq_(x, x),
+	forall |x: int, y: int|
+		((eq_(x, y)) ==> eq_(y, x)),
+	forall |x: int, y: int, z: int|
+		((eq_(x, y) && eq_(y, z)) ==> eq_(x, z)),
+	forall |x0: int, y0: int, x1: int, y1: int|
+		((eq_(x0, x1) && eq_(y0, y1)) ==> eq_(add_(x0, y0), add_(x1, y1))),
+	forall |x0: int, y0: int, x1: int, y1: int|
+		((eq_(x0, x1) && eq_(y0, y1)) ==> eq_(sub_(x0, y0), sub_(x1, y1))),
+	forall |x0: int, y0: int, x1: int, y1: int|
+		((eq_(x0, x1) && eq_(y0, y1)) ==> eq_(mul_(x0, y0), mul_(x1, y1))),
+	forall |x0: int, y0: int, x1: int, y1: int|
+		((eq_(x0, x1) && eq_(y0, y1)) ==> eq_(mod_(x0, y0), mod_(x1, y1))),
 {}
 
 #[verifier::external_body]

@@ -12,10 +12,10 @@ class Equation:
         #     print(self.to_str(True))
         self.increasing_vars = rvs - lvs
 
-    def to_str(self, pretty=False):
-        l = self.left.to_str(pretty)
-        r = self.right.to_str(pretty)
-        if pretty:
+    def to_str(self, uf=False):
+        l = self.left.to_str(uf)
+        r = self.right.to_str(uf)
+        if not uf:
             return f"{l} == {r}"
         return f"eq_({l}, {r})"
     
@@ -35,8 +35,6 @@ class Equation:
         suffix = e.suffix
 
         increase = self.increasing_vars
-        if len(increase) != 0 and left:
-            return (self.right.apply_substitution(left, suffix, True), left)
 
         if left and right:
             if random.randint(0, 1) < 0.5:
@@ -45,16 +43,18 @@ class Equation:
                 right = None
 
         if left:
-            return (self.right.apply_substitution(left, suffix), left)
+            return (self.right.apply_substitution(left, suffix, len(increase) != 0), left)
         if right:
             return (self.left.apply_substitution(right, suffix), right)
 
 class LemmaCall:
-    def __init__(self, name, args):
+    def __init__(self, name, args, uf):
         self.name = name
         self.args = args
 
-        self.inst_call = "lemma_%s(%s)" % (self.name, ", ".join([str(a) for a in self.args]))
+        self.inst_call = "lemma_%s(%s)" % (self.name, ", ".join([a.to_str(uf) for a in self.args]))
+        
+        self.debug = "lemma_%s(%s)" % (self.name, ", ".join([a.to_str(False) for a in self.args]))
         self.auto_call = AUTO_CALL
         self.hint_call = None
 
@@ -70,7 +70,8 @@ class LemmaCall:
             return ""
 
         if mode == StepMode.INST:
-            return self.inst_call
+            return self.inst_call + ";\n" + self.hint_call 
+        # + ";\n" + self.debug
 
         assert False
 
@@ -84,56 +85,64 @@ class Axiom:
     def get_var_sig(self):
         return ", ".join([v.to_str() + ": int" for v in self.vars])
 
-    def to_lemma_call(self, e, ne, subs):
+    def to_lemma_call(self, e, ne, subs, uf):
         args = [subs[v.value] for v in self.vars]
-        call = LemmaCall(self.name, args)
+        call = LemmaCall(self.name, args, uf)
         call.set_hint(e.to_str(True), ne.to_str(True))
         return call
 
-    def try_apply_lemma(self, e: Expression):
+    def try_apply_lemma(self, e: Expression, uf):
         assert isinstance(e, Expression)
 
         if e.op == None:
             return None
 
         ress = []
+
+        # debug = False
+        # if e.to_str(True) == "(sub_((mul_(b0, a0)), (mul_(d0, c0))))":
+        #     debug = True
+
         for ensure in self.ensures:
             res = ensure.try_apply(e)
             if res:
+                # if debug:
+                #     print(e.to_str(True))
+                #     print("ensure", ensure.to_str(True))
+                #     ne, subs = res
+                #     for v in subs:
+                #         print(v, ":" , subs[v].to_str(True))
+                #     print(ne.to_str(True))
+                #     print("")
                 ress.append(res)
 
         if len(ress) == 0:
             return None
         (ne, subs) = random.choice(ress)
 
-        print("sub :", e.to_str(True))
-        for v in subs:
-            print(v, ":" , subs[v].to_str(True))
-        print("")
-
-        call = self.to_lemma_call(e, ne, subs)
+        call = self.to_lemma_call(e, ne, subs, uf)
         e.replace(ne)
         return call
 
-    def to_str(self, pretty=False):
+    def to_str(self, uf=True):
         sig = f"pub proof fn lemma_{self.name}({self.get_var_sig()})"
         lines = ["#[verifier::external_body]", sig]
 
         if len(self.requires) != 0:
-            lines += ["requires"] + ["\t" + r.to_str(pretty) + "," for r in self.requires]
+            lines += ["requires"] + ["\t" + r.to_str(uf) + "," for r in self.requires]
         assert len(self.ensures) != 0
-        lines += ["ensures"] + ["\t" + r.to_str(pretty) + "," for r in self.ensures] + ["{}"]
+        lines += ["ensures"] + ["\t" + r.to_str(uf) + "," for r in self.ensures] + ["{}"]
         return "\n".join(lines) + "\n"
     
-    def get_quantified_clauses(self, pretty=False):
+    def get_quantified_clauses(self, uf):
         prelude = f"forall |{self.get_var_sig()}|"
         lines = []
-        precond = " && ".join([r.to_str(pretty) for r in self.requires])
+        precond = " && ".join([r.to_str(uf) for r in self.requires])
         for r in self.ensures:
             if precond:
-                clause = f"(({precond}) ==> {r.to_str(pretty)})"
+                clause = f"(({precond}) ==> {r.to_str(uf)})"
             else:
-                clause = r.to_str(pretty)
+                clause = r.to_str(uf)
             lines += ["\t" + prelude, "\t\t" + clause + ","]
         return "\n".join(lines)
 
@@ -143,16 +152,16 @@ VZ = Expression.var_init("z")
 VM = Expression.var_init("m")
 
 def mk_add(x, y):
-    return Expression(Operator.ADD, x, y)
+    return Expression(Operator.ADD, x, y, "")
 
 def mk_sub(x, y):
-    return Expression(Operator.SUB, x, y)
+    return Expression(Operator.SUB, x, y, "")
 
 def mk_mul(x, y):
-    return Expression(Operator.MUL, x, y)
+    return Expression(Operator.MUL, x, y, "")
 
 def mk_mod_m(x):
-    return Expression(Operator.MOD, x, VM)
+    return Expression(Operator.MOD, x, VM, "")
 
 def mk_eq(x, y):
     return Equation(x, y)
@@ -278,10 +287,10 @@ use builtin::*;
 verus! {
 """)
 
-    # f.write("pub closed spec fn eq_(x: int, y: int) -> bool;\n\n")
+    f.write("pub closed spec fn eq_(x: int, y: int) -> bool;\n\n")
     
-    f.write("pub open spec fn eq_(x: int, y: int) -> bool\n")
-    f.write("{x == y}\n\n")
+    # f.write("pub open spec fn eq_(x: int, y: int) -> bool\n")
+    # f.write("{x == y}\n\n")
 
     for op in OP_PRETTY.keys():
         f.write(f"pub closed spec fn {op}(x: int, y: int) -> int;\n\n")
@@ -297,19 +306,19 @@ verus! {
     f.write("ensures\n")
 
     for a in AXIOMS:
-        f.write(a.get_quantified_clauses() + "\n")
+        f.write(a.get_quantified_clauses(uf=True) + "\n")
 
-    # for a in [EQ_REF, EQ_SYM, EQ_TRANS]:
-    #     f.write(a.get_quantified_clauses() + "\n")
+    for a in [EQ_REF, EQ_SYM, EQ_TRANS]:
+        f.write(a.get_quantified_clauses(uf=True) + "\n")
 
-    # for op in OP_PRETTY.keys():
-    #     f.write("\tforall |x0: int, y0: int, x1: int, y1: int|\n")
-    #     f.write(f"\t\t((eq_(x0, x1) && eq_(y0, y1)) ==> eq_({op}(x0, y0), {op}(x1, y1))),\n")
+    for op in OP_PRETTY.keys():
+        f.write("\tforall |x0: int, y0: int, x1: int, y1: int|\n")
+        f.write(f"\t\t((eq_(x0, x1) && eq_(y0, y1)) ==> eq_({op}(x0, y0), {op}(x1, y1))),\n")
 
     f.write("{}\n\n")
 
     for a in AXIOMS:
-        f.write(a.to_str(pretty=False) + "\n")
+        f.write(a.to_str(uf=True) + "\n")
 
     f.write("}\n")
 #     print(a.to_str())

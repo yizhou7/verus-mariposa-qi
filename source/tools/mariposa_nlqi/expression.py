@@ -34,7 +34,7 @@ class Operator(enum.Enum):
         return Operator.MUL
 
 class Expression:
-    def __init__(self, op, left, right, suffix=""):
+    def __init__(self, op, left, right, suffix):
         self.op = op
         self.suffix = suffix
 
@@ -111,6 +111,9 @@ class Expression:
         right_subs = self.right.get_substitution(other.right)
         if left_subs == None or right_subs == None:
             return None
+        for k in left_subs.keys() & right_subs.keys():
+            if str(left_subs[k]) != str(right_subs[k]):
+                return None
         return {**left_subs, **right_subs}
 
     # self is the skeleton
@@ -119,13 +122,16 @@ class Expression:
             if self.value in subs:
                 return deepcopy(subs[self.value])
             if expand:
+                # print("suffix", suffix)
                 ne = Expression.random_init(suffix, 2)
+                # print("expaning", ne.to_str(True))
                 subs[self.value] = ne
                 return ne
             assert False
         return Expression(deepcopy(self.op), 
                     self.left.apply_substitution(subs, suffix, expand), 
-                    self.right.apply_substitution(subs, suffix, expand))
+                    self.right.apply_substitution(subs, suffix, expand), 
+                    suffix)
 
     def replace(self, new):
         self.op = new.op
@@ -143,17 +149,15 @@ class Expression:
     def __str__(self):
         if self.op == None:
             return str(self.value)
-        return "(%s(%s, %s))" % (self.op.value, self.left,self.right)
-
-    def to_str(self, pretty=False):
-        if self.op == None:
-            return str(self.value)
-        if not pretty:
-            return str(self)
         if self.op == Operator.MOD:
-            return "(%s %% %s)" % (self.left.to_str(pretty), self.right.to_str(pretty))
+            return "(%s %% %s)" % (self.left, self.right)
         op = OP_PRETTY[self.op.value]
-        return "(%s %s %s)" % (self.left.to_str(pretty), op, self.right.to_str(pretty))
+        return "(%s %s %s)" % (self.left, op, self.right)
+
+    def to_str(self, uf=False):
+        if not uf or self.op == None:
+            return str(self)
+        return "(%s(%s, %s))" % (self.op.value, self.left.to_str(True), self.right.to_str(True))
 
 if __name__ == "__main__":
     table = [["depth", "mean\nunique\nsubexps", "mean\nunique\nsubexps\nper depth"]]

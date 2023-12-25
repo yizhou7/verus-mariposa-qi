@@ -59,7 +59,7 @@ class ProjectEmitter:
 
         self.verus_proj_root = proj_root + "/nlqi_verus"
         self.dafny_proj_root = proj_root + "/nlqi_dafny"
-        
+
         if os.path.exists(proj_root):
             if not overwrite:
                 print(f"[INFO] {proj_root} already exists, not overwriting.")
@@ -154,3 +154,7 @@ if __name__ == "__main__":
     # ee.emit_dafny_file(StepMode.LBL)
     ee.emit_verus_file(StepMode.AUTO)
     # ee.emit_verus_file(StepMode.INST)
+    print(f"[INFO] debug:")
+    cmd = f"~/verus-mariposa-qi/source/target-verus/release/verus --crate-type lib --verify-root {proj_root}/nlqi_verus/src/main.rs --log smt --rlimit 100"
+    os.system(cmd)
+    print(cmd)
