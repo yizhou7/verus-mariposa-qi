@@ -42,8 +42,10 @@ class ExpRewriter(Expression):
         success = None
         nodes = list(self.list_op_nodes())
 
-        # if random.randint(0, 1) < 0.5:
-        #     success = self.try_apply(nodes, MOD_MUL_VANISH, uf)
+        if random.randint(0, 1) < 0.5:
+            random.shuffle(nodes)
+            nodes[0].expand()
+            return LemmaCall("NYI", [], uf)
 
         axioms = [ax for ax in AXIOMS]
         random.shuffle(axioms)

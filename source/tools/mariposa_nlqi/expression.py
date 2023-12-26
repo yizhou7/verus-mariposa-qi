@@ -4,12 +4,12 @@ from configs import *
 from copy import deepcopy
 
 OP_PROB = {
-    "add_": 0.1,
-    "sub_": 0.1,
+    "add_": 0.2,
+    "sub_": 0.0,
     "mul_": 0.8,
 }
 
-MOD_PROB = 0.1
+MOD_PROB = 0.0
 
 OP_PRETTY = {
     "add_": "+",
@@ -43,7 +43,7 @@ class Expression:
             if random.random() <= TERM_VAR_PROB:
                 self.value = random.choice(VARS) + str(suffix)
             else:
-                self.value = f"({int(random.random()*100)} as int)"
+                self.value = f"as_elem({int(1 + random.random()*100)})"
             return
 
         self.value = None
@@ -65,7 +65,7 @@ class Expression:
             left = Expression.random_init(suffix, max_depth-1, prob*EARLY_STOP_FACTOR)
             right = Expression.random_init(suffix, max_depth-1, prob*EARLY_STOP_FACTOR)
         e = cls(op, left, right, suffix)
-        if random.random() <= MOD_PROB:
+        if random.random() < MOD_PROB:
             m = Expression.var_init("m" + str(suffix))
             return cls(Operator.MOD, e, m, suffix)
         else:
@@ -98,6 +98,19 @@ class Expression:
         if self.op == None:
             return {str(self)}
         return {str(self)} | self.left.get_unique_subexps() | self.right.get_unique_subexps()
+
+    def expand(self):
+        assert self.op == Operator.ADD or self.op == Operator.MUL
+        ne = Expression.random_init(self.suffix, 2)
+        assert ne.op != None
+        if random.randint(0, 1) < 0.5:
+            x = self.left
+            self.left = Expression(Operator.MUL, x, ne, self.suffix)
+        else:
+            y = self.right
+            self.right = Expression(Operator.MUL, y, ne, self.suffix)
+            # ne.right = self.right
+            # self.right = ne
 
     # self is the skeleton, other is the expression
     def get_substitution(self, other):

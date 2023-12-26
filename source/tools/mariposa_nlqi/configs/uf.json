@@ -3,7 +3,7 @@
     "root_dir": "mariposa_data/uf/",
     "steps_total": 1,
     "keep_every": 1,
-    "expr_num": 300,
+    "expr_num": 50,
     "modes":["auto"],
     "mutant_num": 1,
     "related": true,

@@ -1,6 +1,6 @@
 import sys, os
 from rewriter import *
-from axioms import *
+from axioms import write_axioms
 
 class Emitter(Rewriter):
     def __init__(self, eid, params):
@@ -32,7 +32,7 @@ class Emitter(Rewriter):
                     assert lang == Lang.VERUS
                     lines.append("\tassert (true) by {")
 
-            stmt = f"\tassert(eq_({prev}, {self.get_temp(s.main.id)}))"
+            stmt = f"\tassert(leq_({prev}, {self.get_temp(s.main.id)}))"
             if mode == StepMode.NLA or mode == StepMode.FREE:
                 lines.append(stmt + ";")
             else:
@@ -83,10 +83,10 @@ class ProjectEmitter:
     def get_args(self):
         args = []
         if self.params.related:
-            args = ", ".join([f"{v}: int" for v in VARS + ["m"]])
+            args = ", ".join([f"{v}: Elem" for v in VARS + ["m"]])
         else:
             for i in range(self.params.expr_num):
-                args += [", ".join([f"{v}{i}: int" for v in VARS + ["m"]])]
+                args += [", ".join([f"{v}{i}: Elem" for v in VARS + ["m"]])]
             args = ",\n".join(args)
         return args
 
@@ -156,7 +156,7 @@ if __name__ == "__main__":
     # ee.emit_dafny_file(StepMode.LBL)
     ee.emit_verus_file(StepMode.AUTO)
     # ee.emit_verus_file(StepMode.INST)
-    print(f"[INFO] debug:")
-    cmd = f"~/verus-mariposa-qi/source/target-verus/release/verus --crate-type lib --verify-root {proj_root}/nlqi_verus/src/main.rs --log smt --rlimit 100"
+    # print(f"[INFO] debug:")
+    cmd = f"~/verus-mariposa-qi/source/target-verus/release/verus --crate-type lib --verify-root {proj_root}/nlqi_verus/src/main.rs --log smt --rlimit 1000"
     os.system(cmd)
     print(cmd)

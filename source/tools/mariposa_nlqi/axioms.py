@@ -83,7 +83,7 @@ class Axiom:
         self.ensures = ensures
 
     def get_var_sig(self):
-        return ", ".join([v.to_str() + ": int" for v in self.vars])
+        return ", ".join([v.to_str() + ": Elem" for v in self.vars])
 
     def to_lemma_call(self, e, ne, subs, uf):
         args = [subs[v.value] for v in self.vars]
@@ -287,13 +287,19 @@ use builtin::*;
 verus! {
 """)
 
-    f.write("pub closed spec fn eq_(x: int, y: int) -> bool;\n\n")
+    # f.write("pub closed spec fn eq_(x: Elem, y: Elem) -> bool;\n\n")
+    f.write("#[verifier(external_body)]\n")
+    f.write("pub struct Elem {}\n")
     
-    # f.write("pub open spec fn eq_(x: int, y: int) -> bool\n")
-    # f.write("{x == y}\n\n")
+    f.write("pub open spec fn eq_(x: Elem, y: Elem) -> bool\n")
+    f.write("{x == y}\n\n")
+
+    f.write("pub closed spec fn as_elem(x: int) -> Elem;\n\n")
+
+    f.write("pub closed spec fn leq_(x: Elem, y: Elem) -> bool;\n\n")
 
     for op in OP_PRETTY.keys():
-        f.write(f"pub closed spec fn {op}(x: int, y: int) -> int;\n\n")
+        f.write(f"pub closed spec fn {op}(x: Elem, y: Elem) -> Elem;\n\n")
 
     # f.write("#[verifier(broadcast_forall)]\n")
     # f.write("#[verifier::external_body]\n")
@@ -308,11 +314,27 @@ verus! {
     for a in AXIOMS:
         f.write(a.get_quantified_clauses(uf=True) + "\n")
 
-    for a in [EQ_REF, EQ_SYM, EQ_TRANS]:
-        f.write(a.get_quantified_clauses(uf=True) + "\n")
+    # for a in [EQ_REF, EQ_SYM, EQ_TRANS]:
+    #     f.write(a.get_quantified_clauses(uf=True) + "\n")
+    f.write("\tforall |x: Elem|\n")
+    f.write(f"\t\t(leq_(x, x)),\n")
+
+    f.write("\tforall |x: Elem, y: Elem, z: Elem|\n")
+    f.write(f"\t\t((leq_(x, y) && leq_(y, z)) ==> leq_(x, z)),\n")
+
+    f.write("\tforall |x: Elem, y: Elem|\n")
+    f.write(f"\t\t(eq_(x, y) ==> leq_(x, y)),\n")
+
+    for op in ["add_", "mul_"]:
+        f.write("\tforall |x: Elem, y: Elem|\n")
+        f.write(f"\t\tleq_(x, {op}(x, y)),\n")
+        f.write("\tforall |x0: Elem, x1: Elem, y0: Elem|\n")
+        f.write(f"\t\t(leq_(x0, x1) ==> leq_({op}(x0, y0), {op}(x1, y0))),\n")
+        f.write("\tforall |x0: Elem, y0: Elem, y1: Elem|\n")
+        f.write(f"\t\t(leq_(y0, y1) ==> leq_({op}(x0, y0), {op}(x0, y1))),\n")
 
     for op in OP_PRETTY.keys():
-        f.write("\tforall |x0: int, y0: int, x1: int, y1: int|\n")
+        f.write("\tforall |x0: Elem, y0: Elem, x1: Elem, y1: Elem|\n")
         f.write(f"\t\t((eq_(x0, x1) && eq_(y0, y1)) ==> eq_({op}(x0, y0), {op}(x1, y1))),\n")
 
     f.write("{}\n\n")
