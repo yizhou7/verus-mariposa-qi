@@ -83,10 +83,10 @@ class ProjectEmitter:
     def get_args(self):
         args = []
         if self.params.related:
-            args = ", ".join([f"{v}: int" for v in VARS + ["m"]])
+            args = ", ".join([f"{v}: Elem" for v in VARS + ["m"]])
         else:
             for i in range(self.params.expr_num):
-                args += [", ".join([f"{v}{i}: int" for v in VARS + ["m"]])]
+                args += [", ".join([f"{v}{i}: Elem" for v in VARS + ["m"]])]
             args = ",\n".join(args)
         return args
 

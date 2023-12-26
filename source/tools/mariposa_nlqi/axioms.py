@@ -83,7 +83,7 @@ class Axiom:
         self.ensures = ensures
 
     def get_var_sig(self):
-        return ", ".join([v.to_str() + ": int" for v in self.vars])
+        return ", ".join([v.to_str() + ": Elem" for v in self.vars])
 
     def to_lemma_call(self, e, ne, subs, uf):
         args = [subs[v.value] for v in self.vars]
@@ -286,17 +286,21 @@ def write_axioms():
 use builtin::*;
 verus! {
 """)
-
-    f.write("pub closed spec fn eq_(x: int, y: int) -> bool;\n\n")
     
-    # f.write("pub open spec fn eq_(x: int, y: int) -> bool\n")
+    f.write("#[verifier::external_body]\n")
+    f.write("pub struct Elem {x: int}\n\n")
+
+    f.write("pub closed spec fn as_elem(x: int) -> Elem;\n\n")
+
+    f.write("pub closed spec fn eq_(x: Elem, y: Elem) -> bool;\n\n")
+
+    # f.write("pub open spec fn eq_(x: Elem, y: Elem) -> bool\n")
     # f.write("{x == y}\n\n")
 
     for op in OP_PRETTY.keys():
-        f.write(f"pub closed spec fn {op}(x: int, y: int) -> int;\n\n")
+        f.write(f"pub closed spec fn {op}(x: Elem, y: Elem) -> Elem;\n\n")
 
     # f.write("#[verifier(broadcast_forall)]\n")
-    # f.write("#[verifier::external_body]\n")
     # f.write("pub proof fn lemma_eq_properties()\n")
     # f.write("ensures\n")
     # f.write("{}\n\n")
@@ -312,7 +316,7 @@ verus! {
         f.write(a.get_quantified_clauses(uf=True) + "\n")
 
     for op in OP_PRETTY.keys():
-        f.write("\tforall |x0: int, y0: int, x1: int, y1: int|\n")
+        f.write("\tforall |x0: Elem, y0: Elem, x1: Elem, y1: Elem|\n")
         f.write(f"\t\t((eq_(x0, x1) && eq_(y0, y1)) ==> eq_({op}(x0, y0), {op}(x1, y1))),\n")
 
     f.write("{}\n\n")

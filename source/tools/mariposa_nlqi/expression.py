@@ -43,7 +43,7 @@ class Expression:
             if random.random() <= TERM_VAR_PROB:
                 self.value = random.choice(VARS) + str(suffix)
             else:
-                self.value = f"({int(random.random()*100)} as int)"
+                self.value = f"as_elem({int(random.random()*100)+1})"
             return
 
         self.value = None
