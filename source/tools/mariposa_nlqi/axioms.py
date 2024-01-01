@@ -150,6 +150,8 @@ VX = Expression.var_init("x")
 VY = Expression.var_init("y")
 VZ = Expression.var_init("z")
 VM = Expression.var_init("m")
+# ZERO = Expression.const_init("zero()")
+# ONE = Expression.const_init("one()")
 
 def mk_add(x, y):
     return Expression(Operator.ADD, x, y, "")
@@ -198,6 +200,19 @@ MUL_ASSOC = Axiom("mul_assoc",
             mk_mul(VX, mk_mul(VY, VZ)), 
             mk_mul(mk_mul(VX, VY), VZ)
         )])
+
+# ZERO_MUL = Axiom("zero_mul",
+#        [VX],
+#        [],
+#        [mk_eq(mk_mul(VX, ZERO), ZERO)])          
+
+# ZERO_ADD_SUB = Axiom("zero_add_sub",
+#         [VX],
+#         [],
+#         [mk_eq(mk_add(VX, ZERO), VX),
+#             mk_eq(mk_sub(VX, ZERO), VX),
+#             mk_eq(mk_sub(VX, VX), ZERO)
+#         ])
 
 MUL_DIST = Axiom("mul_dist", 
         [VX, VY, VZ],
@@ -277,6 +292,7 @@ MOD_SUB_NOOP = Axiom("mod_sub_noop",
 
 AXIOMS = [ADD_COMM, 
         MUL_COMM, MUL_ASSOC, MUL_DIST,
+        # ZERO_MUL, ZERO_ADD_SUB,
         MOD_MUL_NOOP, MOD_MUL_VANISH, MOD_ADD_NOOP, MOD_SUB_NOOP]
 
 def write_axioms():
@@ -291,6 +307,10 @@ verus! {
     f.write("pub struct Elem {x: int}\n\n")
 
     f.write("pub closed spec fn as_elem(x: int) -> Elem;\n\n")
+
+    f.write("pub closed spec fn zero() -> Elem;\n\n")
+
+    f.write("pub closed spec fn one() -> Elem;\n\n")
 
     f.write("pub closed spec fn eq_(x: Elem, y: Elem) -> bool;\n\n")
 

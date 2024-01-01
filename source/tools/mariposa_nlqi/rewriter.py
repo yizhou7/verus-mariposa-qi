@@ -47,6 +47,7 @@ class ExpRewriter(Expression):
 
         axioms = [ax for ax in AXIOMS]
         random.shuffle(axioms)
+        # print(self.to_str(False))
         while len(axioms) > 0 and not success:
             ax = axioms.pop()
             success = self.try_apply(nodes, ax, uf)
