@@ -23,14 +23,15 @@ from runner import *
 def find_verus_uf_unstable(ts):
     PA = EmitterParams(seed=ts, config_name="uf")
     TARGET_SMT_LOWER = 15
-    TARGET_SMT_UPPER = 20
-    EXPR_NUM_START = 100
+    TARGET_SMT_UPPER = 30
+    EXPR_NUM_START = 110
+    MAX_ITERATIONS = 10
 
     expr_num = EXPR_NUM_START
 
     er = ExperimentRunner(PA, overwrite=True)
-
-    while 1:
+    iterations = 0
+    while iterations < MAX_ITERATIONS:
         er.emit_verus_file(StepMode.AUTO, actual_expr_num=expr_num)
         _, smt_path, saved_verus = er.run_single_verus(StepMode.AUTO, expr_num)
         elapsed, output, _ = run_single_smt(smt_path, TARGET_SMT_UPPER + 5)
@@ -54,7 +55,7 @@ def find_verus_uf_unstable(ts):
             if diff < 5:
                 expr_num -= 2
             else:
-                expr_num = int(expr_num * 0.95)
+                expr_num = int(expr_num * 0.85)
             os.remove(smt_path)
             print(f"[INFO] reducing expr_num to {expr_num}")
         else:
@@ -65,6 +66,13 @@ def find_verus_uf_unstable(ts):
             print(f"[INFO] found potential unstable expr_num: {expr_num}")
             print(f"[INFO] smt path {os.path.realpath(smt_path)}")
             break
+        iterations += 1
+
+    if iterations == MAX_ITERATIONS:
+        print(f"[INFO] giving up")
+        er.clear_experiment()
+        return
+
     assert os.path.exists(er.verus_file)
 
 def compare_all_modes(ts, config_name):

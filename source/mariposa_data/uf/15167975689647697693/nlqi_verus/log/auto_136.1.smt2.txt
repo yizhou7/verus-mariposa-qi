@@ -1,0 +1,27 @@
+[INFO] /home/yizhou7/verus-mariposa-qi/source/mariposa_data/uf/15167975689647697693/nlqi_verus/log/auto_136.1.smt2 is split into 1 file(s), ignored 0 check-sat
+[INFO] created table single_auto_136_1_z3_4_12_2_exp
+[INFO] created table single_auto_136_1_z3_4_12_2_sum
+[INFO] running 1 original queries
+[INFO] adding 21 tasks
+[INFO] worker 1 finished in 0.02 hours
+[INFO] worker 5 finished in 0.02 hours
+[INFO] worker 2 finished in 0.02 hours
+[INFO] worker 0 finished in 0.02 hours
+[INFO] worker 3 finished in 0.02 hours
+[INFO] worker 6 finished in 0.03 hours
+[INFO] worker 4 finished in 0.03 hours
+[INFO] workers finished
+[INFO] created table single_auto_136_1_z3_4_12_2_sum
+[INFO] post processing exp data
+[INFO] no unsolvable queries found
+[INFO] listing unstable queries...
+
+[INFO] to copy query path:
+cp 'gen/auto_136_1/split.1.smt2' temp/woot.smt2
+
+plain query unsat in 24.248s
+mutation      unsat    unknown    timeout    mean    std
+----------  -------  ---------  ---------  ------  -----
+all              19          0          2   28.54  11.99
+[INFO] no inconclusive queries found
+[INFO] no stable queries found

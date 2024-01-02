@@ -1,0 +1,35 @@
+[INFO] experiment dir gen/auto_137_1 exists, removing
+[INFO] /home/yizhou7/verus-mariposa-qi/source/mariposa_data/uf/7676229416794353428/nlqi_verus/log/auto_137.1.smt2 is split into 1 file(s), ignored 0 check-sat
+[INFO] created table single_auto_137_1_z3_4_12_2_exp
+[INFO] created table single_auto_137_1_z3_4_12_2_sum
+[INFO] running 1 original queries
+[INFO] adding 21 tasks
+[INFO] finished: 10/22, elapsed: 0.02 hours, estimated: 01-01 23:58
+[INFO] worker 3 finished in 0.03 hours
+[INFO] finished: 9/22, elapsed: 0.02 hours, estimated: 01-01 23:59
+[INFO] worker 1 finished in 0.04 hours
+[INFO] finished: 13/22, elapsed: 0.02 hours, estimated: 01-01 23:58
+[INFO] worker 0 finished in 0.04 hours
+[INFO] finished: 12/22, elapsed: 0.02 hours, estimated: 01-01 23:58
+[INFO] worker 5 finished in 0.04 hours
+[INFO] finished: 11/22, elapsed: 0.02 hours, estimated: 01-01 23:58
+[INFO] worker 4 finished in 0.04 hours
+[INFO] finished: 14/22, elapsed: 0.03 hours, estimated: 01-01 23:59
+[INFO] worker 2 finished in 0.04 hours
+[INFO] finished: 8/22, elapsed: 0.02 hours, estimated: 01-01 23:59
+[INFO] worker 6 finished in 0.04 hours
+[INFO] workers finished
+[INFO] created table single_auto_137_1_z3_4_12_2_sum
+[INFO] post processing exp data
+[INFO] no unsolvable queries found
+[INFO] listing unstable queries...
+
+[INFO] to copy query path:
+cp 'gen/auto_137_1/split.1.smt2' temp/woot.smt2
+
+plain query unsat in 45.759s
+mutation      unsat    unknown    timeout    mean    std
+----------  -------  ---------  ---------  ------  -----
+all              19          0          2   44.28   6.19
+[INFO] no inconclusive queries found
+[INFO] no stable queries found
