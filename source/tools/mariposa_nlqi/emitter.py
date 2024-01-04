@@ -100,8 +100,9 @@ class ProjectEmitter:
             args = self.get_args()
             sig = f"pub proof fn {str(mode.value)}_{mut_id}({args})"
 
-            if mode == StepMode.NLA:
-                sig += " by (nonlinear_arith)"
+            # if mode == StepMode.NLA:
+            #     sig += " by (nonlinear_arith)"
+
             sig += "\n{\n"
             out_f.write(sig)
 

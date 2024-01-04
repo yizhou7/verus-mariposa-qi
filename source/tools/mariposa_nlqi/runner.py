@@ -52,7 +52,8 @@ class ExperimentRunner(ProjectEmitter):
         if not os.path.exists(root_dir):
             os.system(f"mkdir -p {root_dir}")
 
-        proj_root = f"{root_dir}/{prams.seed}"
+        self.proj_root = f"{root_dir}/{prams.seed}"
+        proj_root = self.proj_root
         super().__init__(proj_root, prams, overwrite)
         self.verus_tmp_dir = f"{self.verus_proj_root}/tmp"
         self.dafny_tmp_dir = f"{self.dafny_proj_root}/tmp"
@@ -67,6 +68,8 @@ class ExperimentRunner(ProjectEmitter):
         # this dir is for persistent 
         self.verus_smt_dir = f"{self.verus_proj_root}/log"
         self.dafny_smt_dir = f"{self.dafny_proj_root}/log"
+        
+        self.verus_file = f"{self.verus_proj_root}/src/main.rs"
 
         if not os.path.exists(self.verus_smt_dir):
             os.system(f"mkdir {self.verus_smt_dir}")
@@ -80,6 +83,9 @@ class ExperimentRunner(ProjectEmitter):
         if not os.path.exists(self.dafny_tmp_dir):
             os.system(f"mkdir {self.dafny_tmp_dir}")
 
+    def clear(self):
+        os.system(f"rm -r {self.proj_root}/")
+
     def log_line(self, line):
         print(line)
         self.log.write(line + "\n")
@@ -92,8 +98,8 @@ class ExperimentRunner(ProjectEmitter):
 
     def get_tmp_file(self, lang, mode=None):
         if lang == Lang.VERUS:
-            if mode == StepMode.NLA:
-                return f"{self.verus_tmp_dir}/rootmain!{mode.value}_0._01.smt2"
+            # if mode == StepMode.NLA:
+            #     return f"{self.verus_tmp_dir}/rootmain!{mode.value}_0._01.smt2"
             return f"{self.verus_tmp_dir}/root.smt2"
         elif lang == Lang.DAFNY:
             return f"{self.dafny_tmp_dir}/root.smt2"
@@ -116,19 +122,24 @@ class ExperimentRunner(ProjectEmitter):
         assert os.path.exists(mp_query)
 
     def run_single_verus(self, mode, actual_expr_num):
-        verus_file = f"{self.verus_proj_root}/src/main.rs"
         cmd = [
             VREUS_BIN_PATH,
-            verus_file,
+            self.verus_file,
             f"--verify-root",
             f"--crate-type lib",
             f"--no-auto-recommends-check",
             f"--log smt",
             f"--log-dir {self.verus_tmp_dir}",
+            f"--rlimit 100000",
             f"--smt-option timeout={self.params.get_lang_to_millis()}"
         ]
+
+        if mode == StepMode.NLA:
+            cmd += [f"--smt-option smt.arith.nl=true"]
+
         stdout, stderr, elapsed = run_command(cmd, self.params.get_lang_to_seconds() + 1)
-        os.system(f"mv {verus_file} {verus_file}.{mode.value}.{actual_expr_num}")
+        saved_verus_file = f"{self.verus_file}.{mode.value}.{actual_expr_num}"
+        os.system(f"mv {self.verus_file} {saved_verus_file}")
         tmp_file = self.get_tmp_file(Lang.VERUS, mode)
         assert os.path.exists(tmp_file)
         smt_file = self.get_smt_file(Lang.VERUS, mode, actual_expr_num)
@@ -139,7 +150,7 @@ class ExperimentRunner(ProjectEmitter):
             self.log_line("[WARN] verus-tool stderr: " + clean_newlines(stderr))
         line = f"[INFO] verus-tool {mode.value} {actual_expr_num} {elapsed}"
         self.log_line(line)
-        return elapsed
+        return elapsed, saved_verus_file
 
     def run_verus(self):
         for mode in self.params.modes:
@@ -246,5 +257,6 @@ if __name__ == "__main__":
 
     pa = EmitterParams(seed=ts)
     print(pa, end="")
-    er = ExperimentRunner(".", pa, overwrite=True)
+    pa.root_dir = "."
+    er = ExperimentRunner(pa, overwrite=True)
     er.run_default()
