@@ -1,0 +1,40 @@
+[INFO] total number of rewrite steps: 1
+[INFO] keep every (steps): 1
+[INFO] max depth of expressions: 4
+[INFO] number of expressions: 30
+[INFO] lang timeout (seconds): 5
+[INFO] smt timeout (seconds): 10
+[INFO] solver path: ~/mariposa/solvers/z3-4.12.2
+[INFO] seed: 12091294745012006478
+[INFO] verus-tool nlarith 1 0.37
+[INFO] verus-tool nlarith 2 0.37
+[INFO] verus-tool nlarith 3 0.37
+[INFO] verus-tool nlarith 4 0.52
+[INFO] verus-tool nlarith 5 0.47
+[INFO] verus-tool nlarith 6 0.47
+[INFO] verus-tool nlarith 7 0.47
+[INFO] verus-tool nlarith 8 0.52
+[INFO] verus-tool nlarith 9 0.52
+[INFO] verus-tool nlarith 10 0.52
+[INFO] verus-tool nlarith 11 0.57
+[INFO] verus-tool nlarith 12 0.57
+[INFO] verus-tool nlarith 13 0.62
+[INFO] verus-tool nlarith 14 0.62
+[INFO] verus-tool nlarith 15 0.62
+[INFO] verus-tool nlarith 16 0.62
+[INFO] verus-tool nlarith 17 0.62
+[INFO] verus-tool nlarith 18 0.62
+[INFO] verus-tool nlarith 19 0.77
+[INFO] verus-tool nlarith 20 0.77
+[INFO] verus-tool nlarith 21 0.77
+[INFO] verus-tool nlarith 22 0.82
+[INFO] verus-tool nlarith 23 0.82
+[INFO] verus-tool nlarith 24 0.82
+[WARN] verus-tool stdout: verification results:: 0 verified, 1 errors (partial verification with `--verify-*`) 
+[WARN] verus-tool stderr: warning: unused import: `crate::nl_basics::*`  --> mariposa_data/v_nl//12091294745012006478/nlqi_verus/src/main.rs:4:5   | 4 | use crate::nl_basics::*;   |     ^^^^^^^^^^^^^^^^^^^   |   = note: `#[warn(unused_imports)]` on by default  note: verifying root module  error: function body check: Resource limit (rlimit) exceeded; consider rerunning with --profile for more details   --> mariposa_data/v_nl//12091294745012006478/nlqi_verus/src/main.rs:7:1    | 7  | / pub proof fn nlarith_0(a0: int, b0: int, c0: int, d0: int, 8  | | a1: int, b1: int, c1: int, d1: int, 9  | | a2: int, b2: int, c2: int, d2: int, 10 | | a3: int, b3: int, c3: int, d3: int, ...  | 35 | | a28: int, b28: int, c28: int, d28: int, 36 | | a29: int, b29: int, c29: int, d29: int)    | |_______________________________________^  error: aborting due to previous error; 1 warning emitted  
+[INFO] verus-tool nlarith 25 5.43
+[INFO] verus-tool inst 24 0.52
+[INFO] verus-tool nlarith 24 0.82
+[INFO] found potential unstable verus query
+[INFO] inst path: /home/yizhou7/verus-mariposa-qi/source/mariposa_data/v_nl/12091294745012006478/nlqi_verus/log/inst_24.1.smt2
+[INFO] nl path: /home/yizhou7/verus-mariposa-qi/source/mariposa_data/v_nl/12091294745012006478/nlqi_verus/log/nlarith_24.1.smt2
