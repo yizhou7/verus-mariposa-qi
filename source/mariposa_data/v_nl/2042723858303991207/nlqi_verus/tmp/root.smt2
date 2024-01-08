@@ -6,7 +6,6 @@
 (set-option :smt.arith.solver 2)
 (set-option :smt.arith.nl false)
 (set-option :timeout 5000)
-(set-option :smt.arith.nl true)
 
 ;; Prelude
 
@@ -628,7 +627,83 @@
    :skolemid skolem_internal_crate__tuple__0_has_type_always_definition
 )))
 
-;; Function-Def main::nlarith_0
+;; Function-Specs main::nl_basics::lemma_mul_properties_auto_1
+(declare-fun ens%main!nl_basics.lemma_mul_properties_auto_1. (Int) Bool)
+(assert
+ (forall ((no%param@ Int)) (!
+   (= (ens%main!nl_basics.lemma_mul_properties_auto_1. no%param@) (and
+     (forall ((x~14$ Int) (y~16$ Int)) (!
+       (= (Mul x~14$ y~16$) (Mul y~16$ x~14$))
+       :pattern ((Mul x~14$ y~16$))
+       :qid user_main__nl_basics__lemma_mul_properties_auto_1_0
+       :skolemid skolem_user_main__nl_basics__lemma_mul_properties_auto_1_0
+     ))
+     (forall ((x~45$ Int) (y~47$ Int) (z~49$ Int)) (!
+       (= (Mul x~45$ (Mul y~47$ z~49$)) (Mul (Mul x~45$ y~47$) z~49$))
+       :pattern ((Mul x~45$ (Mul y~47$ z~49$)))
+       :qid user_main__nl_basics__lemma_mul_properties_auto_1_1
+       :skolemid skolem_user_main__nl_basics__lemma_mul_properties_auto_1_1
+     ))
+     (forall ((x~88$ Int) (y~90$ Int) (z~92$ Int)) (!
+       (= (Mul x~88$ (Mul y~90$ z~92$)) (Mul (Mul x~88$ y~90$) z~92$))
+       :pattern ((Mul (Mul x~88$ y~90$) z~92$))
+       :qid user_main__nl_basics__lemma_mul_properties_auto_1_2
+       :skolemid skolem_user_main__nl_basics__lemma_mul_properties_auto_1_2
+     ))
+     (forall ((x~131$ Int) (y~133$ Int) (z~135$ Int)) (!
+       (= (Mul x~131$ (Add y~133$ z~135$)) (Add (Mul x~131$ y~133$) (Mul x~131$ z~135$)))
+       :pattern ((Mul x~131$ (Add y~133$ z~135$)))
+       :qid user_main__nl_basics__lemma_mul_properties_auto_1_3
+       :skolemid skolem_user_main__nl_basics__lemma_mul_properties_auto_1_3
+     ))
+     (forall ((x~178$ Int) (y~180$ Int) (z~182$ Int)) (!
+       (= (Mul (Add x~178$ y~180$) z~182$) (Add (Mul x~178$ z~182$) (Mul y~180$ z~182$)))
+       :pattern ((Mul (Add x~178$ y~180$) z~182$))
+       :qid user_main__nl_basics__lemma_mul_properties_auto_1_4
+       :skolemid skolem_user_main__nl_basics__lemma_mul_properties_auto_1_4
+     ))
+     (forall ((x~225$ Int) (y~227$ Int) (z~229$ Int)) (!
+       (= (Mul x~225$ (Sub y~227$ z~229$)) (Sub (Mul x~225$ y~227$) (Mul x~225$ z~229$)))
+       :pattern ((Mul x~225$ (Sub y~227$ z~229$)))
+       :qid user_main__nl_basics__lemma_mul_properties_auto_1_5
+       :skolemid skolem_user_main__nl_basics__lemma_mul_properties_auto_1_5
+     ))
+     (forall ((x~272$ Int) (y~274$ Int) (z~276$ Int)) (!
+       (= (Mul (Sub x~272$ y~274$) z~276$) (Sub (Mul x~272$ z~276$) (Mul y~274$ z~276$)))
+       :pattern ((Mul (Sub x~272$ y~274$) z~276$))
+       :qid user_main__nl_basics__lemma_mul_properties_auto_1_6
+       :skolemid skolem_user_main__nl_basics__lemma_mul_properties_auto_1_6
+     ))
+     (forall ((x~319$ Int) (y~321$ Int) (z~323$ Int)) (!
+       (= (Mul x~319$ (Add y~321$ z~323$)) (Add (Mul x~319$ y~321$) (Mul x~319$ z~323$)))
+       :pattern ((Add (Mul x~319$ y~321$) (Mul x~319$ z~323$)))
+       :qid user_main__nl_basics__lemma_mul_properties_auto_1_7
+       :skolemid skolem_user_main__nl_basics__lemma_mul_properties_auto_1_7
+     ))
+     (forall ((x~366$ Int) (y~368$ Int) (z~370$ Int)) (!
+       (= (Mul (Add x~366$ y~368$) z~370$) (Add (Mul x~366$ z~370$) (Mul y~368$ z~370$)))
+       :pattern ((Add (Mul x~366$ z~370$) (Mul y~368$ z~370$)))
+       :qid user_main__nl_basics__lemma_mul_properties_auto_1_8
+       :skolemid skolem_user_main__nl_basics__lemma_mul_properties_auto_1_8
+     ))
+     (forall ((x~413$ Int) (y~415$ Int) (z~417$ Int)) (!
+       (= (Mul x~413$ (Sub y~415$ z~417$)) (Sub (Mul x~413$ y~415$) (Mul x~413$ z~417$)))
+       :pattern ((Sub (Mul x~413$ y~415$) (Mul x~413$ z~417$)))
+       :qid user_main__nl_basics__lemma_mul_properties_auto_1_9
+       :skolemid skolem_user_main__nl_basics__lemma_mul_properties_auto_1_9
+     ))
+     (forall ((x~460$ Int) (y~462$ Int) (z~464$ Int)) (!
+       (= (Mul (Sub x~460$ y~462$) z~464$) (Sub (Mul x~460$ z~464$) (Mul y~462$ z~464$)))
+       :pattern ((Sub (Mul x~460$ z~464$) (Mul y~462$ z~464$)))
+       :qid user_main__nl_basics__lemma_mul_properties_auto_1_10
+       :skolemid skolem_user_main__nl_basics__lemma_mul_properties_auto_1_10
+   ))))
+   :pattern ((ens%main!nl_basics.lemma_mul_properties_auto_1. no%param@))
+   :qid internal_ens__main!nl_basics.lemma_mul_properties_auto_1._definition
+   :skolemid skolem_internal_ens__main!nl_basics.lemma_mul_properties_auto_1._definition
+)))
+
+;; Function-Def main::auto_0
 ;; mariposa_data/v_nl//2042723858303991207/nlqi_verus/src/main.rs:7:1: 36:40 (#0)
 (push)
  (declare-const a0~2@ Int)
@@ -751,36 +826,26 @@
  (declare-const b29~236@ Int)
  (declare-const c29~238@ Int)
  (declare-const d29~240@ Int)
- (declare-const tmp%1@ Bool)
- (declare-const tmp%2@ Bool)
- (declare-const tmp%3@ Bool)
- (declare-const tmp%4@ Bool)
- (declare-const tmp%5@ Bool)
- (declare-const tmp%6@ Bool)
- (declare-const tmp%7@ Bool)
- (declare-const tmp%8@ Bool)
- (declare-const tmp%9@ Bool)
- (declare-const tmp%10@ Bool)
  (declare-const temp_0_0~293@ Int)
  (declare-const temp_0_1~346@ Int)
- (declare-const temp_1_0~438@ Int)
- (declare-const temp_1_1~515@ Int)
- (declare-const temp_2_0~595@ Int)
- (declare-const temp_2_1~660@ Int)
- (declare-const temp_3_0~752@ Int)
- (declare-const temp_3_1~837@ Int)
- (declare-const temp_4_0~909@ Int)
- (declare-const temp_4_1~998@ Int)
- (declare-const temp_5_0~1090@ Int)
- (declare-const temp_5_1~1167@ Int)
- (declare-const temp_6_0~1243@ Int)
- (declare-const temp_6_1~1304@ Int)
- (declare-const temp_7_0~1356@ Int)
- (declare-const temp_7_1~1393@ Int)
- (declare-const temp_8_0~1473@ Int)
- (declare-const temp_8_1~1538@ Int)
- (declare-const temp_9_0~1618@ Int)
- (declare-const temp_9_1~1683@ Int)
+ (declare-const temp_1_0~447@ Int)
+ (declare-const temp_1_1~524@ Int)
+ (declare-const temp_2_0~613@ Int)
+ (declare-const temp_2_1~678@ Int)
+ (declare-const temp_3_0~779@ Int)
+ (declare-const temp_3_1~864@ Int)
+ (declare-const temp_4_0~945@ Int)
+ (declare-const temp_4_1~1034@ Int)
+ (declare-const temp_5_0~1135@ Int)
+ (declare-const temp_5_1~1212@ Int)
+ (declare-const temp_6_0~1297@ Int)
+ (declare-const temp_6_1~1358@ Int)
+ (declare-const temp_7_0~1419@ Int)
+ (declare-const temp_7_1~1456@ Int)
+ (declare-const temp_8_0~1545@ Int)
+ (declare-const temp_8_1~1610@ Int)
+ (declare-const temp_9_0~1699@ Int)
+ (declare-const temp_9_1~1764@ Int)
  (assert
   fuel_defaults
  )
@@ -822,229 +887,229 @@
          )
         ) (Sub (Add (Mul c0~6@ c0~6@) (Mul b0~4@ d0~8@)) c0~6@)
       ))
-      (=>
-       (= tmp%1@ (= temp_0_0~293@ temp_0_1~346@))
-       (and
+      (and
+       (=>
+        (ens%main!nl_basics.lemma_mul_properties_auto_1. 0)
         (=>
          %%location_label%%0
-         tmp%1@
-        )
+         (= temp_0_0~293@ temp_0_1~346@)
+       ))
+       (=>
+        (= temp_0_0~293@ temp_0_1~346@)
         (=>
-         tmp%1@
+         (= temp_1_0~447@ (Sub (Mul (Mul (Mul d1~16@ b1~12@) (Mul b1~12@ d1~16@)) (Mul (Mul b1~12@
+              c1~14@
+             ) (Mul b1~12@ b1~12@)
+            )
+           ) (Sub (Mul (Mul c1~14@ d1~16@) (Mul a1~10@ d1~16@)) (Mul (Mul b1~12@ 20) (Mul d1~16@
+              b1~12@
+         )))))
          (=>
-          (= temp_1_0~438@ (Sub (Mul (Mul (Mul d1~16@ b1~12@) (Mul b1~12@ d1~16@)) (Mul (Mul b1~12@
+          (= temp_1_1~524@ (Sub (Mul (Mul (Mul d1~16@ b1~12@) (Mul b1~12@ d1~16@)) (Mul (Mul b1~12@
                c1~14@
               ) (Mul b1~12@ b1~12@)
              )
-            ) (Sub (Mul (Mul c1~14@ d1~16@) (Mul a1~10@ d1~16@)) (Mul (Mul b1~12@ 20) (Mul d1~16@
-               b1~12@
+            ) (Sub (Mul (Mul c1~14@ d1~16@) (Mul a1~10@ d1~16@)) (Mul (Mul b1~12@ 20) (Mul b1~12@
+               d1~16@
           )))))
-          (=>
-           (= temp_1_1~515@ (Sub (Mul (Mul (Mul d1~16@ b1~12@) (Mul b1~12@ d1~16@)) (Mul (Mul b1~12@
-                c1~14@
-               ) (Mul b1~12@ b1~12@)
-              )
-             ) (Sub (Mul (Mul c1~14@ d1~16@) (Mul a1~10@ d1~16@)) (Mul (Mul b1~12@ 20) (Mul b1~12@
-                d1~16@
-           )))))
+          (and
            (=>
-            (= tmp%2@ (= temp_1_0~438@ temp_1_1~515@))
-            (and
+            (ens%main!nl_basics.lemma_mul_properties_auto_1. 0)
+            (=>
+             %%location_label%%1
+             (= temp_1_0~447@ temp_1_1~524@)
+           ))
+           (=>
+            (= temp_1_0~447@ temp_1_1~524@)
+            (=>
+             (= temp_2_0~613@ (Mul (Mul (Mul (Mul b2~20@ a2~18@) (Mul a2~18@ b2~20@)) (Mul (Mul c2~22@
+                  b2~20@
+                 ) (Mul b2~20@ b2~20@)
+                )
+               ) (Mul (Add (Add a2~18@ a2~18@) (Mul b2~20@ a2~18@)) (Add (Sub a2~18@ d2~24@) (Mul c2~22@
+                  b2~20@
+             )))))
              (=>
-              %%location_label%%1
-              tmp%2@
-             )
-             (=>
-              tmp%2@
-              (=>
-               (= temp_2_0~595@ (Mul (Mul (Mul (Mul b2~20@ a2~18@) (Mul a2~18@ b2~20@)) (Mul (Mul c2~22@
-                    b2~20@
-                   ) (Mul b2~20@ b2~20@)
-                  )
-                 ) (Mul (Add (Add a2~18@ a2~18@) (Mul b2~20@ a2~18@)) (Add (Sub a2~18@ d2~24@) (Mul c2~22@
-                    b2~20@
-               )))))
+              (= temp_2_1~678@ (Mul (Mul (Add (Add a2~18@ a2~18@) (Mul b2~20@ a2~18@)) (Add (Sub a2~18@
+                   d2~24@
+                  ) (Mul c2~22@ b2~20@)
+                 )
+                ) (Mul (Mul (Mul b2~20@ a2~18@) (Mul a2~18@ b2~20@)) (Mul (Mul c2~22@ b2~20@) (Mul b2~20@
+                   b2~20@
+              )))))
+              (and
                (=>
-                (= temp_2_1~660@ (Mul (Mul (Add (Add a2~18@ a2~18@) (Mul b2~20@ a2~18@)) (Add (Sub a2~18@
-                     d2~24@
-                    ) (Mul c2~22@ b2~20@)
-                   )
-                  ) (Mul (Mul (Mul b2~20@ a2~18@) (Mul a2~18@ b2~20@)) (Mul (Mul c2~22@ b2~20@) (Mul b2~20@
-                     b2~20@
-                )))))
+                (ens%main!nl_basics.lemma_mul_properties_auto_1. 0)
                 (=>
-                 (= tmp%3@ (= temp_2_0~595@ temp_2_1~660@))
-                 (and
-                  (=>
-                   %%location_label%%2
-                   tmp%3@
-                  )
-                  (=>
-                   tmp%3@
+                 %%location_label%%2
+                 (= temp_2_0~613@ temp_2_1~678@)
+               ))
+               (=>
+                (= temp_2_0~613@ temp_2_1~678@)
+                (=>
+                 (= temp_3_0~779@ (Mul (Mul (Mul (Mul 85 b3~28@) (Mul c3~30@ b3~28@)) (Mul (Mul a3~26@
+                      c3~30@
+                     ) (Add a3~26@ d3~32@)
+                    )
+                   ) (Mul (Mul (Mul d3~32@ c3~30@) (Mul c3~30@ c3~30@)) (Mul (Sub d3~32@ c3~30@) (Mul b3~28@
+                      a3~26@
+                 )))))
+                 (=>
+                  (= temp_3_1~864@ (Mul (Mul (Mul (Mul 85 b3~28@) (Mul c3~30@ b3~28@)) (Mul (Mul a3~26@
+                       c3~30@
+                      ) (Add a3~26@ d3~32@)
+                     )
+                    ) (Mul (Mul (Mul d3~32@ c3~30@) (Mul c3~30@ c3~30@)) (Sub (Mul d3~32@ (Mul b3~28@ a3~26@))
+                      (Mul c3~30@ (Mul b3~28@ a3~26@))
+                  ))))
+                  (and
                    (=>
-                    (= temp_3_0~752@ (Mul (Mul (Mul (Mul 85 b3~28@) (Mul c3~30@ b3~28@)) (Mul (Mul a3~26@
-                         c3~30@
-                        ) (Add a3~26@ d3~32@)
-                       )
-                      ) (Mul (Mul (Mul d3~32@ c3~30@) (Mul c3~30@ c3~30@)) (Mul (Sub d3~32@ c3~30@) (Mul b3~28@
-                         a3~26@
-                    )))))
+                    (ens%main!nl_basics.lemma_mul_properties_auto_1. 0)
                     (=>
-                     (= temp_3_1~837@ (Mul (Mul (Mul (Mul 85 b3~28@) (Mul c3~30@ b3~28@)) (Mul (Mul a3~26@
-                          c3~30@
-                         ) (Add a3~26@ d3~32@)
-                        )
-                       ) (Mul (Mul (Mul d3~32@ c3~30@) (Mul c3~30@ c3~30@)) (Sub (Mul d3~32@ (Mul b3~28@ a3~26@))
-                         (Mul c3~30@ (Mul b3~28@ a3~26@))
-                     ))))
+                     %%location_label%%3
+                     (= temp_3_0~779@ temp_3_1~864@)
+                   ))
+                   (=>
+                    (= temp_3_0~779@ temp_3_1~864@)
+                    (=>
+                     (= temp_4_0~945@ (Mul (Add (Mul b4~36@ (Mul a4~34@ b4~36@)) (Mul c4~38@ (Sub a4~34@ b4~36@)))
+                       (Mul (Mul (Mul b4~36@ c4~38@) (Mul c4~38@ c4~38@)) (Mul (Sub b4~36@ a4~34@) (Mul a4~34@
+                          a4~34@
+                     )))))
                      (=>
-                      (= tmp%4@ (= temp_3_0~752@ temp_3_1~837@))
+                      (= temp_4_1~1034@ (Add (Mul (Mul b4~36@ (Mul a4~34@ b4~36@)) (Mul (Mul (Mul b4~36@ c4~38@)
+                           (Mul c4~38@ c4~38@)
+                          ) (Mul (Sub b4~36@ a4~34@) (Mul a4~34@ a4~34@))
+                         )
+                        ) (Mul (Mul c4~38@ (Sub a4~34@ b4~36@)) (Mul (Mul (Mul b4~36@ c4~38@) (Mul c4~38@ c4~38@))
+                          (Mul (Sub b4~36@ a4~34@) (Mul a4~34@ a4~34@))
+                      ))))
                       (and
                        (=>
-                        %%location_label%%3
-                        tmp%4@
-                       )
-                       (=>
-                        tmp%4@
+                        (ens%main!nl_basics.lemma_mul_properties_auto_1. 0)
                         (=>
-                         (= temp_4_0~909@ (Mul (Add (Mul b4~36@ (Mul a4~34@ b4~36@)) (Mul c4~38@ (Sub a4~34@ b4~36@)))
-                           (Mul (Mul (Mul b4~36@ c4~38@) (Mul c4~38@ c4~38@)) (Mul (Sub b4~36@ a4~34@) (Mul a4~34@
-                              a4~34@
+                         %%location_label%%4
+                         (= temp_4_0~945@ temp_4_1~1034@)
+                       ))
+                       (=>
+                        (= temp_4_0~945@ temp_4_1~1034@)
+                        (=>
+                         (= temp_5_0~1135@ (Add (Mul (Mul (Mul d5~48@ a5~42@) (Mul b5~44@ d5~48@)) (Mul (Mul d5~48@
+                              d5~48@
+                             ) (Mul a5~42@ c5~46@)
+                            )
+                           ) (Mul (Sub (Mul b5~44@ c5~46@) (Mul d5~48@ 90)) (Mul (Mul c5~46@ c5~46@) (Mul d5~48@
+                              b5~44@
                          )))))
                          (=>
-                          (= temp_4_1~998@ (Add (Mul (Mul b4~36@ (Mul a4~34@ b4~36@)) (Mul (Mul (Mul b4~36@ c4~38@)
-                               (Mul c4~38@ c4~38@)
-                              ) (Mul (Sub b4~36@ a4~34@) (Mul a4~34@ a4~34@))
+                          (= temp_5_1~1212@ (Add (Mul (Mul (Mul d5~48@ a5~42@) (Mul b5~44@ d5~48@)) (Mul (Mul d5~48@
+                               d5~48@
+                              ) (Mul a5~42@ c5~46@)
                              )
-                            ) (Mul (Mul c4~38@ (Sub a4~34@ b4~36@)) (Mul (Mul (Mul b4~36@ c4~38@) (Mul c4~38@ c4~38@))
-                              (Mul (Sub b4~36@ a4~34@) (Mul a4~34@ a4~34@))
+                            ) (Mul (Sub (Mul b5~44@ c5~46@) (Mul d5~48@ 90)) (Mul (Mul (Mul c5~46@ c5~46@) d5~48@)
+                              b5~44@
                           ))))
-                          (=>
-                           (= tmp%5@ (= temp_4_0~909@ temp_4_1~998@))
-                           (and
+                          (and
+                           (=>
+                            (ens%main!nl_basics.lemma_mul_properties_auto_1. 0)
                             (=>
-                             %%location_label%%4
-                             tmp%5@
-                            )
+                             %%location_label%%5
+                             (= temp_5_0~1135@ temp_5_1~1212@)
+                           ))
+                           (=>
+                            (= temp_5_0~1135@ temp_5_1~1212@)
                             (=>
-                             tmp%5@
+                             (= temp_6_0~1297@ (Mul (Mul (Mul (Mul a6~50@ d6~56@) d6~56@) (Mul (Mul c6~54@ b6~52@)
+                                 (Mul d6~56@ a6~50@)
+                                )
+                               ) (Sub (Sub (Mul b6~52@ c6~54@) (Mul d6~56@ b6~52@)) (Mul (Mul c6~54@ b6~52@) (Mul d6~56@
+                                  b6~52@
+                             )))))
                              (=>
-                              (= temp_5_0~1090@ (Add (Mul (Mul (Mul d5~48@ a5~42@) (Mul b5~44@ d5~48@)) (Mul (Mul d5~48@
-                                   d5~48@
-                                  ) (Mul a5~42@ c5~46@)
-                                 )
-                                ) (Mul (Sub (Mul b5~44@ c5~46@) (Mul d5~48@ 90)) (Mul (Mul c5~46@ c5~46@) (Mul d5~48@
-                                   b5~44@
+                              (= temp_6_1~1358@ (Mul (Mul (Mul (Mul (Mul a6~50@ d6~56@) d6~56@) (Mul c6~54@ b6~52@))
+                                 (Mul d6~56@ a6~50@)
+                                ) (Sub (Sub (Mul b6~52@ c6~54@) (Mul d6~56@ b6~52@)) (Mul (Mul c6~54@ b6~52@) (Mul d6~56@
+                                   b6~52@
                               )))))
-                              (=>
-                               (= temp_5_1~1167@ (Add (Mul (Mul (Mul d5~48@ a5~42@) (Mul b5~44@ d5~48@)) (Mul (Mul d5~48@
-                                    d5~48@
-                                   ) (Mul a5~42@ c5~46@)
-                                  )
-                                 ) (Mul (Sub (Mul b5~44@ c5~46@) (Mul d5~48@ 90)) (Mul (Mul (Mul c5~46@ c5~46@) d5~48@)
-                                   b5~44@
-                               ))))
+                              (and
                                (=>
-                                (= tmp%6@ (= temp_5_0~1090@ temp_5_1~1167@))
-                                (and
+                                (ens%main!nl_basics.lemma_mul_properties_auto_1. 0)
+                                (=>
+                                 %%location_label%%6
+                                 (= temp_6_0~1297@ temp_6_1~1358@)
+                               ))
+                               (=>
+                                (= temp_6_0~1297@ temp_6_1~1358@)
+                                (=>
+                                 (= temp_7_0~1419@ (Mul (Mul (Mul (Mul d7~64@ b7~60@) (Mul b7~60@ b7~60@)) (Mul (Mul a7~58@
+                                      d7~64@
+                                     ) (Mul a7~58@ d7~64@)
+                                    )
+                                   ) b7~60@
+                                 ))
                                  (=>
-                                  %%location_label%%5
-                                  tmp%6@
-                                 )
-                                 (=>
-                                  tmp%6@
-                                  (=>
-                                   (= temp_6_0~1243@ (Mul (Mul (Mul (Mul a6~50@ d6~56@) d6~56@) (Mul (Mul c6~54@ b6~52@)
-                                       (Mul d6~56@ a6~50@)
+                                  (= temp_7_1~1456@ (Mul (Mul (Mul (Mul (Mul d7~64@ b7~60@) (Mul b7~60@ b7~60@)) (Mul a7~58@
+                                       d7~64@
                                       )
-                                     ) (Sub (Sub (Mul b6~52@ c6~54@) (Mul d6~56@ b6~52@)) (Mul (Mul c6~54@ b6~52@) (Mul d6~56@
-                                        b6~52@
-                                   )))))
+                                     ) (Mul a7~58@ d7~64@)
+                                    ) b7~60@
+                                  ))
+                                  (and
                                    (=>
-                                    (= temp_6_1~1304@ (Mul (Mul (Mul (Mul (Mul a6~50@ d6~56@) d6~56@) (Mul c6~54@ b6~52@))
-                                       (Mul d6~56@ a6~50@)
-                                      ) (Sub (Sub (Mul b6~52@ c6~54@) (Mul d6~56@ b6~52@)) (Mul (Mul c6~54@ b6~52@) (Mul d6~56@
-                                         b6~52@
-                                    )))))
+                                    (ens%main!nl_basics.lemma_mul_properties_auto_1. 0)
                                     (=>
-                                     (= tmp%7@ (= temp_6_0~1243@ temp_6_1~1304@))
-                                     (and
-                                      (=>
-                                       %%location_label%%6
-                                       tmp%7@
-                                      )
-                                      (=>
-                                       tmp%7@
+                                     %%location_label%%7
+                                     (= temp_7_0~1419@ temp_7_1~1456@)
+                                   ))
+                                   (=>
+                                    (= temp_7_0~1419@ temp_7_1~1456@)
+                                    (=>
+                                     (= temp_8_0~1545@ (Mul (Mul (Mul (Sub d8~72@ d8~72@) (Mul c8~70@ a8~66@)) (Mul (Mul a8~66@
+                                          b8~68@
+                                         ) (Mul a8~66@ b8~68@)
+                                        )
+                                       ) (Mul (Mul (Mul c8~70@ a8~66@) (Add d8~72@ a8~66@)) (Mul (Mul d8~72@ c8~70@) (Sub d8~72@
+                                          c8~70@
+                                     )))))
+                                     (=>
+                                      (= temp_8_1~1610@ (Mul (Mul (Mul (Sub d8~72@ d8~72@) (Mul c8~70@ a8~66@)) (Mul (Mul b8~68@
+                                           a8~66@
+                                          ) (Mul a8~66@ b8~68@)
+                                         )
+                                        ) (Mul (Mul (Mul c8~70@ a8~66@) (Add d8~72@ a8~66@)) (Mul (Mul d8~72@ c8~70@) (Sub d8~72@
+                                           c8~70@
+                                      )))))
+                                      (and
                                        (=>
-                                        (= temp_7_0~1356@ (Mul (Mul (Mul (Mul d7~64@ b7~60@) (Mul b7~60@ b7~60@)) (Mul (Mul a7~58@
-                                             d7~64@
-                                            ) (Mul a7~58@ d7~64@)
-                                           )
-                                          ) b7~60@
-                                        ))
+                                        (ens%main!nl_basics.lemma_mul_properties_auto_1. 0)
                                         (=>
-                                         (= temp_7_1~1393@ (Mul (Mul (Mul (Mul (Mul d7~64@ b7~60@) (Mul b7~60@ b7~60@)) (Mul a7~58@
-                                              d7~64@
-                                             )
-                                            ) (Mul a7~58@ d7~64@)
-                                           ) b7~60@
-                                         ))
+                                         %%location_label%%8
+                                         (= temp_8_0~1545@ temp_8_1~1610@)
+                                       ))
+                                       (=>
+                                        (= temp_8_0~1545@ temp_8_1~1610@)
+                                        (=>
+                                         (= temp_9_0~1699@ (Mul (Add (Mul (Mul a9~74@ a9~74@) (Mul d9~80@ b9~76@)) (Sub (Mul b9~76@
+                                              d9~80@
+                                             ) (Mul d9~80@ d9~80@)
+                                            )
+                                           ) (Mul (Mul (Mul d9~80@ c9~78@) (Mul c9~78@ a9~74@)) (Sub (Mul c9~78@ b9~76@) (Mul a9~74@
+                                              c9~78@
+                                         )))))
                                          (=>
-                                          (= tmp%8@ (= temp_7_0~1356@ temp_7_1~1393@))
-                                          (and
+                                          (= temp_9_1~1764@ (Mul (Add (Mul (Mul d9~80@ b9~76@) (Mul a9~74@ a9~74@)) (Sub (Mul b9~76@
+                                               d9~80@
+                                              ) (Mul d9~80@ d9~80@)
+                                             )
+                                            ) (Mul (Mul (Mul d9~80@ c9~78@) (Mul c9~78@ a9~74@)) (Sub (Mul c9~78@ b9~76@) (Mul a9~74@
+                                               c9~78@
+                                          )))))
+                                          (=>
+                                           (ens%main!nl_basics.lemma_mul_properties_auto_1. 0)
                                            (=>
-                                            %%location_label%%7
-                                            tmp%8@
-                                           )
-                                           (=>
-                                            tmp%8@
-                                            (=>
-                                             (= temp_8_0~1473@ (Mul (Mul (Mul (Sub d8~72@ d8~72@) (Mul c8~70@ a8~66@)) (Mul (Mul a8~66@
-                                                  b8~68@
-                                                 ) (Mul a8~66@ b8~68@)
-                                                )
-                                               ) (Mul (Mul (Mul c8~70@ a8~66@) (Add d8~72@ a8~66@)) (Mul (Mul d8~72@ c8~70@) (Sub d8~72@
-                                                  c8~70@
-                                             )))))
-                                             (=>
-                                              (= temp_8_1~1538@ (Mul (Mul (Mul (Sub d8~72@ d8~72@) (Mul c8~70@ a8~66@)) (Mul (Mul b8~68@
-                                                   a8~66@
-                                                  ) (Mul a8~66@ b8~68@)
-                                                 )
-                                                ) (Mul (Mul (Mul c8~70@ a8~66@) (Add d8~72@ a8~66@)) (Mul (Mul d8~72@ c8~70@) (Sub d8~72@
-                                                   c8~70@
-                                              )))))
-                                              (=>
-                                               (= tmp%9@ (= temp_8_0~1473@ temp_8_1~1538@))
-                                               (and
-                                                (=>
-                                                 %%location_label%%8
-                                                 tmp%9@
-                                                )
-                                                (=>
-                                                 tmp%9@
-                                                 (=>
-                                                  (= temp_9_0~1618@ (Mul (Add (Mul (Mul a9~74@ a9~74@) (Mul d9~80@ b9~76@)) (Sub (Mul b9~76@
-                                                       d9~80@
-                                                      ) (Mul d9~80@ d9~80@)
-                                                     )
-                                                    ) (Mul (Mul (Mul d9~80@ c9~78@) (Mul c9~78@ a9~74@)) (Sub (Mul c9~78@ b9~76@) (Mul a9~74@
-                                                       c9~78@
-                                                  )))))
-                                                  (=>
-                                                   (= temp_9_1~1683@ (Mul (Add (Mul (Mul d9~80@ b9~76@) (Mul a9~74@ a9~74@)) (Sub (Mul b9~76@
-                                                        d9~80@
-                                                       ) (Mul d9~80@ d9~80@)
-                                                      )
-                                                     ) (Mul (Mul (Mul d9~80@ c9~78@) (Mul c9~78@ a9~74@)) (Sub (Mul c9~78@ b9~76@) (Mul a9~74@
-                                                        c9~78@
-                                                   )))))
-                                                   (=>
-                                                    (= tmp%10@ (= temp_9_0~1618@ temp_9_1~1683@))
-                                                    (=>
-                                                     %%location_label%%9
-                                                     tmp%10@
- ))))))))))))))))))))))))))))))))))))))))))))))))))))
+                                            %%location_label%%9
+                                            (= temp_9_0~1699@ temp_9_1~1764@)
+ )))))))))))))))))))))))))))))))))))))))))))
  (get-info :version)
  (assert
   %%query%%

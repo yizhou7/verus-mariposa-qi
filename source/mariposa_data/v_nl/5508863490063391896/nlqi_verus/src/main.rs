@@ -4,7 +4,7 @@ mod nl_basics;
 use crate::nl_basics::*;
 verus! {
 
-pub proof fn nlarith_0(a0: int, b0: int, c0: int, d0: int,
+pub proof fn auto_0(a0: int, b0: int, c0: int, d0: int,
 a1: int, b1: int, c1: int, d1: int,
 a2: int, b2: int, c2: int, d2: int,
 a3: int, b3: int, c3: int, d3: int,
@@ -37,7 +37,8 @@ a29: int, b29: int, c29: int, d29: int)
 {
 	let temp_0_0 = (b0*(((b0-a0)*(c0*d0))*((a0*d0)*(a0*b0))));
 	let temp_0_1 = (b0*((((b0-a0)*c0)*d0)*((a0*d0)*(a0*b0))));
-	assert(temp_0_0 == temp_0_1);
+	assert(temp_0_0 == temp_0_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 
 }
 

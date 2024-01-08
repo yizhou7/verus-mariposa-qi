@@ -4,7 +4,7 @@ mod nl_basics;
 use crate::nl_basics::*;
 verus! {
 
-pub proof fn nlarith_0(a0: int, b0: int, c0: int, d0: int,
+pub proof fn auto_0(a0: int, b0: int, c0: int, d0: int,
 a1: int, b1: int, c1: int, d1: int,
 a2: int, b2: int, c2: int, d2: int,
 a3: int, b3: int, c3: int, d3: int,
@@ -37,64 +37,84 @@ a29: int, b29: int, c29: int, d29: int)
 {
 	let temp_0_0 = ((((c0*b0)-(b0*c0))*((a0*b0)*(d0+a0)))*(a0*((a0*d0)-(b0*a0))));
 	let temp_0_1 = ((((b0*c0)-(b0*c0))*((a0*b0)*(d0+a0)))*(a0*((a0*d0)-(b0*a0))));
-	assert(temp_0_0 == temp_0_1);
+	assert(temp_0_0 == temp_0_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_1_0 = ((((d1*c1)-b1)*a1)*(((b1*c1)*(b1*a1))*((b1*c1)*(d1*a1))));
 	let temp_1_1 = ((((d1*c1)-b1)*a1)*(((b1*c1)*(b1*a1))*(((b1*c1)*d1)*a1)));
-	assert(temp_1_0 == temp_1_1);
+	assert(temp_1_0 == temp_1_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_2_0 = ((((b2*b2)-(d2*c2))*(c2-(c2*b2)))*(((a2*c2)+(a2*c2))*((b2*a2)*(b2+d2))));
 	let temp_2_1 = (((((b2*b2)-(d2*c2))*c2)-(((b2*b2)-(d2*c2))*(c2*b2)))*(((a2*c2)+(a2*c2))*((b2*a2)*(b2+d2))));
-	assert(temp_2_0 == temp_2_1);
+	assert(temp_2_0 == temp_2_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_3_0 = ((((b3-b3)*(c3*d3))*(((38 as int)*b3)*(d3-b3)))+(((a3*a3)*(c3-d3))*((c3*d3)*(d3*c3))));
 	let temp_3_1 = ((((b3-b3)*(c3*d3))*(((38 as int)*b3)*(d3-b3)))+(((a3*a3)*(c3-d3))*((d3*c3)*(d3*c3))));
-	assert(temp_3_0 == temp_3_1);
+	assert(temp_3_0 == temp_3_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_4_0 = ((((a4*d4)*(c4*d4))*((b4*b4)*(d4*c4)))*(((a4+c4)*(b4*c4))-(a4*((20 as int)*a4))));
 	let temp_4_1 = ((((d4*a4)*(c4*d4))*((b4*b4)*(d4*c4)))*(((a4+c4)*(b4*c4))-(a4*((20 as int)*a4))));
-	assert(temp_4_0 == temp_4_1);
+	assert(temp_4_0 == temp_4_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_5_0 = ((((a5*b5)*(a5*c5))*((a5*a5)*(a5*b5)))-(((c5*d5)*(a5*c5))*((c5-b5)+(a5+c5))));
 	let temp_5_1 = ((((a5*b5)*(a5*c5))*((a5*a5)*(a5*b5)))-((((c5*d5)*(a5*c5))*(c5-b5))+(((c5*d5)*(a5*c5))*(a5+c5))));
-	assert(temp_5_0 == temp_5_1);
+	assert(temp_5_0 == temp_5_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_6_0 = ((((b6*b6)*b6)*((c6*c6)*(d6*c6)))*(((d6*d6)*(d6+(40 as int)))*((b6*b6)*(c6*b6))));
 	let temp_6_1 = ((((b6*b6)*b6)*((c6*c6)*(d6*c6)))*(((d6*d6)*(d6+(40 as int)))*((b6*b6)*(b6*c6))));
-	assert(temp_6_0 == temp_6_1);
+	assert(temp_6_0 == temp_6_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_7_0 = ((b7*((c7*d7)*(d7*d7)))*(((c7*c7)*(a7+b7))*b7));
 	let temp_7_1 = ((b7*((d7*d7)*(c7*d7)))*(((c7*c7)*(a7+b7))*b7));
-	assert(temp_7_0 == temp_7_1);
+	assert(temp_7_0 == temp_7_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_8_0 = ((((c8+d8)*(d8+c8))*((b8+c8)+(d8*c8)))*(((b8*a8)-(b8*d8))*((a8*b8)*(a8-d8))));
 	let temp_8_1 = ((((c8+d8)*(d8+c8))*((b8+c8)+(d8*c8)))*(((b8*a8)-(b8*d8))*(((a8*b8)*a8)-((a8*b8)*d8))));
-	assert(temp_8_0 == temp_8_1);
+	assert(temp_8_0 == temp_8_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_9_0 = ((((c9*b9)-(c9*c9))*((c9-a9)*(a9*d9)))*((b9*(c9*d9))-((b9*d9)*(a9*b9))));
 	let temp_9_1 = ((((c9*b9)-(c9*c9))*((c9*(a9*d9))-(a9*(a9*d9))))*((b9*(c9*d9))-((b9*d9)*(a9*b9))));
-	assert(temp_9_0 == temp_9_1);
+	assert(temp_9_0 == temp_9_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_10_0 = ((((a10*b10)*(a10*c10))*((a10-b10)*(b10*c10)))*(((c10*b10)*(a10-d10))*((c10*d10)+(d10*a10))));
 	let temp_10_1 = ((((c10*b10)*(a10-d10))*((c10*d10)+(d10*a10)))*(((a10*b10)*(a10*c10))*((a10-b10)*(b10*c10))));
-	assert(temp_10_0 == temp_10_1);
+	assert(temp_10_0 == temp_10_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_11_0 = ((((a11*c11)*(a11*d11))*((a11+d11)*(d11*c11)))+(((c11*c11)*(a11*a11))*((d11*a11)*(b11*c11))));
 	let temp_11_1 = ((((a11*c11)*(a11*d11))*((a11+d11)*(d11*c11)))+((c11*c11)*((a11*a11)*((d11*a11)*(b11*c11)))));
-	assert(temp_11_0 == temp_11_1);
+	assert(temp_11_0 == temp_11_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_12_0 = ((((b12*d12)*(b12-b12))*(b12*(d12*c12)))+(((a12+c12)*(d12+d12))*((b12*a12)*(a12*d12))));
 	let temp_12_1 = ((((b12*d12)*(b12-b12))*(b12*(d12*c12)))+(((b12*a12)*(a12*d12))*((a12+c12)*(d12+d12))));
-	assert(temp_12_0 == temp_12_1);
+	assert(temp_12_0 == temp_12_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_13_0 = ((((c13*a13)*(d13+d13))*b13)*((d13*(b13*d13))*((a13*a13)+((86 as int)-b13))));
 	let temp_13_1 = ((((c13*a13)*(d13+d13))*b13)*(d13*((b13*d13)*((a13*a13)+((86 as int)-b13)))));
-	assert(temp_13_0 == temp_13_1);
+	assert(temp_13_0 == temp_13_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_14_0 = ((((d14*b14)*(b14*c14))-((b14*(92 as int))+(d14-c14)))*(((a14*c14)-(d14*c14))*((a14*c14)*(b14*b14))));
 	let temp_14_1 = ((((d14*b14)*(b14*c14))*(((a14*c14)-(d14*c14))*((a14*c14)*(b14*b14))))-(((b14*(92 as int))+(d14-c14))*(((a14*c14)-(d14*c14))*((a14*c14)*(b14*b14)))));
-	assert(temp_14_0 == temp_14_1);
+	assert(temp_14_0 == temp_14_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_15_0 = ((((b15*a15)*b15)*((a15+a15)*(c15*b15)))*((((67 as int)*d15)*(a15*c15))*((a15*a15)*(d15*b15))));
 	let temp_15_1 = (((b15*a15)*b15)*(((a15+a15)*(c15*b15))*((((67 as int)*d15)*(a15*c15))*((a15*a15)*(d15*b15)))));
-	assert(temp_15_0 == temp_15_1);
+	assert(temp_15_0 == temp_15_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_16_0 = (((((52 as int)*d16)*(b16+a16))*((c16*c16)-(a16*d16)))*(((d16*c16)+(c16*b16))*d16));
 	let temp_16_1 = (((((52 as int)*d16)*(b16+a16))*((c16*c16)-(a16*d16)))*(((c16*d16)+(c16*b16))*d16));
-	assert(temp_16_0 == temp_16_1);
+	assert(temp_16_0 == temp_16_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_17_0 = ((((a17*c17)*(b17-d17))*((c17*d17)*((38 as int)*b17)))*(((b17*b17)-(c17*a17))*((c17*b17)+(c17*b17))));
 	let temp_17_1 = ((((c17*d17)*((38 as int)*b17))*((a17*c17)*(b17-d17)))*(((b17*b17)-(c17*a17))*((c17*b17)+(c17*b17))));
-	assert(temp_17_0 == temp_17_1);
+	assert(temp_17_0 == temp_17_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_18_0 = ((((c18*c18)*(d18*d18))+((c18*b18)*(d18*d18)))*(((b18-c18)-(b18*c18))*((b18*b18)*c18)));
 	let temp_18_1 = (((((c18*c18)*(d18*d18))+((c18*b18)*(d18*d18)))*((b18-c18)-(b18*c18)))*((b18*b18)*c18));
-	assert(temp_18_0 == temp_18_1);
+	assert(temp_18_0 == temp_18_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_19_0 = ((((b19*c19)*(a19*b19))*((b19+b19)*(c19-d19)))*(((c19*c19)*(c19*b19))+((b19*b19)*((6 as int)*b19))));
 	let temp_19_1 = ((((b19*c19)*(b19*a19))*((b19+b19)*(c19-d19)))*(((c19*c19)*(c19*b19))+((b19*b19)*((6 as int)*b19))));
-	assert(temp_19_0 == temp_19_1);
+	assert(temp_19_0 == temp_19_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 
 }
 

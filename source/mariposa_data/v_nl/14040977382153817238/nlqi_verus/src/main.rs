@@ -4,7 +4,7 @@ mod nl_basics;
 use crate::nl_basics::*;
 verus! {
 
-pub proof fn nlarith_0(a0: int, b0: int, c0: int, d0: int,
+pub proof fn auto_0(a0: int, b0: int, c0: int, d0: int,
 a1: int, b1: int, c1: int, d1: int,
 a2: int, b2: int, c2: int, d2: int,
 a3: int, b3: int, c3: int, d3: int,
@@ -37,19 +37,24 @@ a29: int, b29: int, c29: int, d29: int)
 {
 	let temp_0_0 = ((((a0*b0)*(d0*b0))*((b0-a0)*(c0*d0)))*(((d0*(53 as int))+(d0*d0))*((a0-a0)*(a0-b0))));
 	let temp_0_1 = (((((a0*b0)*(d0*b0))*((b0-a0)*(c0*d0)))*((d0*(53 as int))+(d0*d0)))*((a0-a0)*(a0-b0)));
-	assert(temp_0_0 == temp_0_1);
+	assert(temp_0_0 == temp_0_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_1_0 = ((((a1*d1)*(a1+c1))*((d1+b1)*(b1-b1)))*(((c1*c1)*(d1*c1))*b1));
 	let temp_1_1 = ((((d1+b1)*(b1-b1))*((a1*d1)*(a1+c1)))*(((c1*c1)*(d1*c1))*b1));
-	assert(temp_1_0 == temp_1_1);
+	assert(temp_1_0 == temp_1_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_2_0 = ((((b2*d2)*(c2*d2))*((a2*c2)*(d2*b2)))*(((c2*b2)*(b2*d2))*((a2*a2)*(d2*b2))));
 	let temp_2_1 = ((((c2*b2)*(b2*d2))*((a2*a2)*(d2*b2)))*(((b2*d2)*(c2*d2))*((a2*c2)*(d2*b2))));
-	assert(temp_2_0 == temp_2_1);
+	assert(temp_2_0 == temp_2_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_3_0 = ((((d3*d3)*c3)*((a3*b3)*(c3*b3)))*(((a3*a3)*(c3*a3))*((b3*a3)*d3)));
 	let temp_3_1 = (((d3*d3)*c3)*(((a3*b3)*(c3*b3))*(((a3*a3)*(c3*a3))*((b3*a3)*d3))));
-	assert(temp_3_0 == temp_3_1);
+	assert(temp_3_0 == temp_3_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_4_0 = ((((a4*b4)*(d4*d4))*((c4*a4)*(c4-a4)))-(((d4+c4)*(d4*a4))+((a4*a4)*(a4*b4))));
 	let temp_4_1 = ((((a4*b4)*(d4*d4))*(c4*(a4*(c4-a4))))-(((d4+c4)*(d4*a4))+((a4*a4)*(a4*b4))));
-	assert(temp_4_0 == temp_4_1);
+	assert(temp_4_0 == temp_4_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 
 }
 

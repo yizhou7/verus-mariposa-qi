@@ -4,7 +4,7 @@ mod nl_basics;
 use crate::nl_basics::*;
 verus! {
 
-pub proof fn nlarith_0(a0: int, b0: int, c0: int, d0: int,
+pub proof fn auto_0(a0: int, b0: int, c0: int, d0: int,
 a1: int, b1: int, c1: int, d1: int,
 a2: int, b2: int, c2: int, d2: int,
 a3: int, b3: int, c3: int, d3: int,
@@ -37,22 +37,28 @@ a29: int, b29: int, c29: int, d29: int)
 {
 	let temp_0_0 = ((((d0*c0)*(c0-c0))*((b0*a0)+(b0*c0)))*(((d0+c0)+(a0*d0))*((a0*a0)*(d0*d0))));
 	let temp_0_1 = ((((d0*c0)*(c0-c0))*((b0*a0)+(b0*c0)))*(((d0+c0)+(a0*d0))*((d0*d0)*(a0*a0))));
-	assert(temp_0_0 == temp_0_1);
+	assert(temp_0_0 == temp_0_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_1_0 = ((((a1*a1)*(a1+d1))*((b1*b1)*(c1*a1)))-(((c1-d1)*(c1-d1))*((c1*a1)+(d1+b1))));
 	let temp_1_1 = (((a1*(a1*(a1+d1)))*((b1*b1)*(c1*a1)))-(((c1-d1)*(c1-d1))*((c1*a1)+(d1+b1))));
-	assert(temp_1_0 == temp_1_1);
+	assert(temp_1_0 == temp_1_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_2_0 = (((a2*(c2*d2))*((c2*c2)-(a2-c2)))*(((a2*d2)*d2)*((a2*d2)*(c2+b2))));
 	let temp_2_1 = (((a2*(c2*d2))*((c2*c2)-(a2-c2)))*(((a2*d2)*d2)*((a2*d2)*(c2+b2))));
-	assert(temp_2_0 == temp_2_1);
+	assert(temp_2_0 == temp_2_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_3_0 = ((((a3*a3)*c3)*b3)*(((c3*b3)*(d3*a3))*((c3*d3)+(c3*c3))));
 	let temp_3_1 = ((((a3*a3)*c3)*b3)*(((c3*b3)*(a3*d3))*((c3*d3)+(c3*c3))));
-	assert(temp_3_0 == temp_3_1);
+	assert(temp_3_0 == temp_3_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_4_0 = ((((a4-c4)+(a4*a4))+(c4*(a4*a4)))*(((c4*c4)*(d4*a4))*((b4*c4)*(b4-a4))));
 	let temp_4_1 = ((((a4-c4)+(a4*a4))*(((c4*c4)*(d4*a4))*((b4*c4)*(b4-a4))))+((c4*(a4*a4))*(((c4*c4)*(d4*a4))*((b4*c4)*(b4-a4)))));
-	assert(temp_4_0 == temp_4_1);
+	assert(temp_4_0 == temp_4_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 	let temp_5_0 = ((a5*((d5*d5)*(c5*d5)))*(((d5*b5)*((12 as int)*d5))*((c5+(68 as int))*(d5+a5))));
 	let temp_5_1 = (((a5*(d5*d5))*(c5*d5))*(((d5*b5)*((12 as int)*d5))*((c5+(68 as int))*(d5+a5))));
-	assert(temp_5_0 == temp_5_1);
+	assert(temp_5_0 == temp_5_1) by 
+			{lemma_mul_properties_auto_1();}// 1
 
 }
 
