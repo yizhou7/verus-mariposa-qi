@@ -143,14 +143,15 @@ class ProjectEmitter:
         out_f.close()
  
 if __name__ == "__main__":
-    if len(sys.argv) == 3:
-        ts = int(sys.argv[2])
+    if len(sys.argv) >= 2:
+        ts = int(sys.argv[1])
     else:
         ts = int.from_bytes(os.urandom(8), byteorder="big")
 
     proj_root = str(ts)
-    pa = EmitterParams(ts, config_name=sys.argv[1])
+    pa = EmitterParams(ts, config_name="v_nl")
+
     print(pa, end="")
     ee = ProjectEmitter(proj_root, pa, overwrite=True)
-    ee.emit_dafny_file(StepMode.LBL)
+    # ee.emit_dafny_file(StepMode.LBL)
     ee.emit_verus_file(StepMode.LBL)
