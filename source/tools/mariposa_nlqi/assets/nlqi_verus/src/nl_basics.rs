@@ -80,83 +80,67 @@ ensures
 #[verifier::external_body]
 pub proof fn lemma_add_comm(x: Elem, y: Elem)
 ensures
-	eq_((add_(x, y)), (add_(y, x))),
+	eq_((add_(x, y)), (add_(y, x)))
 {}
 
 #[verifier::external_body]
 pub proof fn lemma_mul_comm(x: Elem, y: Elem)
 ensures
-	eq_((mul_(x, y)), (mul_(y, x))),
+	eq_((mul_(x, y)), (mul_(y, x)))
 {}
 
 #[verifier::external_body]
 pub proof fn lemma_mul_assoc(x: Elem, y: Elem, z: Elem)
 ensures
-	eq_((mul_(x, (mul_(y, z)))), (mul_((mul_(x, y)), z))),
+	eq_((mul_(x, (mul_(y, z)))), (mul_((mul_(x, y)), z)))
 {}
 
 #[verifier::external_body]
 pub proof fn lemma_mul_dist(x: Elem, y: Elem, z: Elem)
 ensures
-	eq_((mul_(x, (add_(y, z)))), (add_((mul_(x, y)), (mul_(x, z))))),
-	eq_((mul_((add_(x, y)), z)), (add_((mul_(x, z)), (mul_(y, z))))),
-	eq_((mul_((sub_(y, z)), x)), (sub_((mul_(y, x)), (mul_(z, x))))),
-	eq_((mul_((sub_(x, y)), z)), (sub_((mul_(x, z)), (mul_(y, z))))),
+	eq_((mul_(x, (add_(y, z)))), (add_((mul_(x, y)), (mul_(x, z))))) && eq_((mul_((add_(x, y)), z)), (add_((mul_(x, z)), (mul_(y, z))))) && eq_((mul_((sub_(y, z)), x)), (sub_((mul_(y, x)), (mul_(z, x))))) && eq_((mul_((sub_(x, y)), z)), (sub_((mul_(x, z)), (mul_(y, z)))))
 {}
 
 #[verifier::external_body]
 pub proof fn lemma_mod_mul_noop(x: Elem, y: Elem, m: Elem)
 ensures
-	eq_((mod_((mod_((mul_(x, y)), m)), m)), (mod_((mul_((mod_(x, m)), (mod_(y, m)))), m))),
-	eq_((mod_((mod_((mul_(x, y)), m)), m)), (mod_((mul_(x, (mod_(y, m)))), m))),
-	eq_((mod_((mod_((mul_(x, y)), m)), m)), (mod_((mul_(y, (mod_(x, m)))), m))),
+	eq_((mod_((mod_((mul_(x, y)), m)), m)), (mod_((mul_((mod_(x, m)), (mod_(y, m)))), m))) && eq_((mod_((mod_((mul_(x, y)), m)), m)), (mod_((mul_(x, (mod_(y, m)))), m))) && eq_((mod_((mod_((mul_(x, y)), m)), m)), (mod_((mul_(y, (mod_(x, m)))), m)))
 {}
 
 #[verifier::external_body]
 pub proof fn lemma_mod_mul_vanish(x: Elem, y: Elem, m: Elem)
 ensures
-	eq_((mod_(x, m)), (mod_((add_(x, (mul_(y, m)))), m))),
-	eq_((mod_(x, m)), (mod_((add_((mul_(y, m)), x)), m))),
-	eq_((mod_(x, m)), (mod_((sub_(x, (mul_(y, m)))), m))),
+	eq_((mod_(x, m)), (mod_((add_(x, (mul_(y, m)))), m))) && eq_((mod_(x, m)), (mod_((add_((mul_(y, m)), x)), m))) && eq_((mod_(x, m)), (mod_((sub_(x, (mul_(y, m)))), m)))
 {}
 
 #[verifier::external_body]
 pub proof fn lemma_mod_add_noop(x: Elem, y: Elem, m: Elem)
 ensures
-	eq_((mod_((add_(x, y)), m)), (mod_((add_((mod_(x, m)), (mod_(y, m)))), m))),
-	eq_((mod_((add_(x, y)), m)), (mod_((add_(x, (mod_(y, m)))), m))),
-	eq_((mod_((add_(x, y)), m)), (mod_((add_((mod_(x, m)), y)), m))),
+	eq_((mod_((add_(x, y)), m)), (mod_((add_((mod_(x, m)), (mod_(y, m)))), m))) && eq_((mod_((add_(x, y)), m)), (mod_((add_(x, (mod_(y, m)))), m))) && eq_((mod_((add_(x, y)), m)), (mod_((add_((mod_(x, m)), y)), m)))
 {}
 
 #[verifier::external_body]
 pub proof fn lemma_mod_sub_noop(x: Elem, y: Elem, m: Elem)
 ensures
-	eq_((mod_((sub_(x, y)), m)), (mod_((sub_((mod_(x, m)), (mod_(y, m)))), m))),
-	eq_((mod_((sub_(x, y)), m)), (mod_((sub_(x, (mod_(y, m)))), m))),
-	eq_((mod_((sub_(x, y)), m)), (mod_((sub_((mod_(x, m)), y)), m))),
+	eq_((mod_((sub_(x, y)), m)), (mod_((sub_((mod_(x, m)), (mod_(y, m)))), m))) && eq_((mod_((sub_(x, y)), m)), (mod_((sub_(x, (mod_(y, m)))), m))) && eq_((mod_((sub_(x, y)), m)), (mod_((sub_((mod_(x, m)), y)), m)))
 {}
 
 #[verifier::external_body]
 pub proof fn lemma_eq_ref(x: Elem)
 ensures
-	eq_(x, x),
+	eq_(x, x)
 {}
 
 #[verifier::external_body]
 pub proof fn lemma_eq_sym(x: Elem, y: Elem)
-requires
-	eq_(x, y),
 ensures
-	eq_(y, x),
+	eq_(x, y) ==> eq_(y, x)
 {}
 
 #[verifier::external_body]
 pub proof fn lemma_eq_trans(x: Elem, y: Elem, z: Elem)
-requires
-	eq_(x, y),
-	eq_(y, z),
 ensures
-	eq_(x, z),
+	eq_(x, y) && eq_(y, z) ==> eq_(x, z)
 {}
 
 #[verifier::external_body]

@@ -127,11 +127,13 @@ class Axiom:
     def to_str(self, uf=True):
         sig = f"pub proof fn lemma_{self.name}({self.get_var_sig()})"
         lines = ["#[verifier::external_body]", sig]
-
-        if len(self.requires) != 0:
-            lines += ["requires"] + ["\t" + r.to_str(uf) + "," for r in self.requires]
         assert len(self.ensures) != 0
-        lines += ["ensures"] + ["\t" + r.to_str(uf) + "," for r in self.ensures] + ["{}"]
+        if len(self.requires) != 0:
+            requires_str = " && ".join([ r.to_str(uf) for r in self.requires ]) + " ==> "
+        else:
+            requires_str = ""
+        ensures_str = " && ".join([ r.to_str(uf) for r in self.ensures ])
+        lines += ["ensures", "\t" + requires_str + ensures_str, "{}"]
         return "\n".join(lines) + "\n"
     
     def get_quantified_clauses(self, uf):
