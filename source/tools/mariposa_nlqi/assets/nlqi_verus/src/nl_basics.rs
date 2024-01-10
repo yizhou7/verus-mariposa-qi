@@ -136,4 +136,51 @@ ensures
 	eq_((mod_((sub_(x, y)), m)), (mod_((sub_((mod_(x, m)), y)), m))),
 {}
 
+#[verifier::external_body]
+pub proof fn lemma_eq_ref(x: Elem)
+ensures
+	eq_(x, x),
+{}
+
+#[verifier::external_body]
+pub proof fn lemma_eq_sym(x: Elem, y: Elem)
+requires
+	eq_(x, y),
+ensures
+	eq_(y, x),
+{}
+
+#[verifier::external_body]
+pub proof fn lemma_eq_trans(x: Elem, y: Elem, z: Elem)
+requires
+	eq_(x, y),
+	eq_(y, z),
+ensures
+	eq_(x, z),
+{}
+
+#[verifier::external_body]
+pub proof fn cong_add_(x0: Elem, y0: Elem, x1: Elem, y1: Elem)
+ensures
+	((eq_(x0, x1) && eq_(y0, y1)) ==> eq_(add_(x0, y0), add_(x1, y1))),
+{}
+
+#[verifier::external_body]
+pub proof fn cong_sub_(x0: Elem, y0: Elem, x1: Elem, y1: Elem)
+ensures
+	((eq_(x0, x1) && eq_(y0, y1)) ==> eq_(sub_(x0, y0), sub_(x1, y1))),
+{}
+
+#[verifier::external_body]
+pub proof fn cong_mul_(x0: Elem, y0: Elem, x1: Elem, y1: Elem)
+ensures
+	((eq_(x0, x1) && eq_(y0, y1)) ==> eq_(mul_(x0, y0), mul_(x1, y1))),
+{}
+
+#[verifier::external_body]
+pub proof fn cong_mod_(x0: Elem, y0: Elem, x1: Elem, y1: Elem)
+ensures
+	((eq_(x0, x1) && eq_(y0, y1)) ==> eq_(mod_(x0, y0), mod_(x1, y1))),
+{}
+
 }

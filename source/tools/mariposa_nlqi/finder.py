@@ -20,7 +20,7 @@ from runner import *
 #     assert os.path.exists(real_path)
 #     er.log_line(f"[INFO] found potential unstable dafny path: {real_path}")
 
-def find_verus_uf_unstable(ts):
+def find_verus_uf_unstable(ts, step):
     PA = EmitterParams(seed=ts, config_name="uf")
     TARGET_SMT_LOWER = 15
     TARGET_SMT_UPPER = 30
@@ -30,6 +30,12 @@ def find_verus_uf_unstable(ts):
     expr_num = EXPR_NUM_START
 
     er = ExperimentRunner(PA, overwrite=True)
+
+    if step != 0:
+        er.emit_verus_file(StepMode.AUTO, actual_expr_num=step)
+        # _, smt_path, saved_verus = er.run_single_verus(StepMode.AUTO, step)
+        return
+
     iterations = 0
     while iterations < MAX_ITERATIONS:
         er.emit_verus_file(StepMode.AUTO, actual_expr_num=expr_num)
@@ -81,11 +87,16 @@ def compare_all_modes(ts, config_name):
     er.run_default()
 
 if __name__ == "__main__":
-    if len(sys.argv) == 2:
+    if len(sys.argv) >= 2:
         ts = int(sys.argv[1])
     else:
         ts = int.from_bytes(os.urandom(8), byteorder="big")
 
-    find_verus_uf_unstable(ts)
+    if len(sys.argv) >= 3:
+        step = int(sys.argv[2])
+    else:
+        step = 0
+
+    find_verus_uf_unstable(ts, step)
     # find_dafny_unstable(ts)
     # compare_all_modes(ts, sys.argv[1])

@@ -344,6 +344,16 @@ verus! {
     for a in AXIOMS:
         f.write(a.to_str(uf=True) + "\n")
 
+    for a in [EQ_REF, EQ_SYM, EQ_TRANS]:
+        f.write(a.to_str(uf=True) + "\n")
+
+    for op in OP_PRETTY.keys():
+        f.write("#[verifier::external_body]\n")
+        f.write(f"pub proof fn cong_{op}(x0: Elem, y0: Elem, x1: Elem, y1: Elem)\n")
+        f.write("ensures\n")
+        f.write(f"\t((eq_(x0, x1) && eq_(y0, y1)) ==> eq_({op}(x0, y0), {op}(x1, y1))),\n")
+        f.write("{}\n\n")
+
     f.write("}\n")
 #     print(a.to_str())
 
