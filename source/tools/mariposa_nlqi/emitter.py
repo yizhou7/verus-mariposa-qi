@@ -72,11 +72,13 @@ class ProjectEmitter:
         # dafny does not need a main file
         os.system("cp -r ./tools/mariposa_nlqi/assets/nlqi_dafny " + self.dafny_proj_root)
 
-    def get_emitters(self, actual_expr_num=None):
+    def get_emitters(self, actual_expr_num=None, skip_expr_num=None):
         if actual_expr_num == None:
             actual_expr_num = self.params.expr_num
         assert actual_expr_num <= self.params.expr_num
-        return self.rws[:actual_expr_num]
+        if skip_expr_num is None:
+            skip_expr_num = 0
+        return self.rws[skip_expr_num:actual_expr_num]
     
     def get_args(self):
         args = []
@@ -88,11 +90,11 @@ class ProjectEmitter:
             args = ",\n".join(args)
         return args
 
-    def emit_verus_file(self, mode, actual_expr_num=None):
+    def emit_verus_file(self, mode, actual_expr_num=None, skip_expr_num=None):
         out_f = open(f"{self.verus_proj_root}/src/main.rs", "w+")
         out_f.write(VERUS_HEADER)
 
-        rws = self.get_emitters(actual_expr_num)
+        rws = self.get_emitters(actual_expr_num, skip_expr_num)
 
         for mut_id in range(self.params.mutant_num):
             if mut_id != 0:
