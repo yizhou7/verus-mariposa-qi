@@ -1,0 +1,12 @@
+note: verifying root module
+
+error: assertion failed
+  --> mariposa_data/uf/5464806266875958074/nlqi_verus/src/main.rs:12:9
+   |
+12 |     assert(eq_(temp_16_0, temp_16_1));
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^ assertion failed
+
+thread 'rustc' panicked at 'instantiated command leads to inconsistent validity results: true false', rust_verify/src/verifier.rs:1640:25
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: aborting due to previous error
+
