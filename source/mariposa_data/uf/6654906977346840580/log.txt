@@ -1,0 +1,14 @@
+[INFO] total number of rewrite steps: 1
+[INFO] keep every (steps): 1
+[INFO] max depth of expressions: 2
+[INFO] number of expressions: 300
+[INFO] lang timeout (seconds): 3
+[INFO] smt timeout (seconds): 30
+[INFO] solver path: ~/mariposa/solvers/z3-4.12.2
+[INFO] seed: 6654906977346840580
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 110 4.0
+[WARN] verus-tool stdout: 
+[WARN] verus-tool stderr: note: verifying root module  
+[INFO] verus-tool auto 121 4.0

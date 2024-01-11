@@ -55,7 +55,6 @@ class ExpRewriter(Expression):
         if "% m)" in self.to_str(True):
             assert False
 
-        assert success
         return success
 
 class Rewriter:
