@@ -80,12 +80,15 @@ note: function body check has been running for 18 seconds
 
 note: function body check has been running for 20 seconds
 
-error: function body check: Resource limit (rlimit) exceeded
+note: function body check has been running for 22 seconds
  --> mariposa_data/uf/11763274574354108152/nlqi_verus/src/main.rs:7:1
   |
 7 | pub proof fn free_0(a: Elem, b: Elem, c: Elem, d: Elem, m: Elem)
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+note: function body check has been running for 24 seconds
 
-main query finished
-parsing prover trace for function PathX { krate: Some("main"), segments: ["free_0"] }
+note: function body check has been running for 26 seconds
+
+note: function body check has been running for 28 seconds
+
