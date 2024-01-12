@@ -94,11 +94,11 @@ pub proof fn free_0(a: Elem, b: Elem, c: Elem, d: Elem, m: Elem)
 	let temp_14_0 = (mul_((sub_(b, (mod_(c, m)))), (mul_(c, c))));
 	let temp_14_1 = (mul_((sub_(b, (mod_((sub_(c, (mul_((mul_((sub_(d, d)), (mul_(d, b)))), m)))), m)))), (mul_(c, c))));
 	assert(eq_(temp_14_0, temp_14_1)) by {
+		lemma_eq_ref(b);
 		lemma_mul_comm(c, c);
 		lemma_mod_mul_vanish(c, mul_(sub_(d, d), mul_(d, b)), m);
 		cong_mul_(sub_(b, mod_(c, m)), mul_(c, c), sub_(b, mod_(sub_(c, mul_(mul_(sub_(d, d), mul_(d, b)), m)), m)), mul_(c, c));
 		cong_sub_(b, mod_(c, m), b, mod_(sub_(c, mul_(mul_(sub_(d, d), mul_(d, b)), m)), m));
-		lemma_eq_ref(b);
 	}
 	let temp_15_0 = (mul_((mul_(c, b)), (mul_(a, c))));
 	let temp_15_1 = (mul_(c, (mul_(b, (mul_(a, c))))));
@@ -258,10 +258,10 @@ pub proof fn free_0(a: Elem, b: Elem, c: Elem, d: Elem, m: Elem)
 	let temp_37_0 = (sub_((mul_(c, a)), (mul_(c, (mod_(c, m))))));
 	let temp_37_1 = (sub_((mul_(c, a)), (mul_(c, (mod_((sub_(c, (mul_((mul_((mul_(d, as_elem(39))), (sub_((mod_(d, m)), c)))), m)))), m))))));
 	assert(eq_(temp_37_0, temp_37_1)) by {
+		cong_mul_(c, mod_(c, m), c, mod_(sub_(c, mul_(mul_(mul_(d, as_elem(39)), sub_(mod_(d, m), c)), m)), m));
 		cong_sub_(mul_(c, a), mul_(c, mod_(c, m)), mul_(c, a), mul_(c, mod_(sub_(c, mul_(mul_(mul_(d, as_elem(39)), sub_(mod_(d, m), c)), m)), m)));
 		lemma_mod_mul_vanish(c, mul_(mul_(d, as_elem(39)), sub_(mod_(d, m), c)), m);
 		lemma_eq_ref(c);
-		cong_mul_(c, mod_(c, m), c, mod_(sub_(c, mul_(mul_(mul_(d, as_elem(39)), sub_(mod_(d, m), c)), m)), m));
 		lemma_eq_ref(mul_(c, a));
 	}
 	let temp_38_0 = (mul_((mul_(b, b)), (mul_(b, b))));
@@ -279,9 +279,9 @@ pub proof fn free_0(a: Elem, b: Elem, c: Elem, d: Elem, m: Elem)
 	let temp_40_0 = (mul_((mul_(d, as_elem(94))), (sub_(d, d))));
 	let temp_40_1 = (mul_((mul_(as_elem(94), d)), (sub_(d, d))));
 	assert(eq_(temp_40_0, temp_40_1)) by {
+		lemma_eq_ref(sub_(d, d));
 		cong_mul_(mul_(d, as_elem(94)), sub_(d, d), mul_(as_elem(94), d), sub_(d, d));
 		lemma_mul_comm(d, as_elem(94));
-		lemma_eq_ref(sub_(d, d));
 	}
 	let temp_41_0 = (mul_((mul_(c, a)), a));
 	let temp_41_1 = (mul_(c, (mul_(a, a))));
@@ -492,11 +492,11 @@ pub proof fn free_0(a: Elem, b: Elem, c: Elem, d: Elem, m: Elem)
 	let temp_74_0 = (mul_((add_(a, b)), (mul_(d, (mod_(a, m))))));
 	let temp_74_1 = (mul_((add_(a, b)), (mul_(d, (mod_((sub_(a, (mul_((mul_((mul_(c, a)), (mul_(c, a)))), m)))), m))))));
 	assert(eq_(temp_74_0, temp_74_1)) by {
+		lemma_eq_ref(add_(a, b));
+		cong_mul_(d, mod_(a, m), d, mod_(sub_(a, mul_(mul_(mul_(c, a), mul_(c, a)), m)), m));
+		lemma_eq_ref(d);
 		lemma_mod_mul_vanish(a, mul_(mul_(c, a), mul_(c, a)), m);
 		cong_mul_(add_(a, b), mul_(d, mod_(a, m)), add_(a, b), mul_(d, mod_(sub_(a, mul_(mul_(mul_(c, a), mul_(c, a)), m)), m)));
-		lemma_eq_ref(d);
-		cong_mul_(d, mod_(a, m), d, mod_(sub_(a, mul_(mul_(mul_(c, a), mul_(c, a)), m)), m));
-		lemma_eq_ref(add_(a, b));
 	}
 	let temp_75_0 = (mod_((add_((sub_(as_elem(38), b)), (mul_(b, a)))), m));
 	let temp_75_1 = (mod_((add_((sub_(as_elem(38), b)), (mod_((mul_(b, a)), m)))), m));
@@ -685,11 +685,11 @@ pub proof fn free_0(a: Elem, b: Elem, c: Elem, d: Elem, m: Elem)
 	let temp_105_0 = (mul_((add_(a, c)), (mul_(c, (mod_(d, m))))));
 	let temp_105_1 = (mul_((add_(a, c)), (mul_(c, (mod_((sub_(d, (mul_((mod_((mul_((mul_(d, a)), (mul_(c, a)))), m)), m)))), m))))));
 	assert(eq_(temp_105_0, temp_105_1)) by {
+		cong_mul_(c, mod_(d, m), c, mod_(sub_(d, mul_(mod_(mul_(mul_(d, a), mul_(c, a)), m), m)), m));
+		lemma_eq_ref(add_(a, c));
+		lemma_eq_ref(c);
 		lemma_mod_mul_vanish(d, mod_(mul_(mul_(d, a), mul_(c, a)), m), m);
 		cong_mul_(add_(a, c), mul_(c, mod_(d, m)), add_(a, c), mul_(c, mod_(sub_(d, mul_(mod_(mul_(mul_(d, a), mul_(c, a)), m), m)), m)));
-		cong_mul_(c, mod_(d, m), c, mod_(sub_(d, mul_(mod_(mul_(mul_(d, a), mul_(c, a)), m), m)), m));
-		lemma_eq_ref(c);
-		lemma_eq_ref(add_(a, c));
 	}
 	let temp_106_0 = (mul_((mul_(b, a)), (mul_(b, b))));
 	let temp_106_1 = (mul_((mul_(b, a)), (mul_(b, b))));

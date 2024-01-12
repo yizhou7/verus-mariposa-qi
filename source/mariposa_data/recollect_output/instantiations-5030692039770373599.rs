@@ -402,9 +402,9 @@ pub proof fn free_0(a: Elem, b: Elem, c: Elem, d: Elem, m: Elem)
 	let temp_64_0 = (mul_((sub_(b, d)), (mod_((mul_(d, a)), m))));
 	let temp_64_1 = (mul_((sub_(b, d)), (mod_((add_((mul_((mul_((mul_(b, (mod_(a, m)))), (mul_(c, a)))), m)), (mul_(d, a)))), m))));
 	assert(eq_(temp_64_0, temp_64_1)) by {
+		lemma_eq_ref(sub_(b, d));
 		lemma_mod_mul_vanish(mul_(d, a), mul_(mul_(b, mod_(a, m)), mul_(c, a)), m);
 		cong_mul_(sub_(b, d), mod_(mul_(d, a), m), sub_(b, d), mod_(add_(mul_(mul_(mul_(b, mod_(a, m)), mul_(c, a)), m), mul_(d, a)), m));
-		lemma_eq_ref(sub_(b, d));
 	}
 	let temp_65_0 = (add_((mul_(a, d)), (mul_(c, a))));
 	let temp_65_1 = (add_((mul_(c, a)), (mul_(a, d))));
