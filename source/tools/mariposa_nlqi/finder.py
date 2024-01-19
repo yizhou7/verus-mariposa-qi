@@ -23,7 +23,7 @@ def find_dafny_unstable(ts):
 def find_verus_unstable(ts, find=0):
     nlmode = StepMode.NLA
     instmode = StepMode.INST
-    pa = EmitterParams(seed=ts, config_name="v_nl")
+    pa = EmitterParams(seed=ts, config_name="v_nl_2")
     er = ExperimentRunner(pa, overwrite=True)
 
     if find == 0:

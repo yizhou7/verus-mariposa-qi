@@ -46,12 +46,14 @@ class Emitter(Rewriter):
 class ProjectEmitter:
     def __init__(self, proj_root, params, overwrite=False):
         rws = []
+        self.ok = True
 
         for i in range(params.expr_num):
             em = Emitter(i, params)
             if not em.ok:
+                self.ok = False
                 print(f"[ERROR] failed to generate expression {i}, exiting.")
-                exit(1)
+                return
             rws.append(em)
 
         self.rws = rws

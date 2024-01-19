@@ -55,6 +55,9 @@ class ExperimentRunner(ProjectEmitter):
         self.proj_root = f"{root_dir}/{prams.seed}"
         proj_root = self.proj_root
         super().__init__(proj_root, prams, overwrite)
+        if not self.ok:
+            return
+
         self.verus_tmp_dir = f"{self.verus_proj_root}/tmp"
         self.dafny_tmp_dir = f"{self.dafny_proj_root}/tmp"
 
