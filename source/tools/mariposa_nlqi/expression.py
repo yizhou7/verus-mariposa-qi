@@ -6,7 +6,8 @@ from copy import deepcopy
 OP_PROB = {
     "add_": 0.1,
     "sub_": 0.1,
-    "mul_": 0.8,
+    "mod_": 0.1,
+    "mul_": 0.7,
 }
 
 MOD_PROB = 0.1
@@ -31,6 +32,8 @@ class Operator(enum.Enum):
             return Operator.ADD
         if r <= OP_PROB[Operator.ADD.value] + OP_PROB[Operator.SUB.value]:
             return Operator.SUB
+        if r <= OP_PROB[Operator.ADD.value] + OP_PROB[Operator.SUB.value] + OP_PROB[Operator.MOD.value]:
+            return Operator.MOD
         return Operator.MUL
 
 class Expression:
@@ -60,16 +63,15 @@ class Expression:
     def random_init(cls, suffix, max_depth, prob=1):
         op = Operator.random_init()
         if max_depth == 0 or random.random() > prob:
-            left, right, op = None, None, None
-        else:
+            return cls(None, None, None, suffix)
+        elif op != Operator.MOD:
             left = Expression.random_init(suffix, max_depth-1, prob*EARLY_STOP_FACTOR)
             right = Expression.random_init(suffix, max_depth-1, prob*EARLY_STOP_FACTOR)
-        e = cls(op, left, right, suffix)
-        if random.random() <= MOD_PROB:
-            m = Expression.var_init("m" + str(suffix))
-            return cls(Operator.MOD, e, m, suffix)
+            return cls(op, left, right, suffix)
         else:
-            return e
+            left = Expression.random_init(suffix, max_depth-1, prob*EARLY_STOP_FACTOR)
+            modulus = Expression.var_init("m" + str(suffix))
+            return cls(Operator.MOD, left, modulus, suffix)
 
     def get_layer_stats(self, depth=0):
         if self.op == None:
