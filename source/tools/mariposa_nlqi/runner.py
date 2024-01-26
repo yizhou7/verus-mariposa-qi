@@ -109,8 +109,8 @@ class ExperimentRunner(ProjectEmitter):
 
     def get_tmp_file(self, lang, mode=None):
         if lang == Lang.VERUS:
-            if mode == StepMode.NLA:
-                return f"{self.verus_tmp_dir}/rootmain!{mode.value}_0._01.smt2"
+            # if mode == StepMode.NLA:
+            #     return f"{self.verus_tmp_dir}/rootmain!{mode.value}_0._01.smt2"
             return f"{self.verus_tmp_dir}/root.smt2"
         elif lang == Lang.DAFNY:
             return f"{self.dafny_tmp_dir}/root.smt2"
@@ -144,10 +144,13 @@ class ExperimentRunner(ProjectEmitter):
             f"--log-dir {self.verus_tmp_dir}",
             f"--rlimit 10000" # basically no timeout
         ]
+        if mode == StepMode.NLA:
+            cmd += [f"--smt-option smt.arith.nl=true"]
         stdout, stderr, elapsed = run_command(cmd, self.params.get_lang_to_seconds() + 1)
         saved_verus = f"{self.verus_file}.{mode.value}.{actual_expr_num}"
         os.system(f"mv {self.verus_file} {saved_verus}")
         tmp_file = self.get_tmp_file(Lang.VERUS, mode)
+        print(tmp_file)
         assert os.path.exists(tmp_file)
         smt_file = self.get_smt_file(Lang.VERUS, mode, actual_expr_num)
         smt_file = self.post_process_smt(tmp_file, smt_file)

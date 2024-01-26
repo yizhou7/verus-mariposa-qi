@@ -80,7 +80,7 @@ class EmitterParams:
 """
 
 VERUS_HEADER = """use builtin_macros::*;
-// use builtin::*;
+use builtin::*;
 mod nl_basics;
 use crate::nl_basics::*;
 verus! {

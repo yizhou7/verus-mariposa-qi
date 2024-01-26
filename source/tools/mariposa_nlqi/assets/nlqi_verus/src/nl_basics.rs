@@ -1,8 +1,7 @@
 use builtin_macros::*;
 use builtin::*;
 verus! {
-#[verifier::external_body]
-pub struct Elem {x: int}
+pub type Elem = int;
 
 pub closed spec fn as_elem(x: int) -> Elem;
 
@@ -10,7 +9,8 @@ pub closed spec fn zero() -> Elem;
 
 pub closed spec fn one() -> Elem;
 
-pub closed spec fn eq_(x: Elem, y: Elem) -> bool;
+pub open spec fn eq_(x: Elem, y: Elem) -> bool
+{x == y}
 
 pub closed spec fn add_(x: Elem, y: Elem) -> Elem;
 

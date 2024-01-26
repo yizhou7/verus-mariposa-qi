@@ -32,7 +32,8 @@ class Emitter(Rewriter):
                     assert lang == Lang.VERUS
                     lines.append("\tassert (true) by {")
 
-            stmt = f"\tassert(eq_({prev}, {self.get_temp(s.main.id)}))"
+            # stmt = f"\tassert(eq_({prev}, {self.get_temp(s.main.id)}))"
+            stmt = f"\tassert({prev} == {self.get_temp(s.main.id)})"
             if mode == StepMode.NLA or mode == StepMode.FREE:
                 lines.append(stmt + ";")
             else:
@@ -47,7 +48,6 @@ class Emitter(Rewriter):
 class ProjectEmitter:
     def __init__(self, proj_root, params, overwrite=False):
         rws = []
-        write_axioms()
 
         for i in range(params.expr_num):
             em = Emitter(i, params)
@@ -103,9 +103,10 @@ class ProjectEmitter:
                 random.shuffle(rws)
             args = self.get_args()
             sig = f"pub proof fn {str(mode.value)}_{mut_id}({args})"
+            sig += "\nrequires m != 0"
 
-            if mode == StepMode.NLA:
-                sig += " by (nonlinear_arith)"
+            # if mode == StepMode.NLA:
+            #     sig += " by (nonlinear_arith)"
             sig += "\n{\n"
             out_f.write(sig)
 

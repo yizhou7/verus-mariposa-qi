@@ -305,8 +305,9 @@ use builtin::*;
 verus! {
 """)
     
-    f.write("#[verifier::external_body]\n")
-    f.write("pub struct Elem {x: int}\n\n")
+    # f.write("#[verifier::external_body]\n")
+    # f.write("pub struct Elem {x: int}\n\n")
+    f.write("pub type Elem = int;\n\n")
 
     f.write("pub closed spec fn as_elem(x: int) -> Elem;\n\n")
 
@@ -314,10 +315,10 @@ verus! {
 
     f.write("pub closed spec fn one() -> Elem;\n\n")
 
-    f.write("pub closed spec fn eq_(x: Elem, y: Elem) -> bool;\n\n")
+    # f.write("pub closed spec fn eq_(x: Elem, y: Elem) -> bool;\n\n")
 
-    # f.write("pub open spec fn eq_(x: Elem, y: Elem) -> bool\n")
-    # f.write("{x == y}\n\n")
+    f.write("pub open spec fn eq_(x: Elem, y: Elem) -> bool\n")
+    f.write("{x == y}\n\n")
 
     for op in OP_PRETTY.keys():
         f.write(f"pub closed spec fn {op}(x: Elem, y: Elem) -> Elem;\n\n")
